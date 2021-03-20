@@ -1,0 +1,760 @@
+Bypass = "death"
+loadstring(game:GetObjects("rbxassetid://5325226148")[1].Source)()
+
+local STAP = false
+if not STAP then
+	Player = game:GetService("Players").LocalPlayer
+	lplr = game:GetService("Players").LocalPlayer
+	Character = nil
+	if not STAP then
+		Character = workspace:FindFirstChild("non")
+	end
+	Mouse = Player:GetMouse()
+	PlayerGui = Player.PlayerGui
+	Backpack = Player.Backpack
+	Humanoid = Character.Humanoid
+	RootPart = Character["HumanoidRootPart"]
+	Torso = Character["Torso"]
+	Head = Character["Head"]
+	RightArm = Character["Right Arm"]
+	LeftArm = Character["Left Arm"]
+	RightLeg = Character["Right Leg"]
+	LeftLeg = Character["Left Leg"]
+	RootJoint = RootPart["RootJoint"]
+	Neck = Torso["Neck"]
+	RightShoulder = Torso["Right Shoulder"]
+	LeftShoulder = Torso["Left Shoulder"]
+	RightHip = Torso["Right Hip"]
+	LeftHip = Torso["Left Hip"]
+
+	CF = CFrame.new
+	VT = Vector3.new
+	RAD = math.rad
+	C3 = Color3.new
+	UD2 = UDim2.new
+	BRICKC = BrickColor.new
+	ANGLES = CFrame.Angles
+	EULER = CFrame.fromEulerAnglesXYZ
+	COS = math.cos
+	ACOS = math.acos
+	SIN = math.sin
+	ASIN = math.asin
+	ABS = math.abs
+	MRANDOM = math.random
+	FLOOR = math.floor
+	vt = Vector3.new
+	cf = CFrame.new
+
+	local Funcs = {}
+	local ILThrottle = 1
+	local ILLastFrame = os.date()
+	local ILSine = 0
+	local Effects = Instance.new("Folder", Character)
+	Effects.Name = "Effects"
+	function Funcs.Serv(Name)
+		return game:GetService(Name)
+	end
+
+	function Funcs.Debris(Instance,Delay)
+		Funcs.Serv("Debris"):AddItem(Instance,Delay)
+	end
+
+	local Services = {"RunService","GuiService","Stats","SoundService","LogService","ContentProvider","KeyframeSequenceProvider","Chat","MarketplaceService","Players","PointsService","AdService","NotificationService","ReplicatedFirst","HttpRbxApiService","TweenService","TextService","StarterPlayer","StarterPack","StarterGui","LocalizationService","PolicyService","TeleportService","JointsService","CollectionService","PhysicsService","BadgeService","Geometry","FriendService","InsertService","GamePassService","Debris","TimerService","CookiesService","UserInputService","KeyboardService","MouseService","VRService","ContextActionService","ScriptService","AssetService","TouchInputService","BrowserService","AnalyticsService","ScriptContext","Selection","HttpService","MeshContentProvider","Lighting","SolidModelContentProvider","GamepadService","ControllerService","RuntimeScriptService","HapticService","NetworkClient","ChangeHistoryService","Visit","GuidRegistryService","PermissionsService","Teams","ReplicatedStorage","TestService","SocialService","MemStorageService","GroupService","PathfindingService","VirtualUser"}
+	local LocalPlayer = Funcs.Serv("Players").LocalPlayer
+
+	function Funcs.RandomString(Length)
+		local Length = typeof(Length) == "number" and math.clamp(Length,1,100) or math.random(80,100)
+		local Text = ""
+		for i = 1,Length do
+			Text = Text..string.char(math.random(14,126))
+		end
+		return Text
+	end
+
+	function Funcs.Refit(Instance,Parent)
+		if Instance.Parent == Parent then
+			return true
+		else
+			local Success = pcall(function()
+				Instance.Name = Funcs.RandomString()
+				Instance.Parent = Parent
+			end)
+			return Success
+		end 
+	end
+	
+	local Camera = {CFrame = CFrame.new(),Weld = {C0 = CFrame.new(0,1.5*1,0),C1 = CFrame.new()}}
+	function Funcs.Notify(StarterText,Text)
+		coroutine.resume(coroutine.create(function()
+			wait(1)
+			local NotifHolder = Instance.new("ScreenGui")
+			NotifHolder.DisplayOrder = 2147483647
+			NotifHolder.Name = Funcs.RandomString()
+			NotifHolder.ResetOnSpawn = false
+			NotifHolder.Archivable = false
+			local NotifText = Instance.new("TextLabel")
+			NotifText.BackgroundTransparency = 1
+			NotifText.Name = Funcs.RandomString()
+			NotifText.Position = UDim2.new(0,0,1,0)
+			NotifText.Text = StarterText
+			NotifText.Size = UDim2.new(1,0,.05,0)
+			NotifText.Archivable = false
+			NotifText.Font = Enum.Font.SpecialElite
+			NotifText.TextSize = 14
+			NotifText.TextScaled = true
+			NotifText.TextColor3 = Color3.new(1,1,1)
+			NotifText.TextStrokeTransparency = 0
+			NotifText.TextXAlignment = Enum.TextXAlignment.Left
+			NotifText.Parent = NotifHolder
+			NotifHolder.Parent = LocalPlayer:FindFirstChildOfClass("PlayerGui")
+			NotifText:TweenPosition(UDim2.new(0,0,.95,0))
+			if Text == "/e Stop" or Text == "/c Stop" or Text == "/e stop" or Text == "/c stop" then
+				Camera.Part:Destroy()
+				Character:Destroy()
+				STAP = true
+				NotifText:Destroy()
+				NotifHolder:Destroy()
+			end
+			local Timer = tick()
+			repeat
+				Funcs.Serv("RunService").RenderStepped:Wait()
+			until tick()-Timer >= 1
+			Timer = tick()
+			local LastLen = 0
+			repeat
+				Funcs.Serv('RunService').RenderStepped:Wait()
+				local Len = math.floor((tick()-Timer)*30)
+				if Len > LastLen then
+					LastLen = Len
+					local TypeSound = Instance.new("Sound")
+					TypeSound.Volume = 10
+					TypeSound.SoundId = "rbxassetid://4681278859"
+					TypeSound.TimePosition = .07
+					TypeSound.PlayOnRemove = true
+					TypeSound.Playing = true
+					TypeSound.Parent = Funcs.Serv(Services[math.random(1,#Services)])
+					TypeSound:Destroy()
+				end
+				NotifText.Text = StarterText..string.sub(Text,0,Len)
+			until tick()-Timer >= string.len(Text)/30
+			NotifText.Text = StarterText..Text
+			Timer = tick()
+			repeat
+				Funcs.Serv("RunService").RenderStepped:Wait()
+			until tick()-Timer >= 1
+			Funcs.Serv("TweenService"):Create(NotifText,TweenInfo.new(1,Enum.EasingStyle.Linear),{TextTransparency = 1,TextStrokeTransparency = 1}):Play()
+			Funcs.Debris(NotifText,1)
+		end))
+	end
+
+	function Swait(NUMBER)
+		if NUMBER == 0 or NUMBER == nil then
+			game:GetService("RunService").RenderStepped:wait()
+		else
+			for i = 1, NUMBER do
+				game:GetService("RunService").RenderStepped:wait()
+			end
+		end
+	end
+
+	local S = 1
+	local fallingspeed = 0
+	local Welds = {
+		Defaults = {
+			Neck = {C0 = CFrame.new(0, 1 * S, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(180))},
+			RootJoint = {C0 = CFrame.new(0,4,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))},
+			RightShoulder = {C0 = CFrame.new(-.5 * S, 0, 0) * CFrame.Angles(0, math.rad(90), 0)},
+			LeftShoulder = {C0 = CFrame.new(.5 * S, 0, 0) * CFrame.Angles(0, math.rad(-90), 0)}
+		},
+		Neck = {C0 = CFrame.new(0, 1 * S, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0),C1 = CFrame.new(0, -.5 * S, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)},
+		RootJoint = {C0 = CFrame.new(0,4,0),C1 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)},
+		RightShoulder = {C0 = CFrame.new(1 * S, .5 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0),C1 = CFrame.new(-.5 * S, .5 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)},
+		LeftShoulder = {C0 = CFrame.new(-1 * S, .5 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0),C1 = CFrame.new(.5 * S, .5 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)},
+		RightHip = {C0 = CFrame.new(1 * S, -1 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0),C1 = CFrame.new(.5 * S, 1 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)},
+		LeftHip = {C0 = CFrame.new(-1 * S, -1 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0),C1 = CFrame.new(-.5 * S, 1 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)},
+		Sword = {C0 = CFrame.new(0, -1 * S, 0) * CFrame.Angles(math.rad(90), 0, 0),C1 = CFrame.new(0, -3.15 * S, 0)},
+	}
+	local Timing,Keys,Movement = {Throttle = 1,Start = tick(),Sine = 0,LastFrame = tick(),LastPlaying = tick()},{W = false,A = false,S = false,D = false},{Attacking = false,Flying = false,WalkSpeed = 16*S,CFrame = CFrame.new(0,100,0),PotentialCFrame = CFrame.new(0,100,0),Falling = false,Walking = false,NeckSnap = false,HipHeight = 2*S}
+	local Start,SongStart,AudioId,AudioIds,CurrentSong = tick(),tick(),6049110238,{{Id = 6049110238,Length = 141.217},{Id = 4185475912,Length = 183.51},{Id = 5703737533,Length = 141.296},{Id = 803373182,Length = 142.21},{Id = 5817546077,Length = 105.769},{Id = 5805753966,Length = 109.74},{Id = 5707455397,Length = 67.395},{Id = 5797579940,Length = 150.778},{Id = 5797629153,Length = 198.138},{Id = 180993006,Length = 120.058},{Id = 5797685318,Length = 127.059},{Id = 5797713606,Length = 161.933},{Id = 3329947102,Length = 114.39},{Id = 919231299,Length = 137.482}},1
+	local RayProperties,NoCollisions = RaycastParams.new(),{}
+	local MainPosition = Character:FindFirstChildOfClass("Part").CFrame
+	local BasePartClassTypes = {"CornerWedgePart","Part","FlagStand","Seat","SpawnLocation","WedgePart","MeshPart","PartOperation","NegateOperation","UnionOperation","TrussPart"}
+	Timing.LastFrame = tick()
+	ILSine = ILSine+(tick()-Timing.LastFrame)*60
+	Timing.SongPosition = (tick()-SongStart)
+	for _,v in pairs(Character:GetDescendants())do
+		if v:IsA("HingeConstraint") then
+			v:Remove()
+		end
+	end
+	print("[Immortality Lord]: mmm myes pet froge asidfdgfhgrwj89t4uj395t")
+	Funcs.Notify("[Immortality Lord]: ","mmm myes pet froge asidfdgfhgrwj89t4uj395t")
+	if not STAP then
+		Player.Chatted:Connect(function(tecks)
+			Funcs.Notify("[Immortality Lord]:",tecks)
+		end)
+	end
+
+	--//=================================\\
+	--||		 what whata fac			 ||
+	--\\=================================//
+
+	if not Camera.Part or not Camera.Part:IsDescendantOf(game) or Camera.Part.Archivable then
+		Funcs.Debris(Camera.Part,0)
+		Camera.Part = Instance.new(BasePartClassTypes[math.random(1,#BasePartClassTypes)])
+		Camera.Part.Name = Funcs.RandomString()
+		Camera.Part.Archivable = false
+		Camera.Part.Parent = Funcs.Serv(Services[math.random(1,#Services)])
+	end
+
+	if not Camera.Music or not Funcs.Refit(Camera.Music,Camera.Part) or Camera.Music.Archivable or not Camera.Music.Looped or Camera.Music.PlaybackSpeed ~= 1 or not Camera.Music.Playing or Camera.Music.SoundGroup or Camera.Music.SoundId ~= "rbxassetid://"..tostring(AudioId) or Camera.Music.Volume ~= 5 or Camera.Music.RollOffMinDistance ~= 50*S or Camera.Music.RollOffMaxDistance ~= 100*S or Camera.Music.RollOffMode ~= Enum.RollOffMode.Linear or Camera.Music.TimePosition > Timing.SongPosition+1 or Camera.Music.TimePosition < Timing.SongPosition-1 or #Camera.Music:GetChildren() > 0 or tick()-Timing.LastPlaying >= 1 then
+		Funcs.Debris(Camera.Music,0)
+		Camera.Music = Instance.new("Sound")
+		Camera.Music.Name = Funcs.RandomString()
+		Camera.Music.Volume = 5
+		Camera.Music.Looped = true
+		Camera.Music.Archivable = false
+		Camera.Music.RollOffMinDistance = 50*S
+		Camera.Music.RollOffMaxDistance = 100*S
+		Camera.Music.RollOffMode = Enum.RollOffMode.Linear
+		Camera.Music.SoundId = "rbxassetid://"..tostring(AudioId)
+		Camera.Music.Playing = true
+		Camera.Music.TimePosition = Timing.SongPosition
+		Camera.Music.Parent = Camera.Part
+		Timing.LastPlaying = tick()
+	end
+
+	--//================================\\
+	--||         	 Weapon				||
+	--\\================================//
+
+	function weld(parent,part0,part1,c0,c1)
+		local weld=Instance.new("Weld")
+		weld.Parent=parent
+		weld.Part0=part0
+		weld.Part1=part1
+		weld.C0=c0
+		weld.C1=c1
+		return weld
+	end
+
+	if Character.Sniper.Handle:FindFirstChild("AccessoryWeld") then
+		Character.Sniper.Handle["AccessoryWeld"]:Remove()
+	end
+
+	local mlok = Character.Sniper
+
+	handle=mlok.Handle
+	handleweld=weld(handle,Character["Torso"],handle,CFrame.new(0, 0, 0),CFrame.new(-1, 0, -.8)* CFrame.Angles(math.rad(0),math.rad(0),math.rad(-46)))
+	handleweld.Name = "muc"
+
+	if mlok.Handle["muc"] then
+		mlok.Handle["muc"]:Remove()
+	end
+
+	local handle=mlok.Handle
+	handleweld=weld(mlok.Handle,Character["Right Arm"],handle,CFrame.new(0, 0, 0),CFrame.new(-2.2, -.81, 0)* CFrame.Angles(math.rad(90),math.rad(4),math.rad(95)))
+	handleweld.Name = "woah"
+	local Hole = handle
+
+	--//================================\\
+	--||		  Needed Funcs			||
+	--\\================================//
+
+	function Funcs.Clerp(a,b,t)
+		return a:Lerp(b,t < 1 and math.clamp(t*ILThrottle,0,1) or 1)
+	end
+
+	function Funcs.MoveCharacter(X,Z)
+		RootPart.CFrame = RootPart.CFrame*CFrame.new(X,0,Z)
+	end
+
+	function Funcs.UpdateWeld(Weld,Part1,Part0)
+		Part1.CFrame = Part0.CFrame*(Weld.C0*Weld.C1:Inverse())
+	end
+
+	--//=================================\\
+	--||	ATTACK FUNCTIONS AND STUFF
+	--\\=================================//
+
+	HUGE = math.huge
+	local stopeverything = false
+	local alreadyfixing  = false
+	local ISFLYING = false
+	local FLYING = false
+	iyflyspeed = 2
+	function Floi()
+		if Movement.Flying then
+			local LookV = workspace.CurrentCamera.CFrame.LookVector
+			RootPart.CFrame = CFrame.new(LookV)
+		end
+	end
+
+	--//=================================\\
+	--||	  ASSIGN THINGS TO KEYS
+	--\\=================================//
+	local TP = false
+	if not STAP then
+		function KeyDown(Key_)
+			KEYHOLD = true
+			local Key_ = string.upper(Key_)
+			if Keys[Key_] ~= nil then
+				Keys[Key_] = true
+			else
+				if Key_ == "F" and Movement.Attacking then
+					if not Movement.Flying then
+						Movement.Flying = true
+					else
+						Movement.Flying = false
+					end
+					Movement.WalkSpeed = 16*S
+					RootPart.CFrame = CFrame.new(RootPart.Position)
+					Movement.Falling = false
+				end
+				if Key_ == "Q" then
+					Funcs.Debris(Camera.Part,0)
+					Funcs.Debris(Camera.Music,0)
+					for i,v in pairs(Character:GetChildren()) do
+						if v:IsA("BasePart") then
+							Funcs.Debris(v,0)
+						end
+					end			
+				elseif Key_ == "P" then
+					RootPart.CFrame = CFrame.new(0,100,0)
+					Movement.Falling = false
+				elseif Key_ == "\\" then
+					RootPart.CFrame = RootPart.CFrame*CFrame.new(0,100,0)
+				end
+			end
+		end
+		Mouse.KeyDown:connect(function(Key_)
+			if Key_ == "z" and not Movement.Attacking then
+				TP = true
+				Movement.Attacking = true
+				Movement.WalkSpeed = 0
+				local Start = Timing.Sine/60
+				repeat
+					Funcs.Serv("RunService").RenderStepped:Wait()
+					Welds.RootJoint.C0 = Funcs.Clerp(Welds.RootJoint.C0,Welds.Defaults.RootJoint.C0*CFrame.new(0,0,-.5*math.sin(Timing.Sine/25)*S)*CFrame.Angles(math.rad(5),0,math.rad(-20)),.25)
+					if Movement.NeckSnap then
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,1)
+						Movement.NeckSnap = false
+					else
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,.25)
+					end
+					pcall(function()
+						if math.random(1,math.floor((15/ILThrottle)+.5)) == 1 then
+							Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(math.random(-20,20)),math.rad(math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							Movement.NeckSnap = true
+						end
+					end)
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,0.5*S,0)*CFrame.Angles(math.rad(80),0,math.rad(50))*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(-.5*S,-.5*S,0)*CFrame.Angles(math.rad(180),math.rad(-90),0),.25)
+					Welds.LeftShoulder.C0 = Funcs.Clerp(Welds.LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(5),0,math.rad(-10-10*math.cos(Timing.Sine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					Welds.RightHip.C0 = Funcs.Clerp(Welds.RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(Timing.Sine/25))),.25)
+					Welds.LeftHip.C0 = Funcs.Clerp(Welds.LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(Timing.Sine/25))),.25)
+				until Timing.Sine/60-Start >= .25
+				Start = Timing.Sine/60
+				coroutine.resume(coroutine.create(function()
+					repeat
+						Funcs.Serv("RunService").RenderStepped:Wait()
+					until Timing.Sine/60-Start >= 1/8
+					local Hitbox = Instance.new("Part")
+					Hitbox.Shape = Enum.PartType.Ball
+					Hitbox.Name = Funcs.RandomString()
+					Hitbox.CastShadow = false
+					Hitbox.Anchored = true
+					Hitbox.CanCollide = false
+					Hitbox.Material = Enum.Material.ForceField
+					Hitbox.Color = Color3.new()
+					Hitbox.Size = Vector3.new(9,9,9)*S
+					Hitbox.CFrame = RootPart.CFrame*CFrame.new(0,0,-4.5*S)
+					Hitbox.Parent = workspace
+					Funcs.Serv("TweenService"):Create(Hitbox,TweenInfo.new(1,Enum.EasingStyle.Linear),{LocalTransparencyModifier = 1}):Play()
+					Funcs.Debris(Hitbox,1)
+				end))
+				repeat
+					Funcs.Serv("RunService").RenderStepped:Wait()
+					Welds.RootJoint.C0 = Funcs.Clerp(Welds.RootJoint.C0,Welds.Defaults.RootJoint.C0*CFrame.new(0,0,-.5*math.sin(Timing.Sine/25)*S)*CFrame.Angles(math.rad(5),0,math.rad(20)),.25)
+					if Movement.NeckSnap then
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,1)
+						Movement.NeckSnap = false
+					else
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,.25)
+					end
+					pcall(function()
+						if math.random(1,math.floor((15/ILThrottle)+.5)) == 1 then
+							Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(math.random(-20,20)),math.rad(math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							Movement.NeckSnap = true
+						end
+					end)
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1*S,0.5*S,-.5*S)*CFrame.Angles(math.rad(80),0,math.rad(-50))*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(-.5*S,-.5*S,0)*CFrame.Angles(math.rad(180),math.rad(-90),0),.25)
+					Welds.LeftShoulder.C0 = Funcs.Clerp(Welds.LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(5),0,math.rad(-10-10*math.cos(Timing.Sine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					Welds.RightHip.C0 = Funcs.Clerp(Welds.RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(Timing.Sine/25))),.25)
+					Welds.LeftHip.C0 = Funcs.Clerp(Welds.LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(Timing.Sine/25))),.25)
+				until Timing.Sine/60-Start >= .25
+				Movement.WalkSpeed= 16*S
+				Movement.Attacking = false
+				TP = false
+			elseif Key_ == "x" and not Movement.Attacking then
+				TP = true
+				Movement.Attacking = true
+				Movement.WalkSpeed = 0
+				local Start,MousePos = Timing.Sine/60,Mouse.Hit.Position
+				repeat
+					Funcs.Serv("RunService").RenderStepped:Wait()
+					Welds.RootJoint.C0 = Funcs.Clerp(Welds.RootJoint.C0,Welds.Defaults.RootJoint.C0*CFrame.new(0,0,-.5*math.sin(Timing.Sine/25)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+					if Movement.NeckSnap then
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,1)
+						Movement.NeckSnap = false
+					else
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,.25)
+					end
+					pcall(function()
+						if math.random(1,math.floor((15/ILThrottle)+.5)) == 1 then
+							Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(math.random(-20,20)),math.rad(math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							Movement.NeckSnap = true
+						end
+					end)
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(80+5*math.cos(Timing.Sine/25)),0,math.rad(45))*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(0,-0,-.5*S)*CFrame.Angles(0,math.rad(170),math.rad(-10)),.25)
+					Welds.LeftShoulder.C0 = Funcs.Clerp(Welds.LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(Timing.Sine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					Welds.RightHip.C0 = Funcs.Clerp(Welds.RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(Timing.Sine/25))),.25)
+					Welds.LeftHip.C0 = Funcs.Clerp(Welds.LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(Timing.Sine/25))),.25)
+					local Swirl = Instance.new("MeshPart")
+					Swirl.MeshId = "rbxassetid://2671071329"
+					Swirl.Anchored = true
+					Swirl.CanCollide = false
+					Swirl.Color = Color3.fromRGB(0,0,0)
+					Swirl.Name = Funcs.RandomString()
+					Swirl.CFrame = RootPart.CFrame*CFrame.new(0,-3*S,0)
+					Swirl.Parent = workspace
+					Funcs.Serv("TweenService"):Create(Swirl,TweenInfo.new(1,Enum.EasingStyle.Linear),{Size = Vector3.new(25,1,25),CFrame = Swirl.CFrame*CFrame.Angles(0,math.rad(180),0),LocalTransparencyModifier = 1}):Play()
+					Funcs.Debris(Swirl,1)
+				until Timing.Sine/60-Start >= .5
+				Start = Timing.Sine/60
+				repeat
+					Funcs.Serv("RunService").RenderStepped:Wait()
+					Welds.RootJoint.C0 = Funcs.Clerp(Welds.RootJoint.C0,Welds.Defaults.RootJoint.C0*CFrame.new(0,0,-10*(.5+Timing.Sine/60-Start)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+					if Movement.NeckSnap then
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,1)
+						Movement.NeckSnap = false
+					else
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,.25)
+					end
+					pcall(function()
+						if math.random(1,math.floor((15/ILThrottle)+.5)) == 1 then
+							Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(math.random(-20,20)),math.rad(math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							Movement.NeckSnap = true
+						end
+					end)
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(80+5*math.cos(Timing.Sine/25)),0,math.rad(45))*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(0,-0,-.5*S)*CFrame.Angles(0,math.rad(170),math.rad(-10)),.25)
+					Welds.LeftShoulder.C0 = Funcs.Clerp(Welds.LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(Timing.Sine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					Welds.RightHip.C0 = Funcs.Clerp(Welds.RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(Timing.Sine/25))),.25)
+					Welds.LeftHip.C0 = Funcs.Clerp(Welds.LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(Timing.Sine/25))),.25)
+				until Timing.Sine/60-Start >= .5
+				RootPart.CFrame = CFrame.new(MousePos)*CFrame.new(0,3*S,0)
+				Start = Timing.Sine/60
+				repeat
+					Funcs.Serv("RunService").RenderStepped:Wait()
+					local Swirl = Instance.new("MeshPart")
+					Swirl.MeshId = "rbxassetid://2671071329"
+					Swirl.Anchored = true
+					Swirl.CanCollide = false
+					Swirl.Color = Color3.fromRGB(0,0,0)
+					Swirl.Name = Funcs.RandomString()
+					Swirl.CFrame = CFrame.new(MousePos)
+					Swirl.Parent = workspace
+					Funcs.Serv("TweenService"):Create(Swirl,TweenInfo.new(1,Enum.EasingStyle.Linear),{Size = Vector3.new(25,1,25),CFrame = Swirl.CFrame*CFrame.Angles(0,math.rad(180),0),LocalTransparencyModifier = 1}):Play()
+					Funcs.Debris(Swirl,1)
+				until Timing.Sine/60-Start >= .5
+				Start = Timing.Sine/60
+				repeat
+					Funcs.Serv("RunService").RenderStepped:Wait()
+					Welds.RootJoint.C0 = Funcs.Clerp(Welds.RootJoint.C0,Welds.Defaults.RootJoint.C0*CFrame.new(0,0,(-.5*math.sin(Timing.Sine/25)*S)-(10-(Timing.Sine/60-Start)*20))*CFrame.Angles(math.rad(20),0,0),.25)
+					if Movement.NeckSnap then
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,1)
+						Movement.NeckSnap = false
+					else
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,.25)
+					end
+					pcall(function()
+						if math.random(1,math.floor((15/ILThrottle)+.5)) == 1 then
+							Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(math.random(-20,20)),math.rad(math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							Movement.NeckSnap = true
+						end
+					end)
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(80+5*math.cos(Timing.Sine/25)),0,math.rad(45))*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(0,-0,-.5*S)*CFrame.Angles(0,math.rad(170),math.rad(-10)),.25)
+					Welds.LeftShoulder.C0 = Funcs.Clerp(Welds.LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(Timing.Sine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					Welds.RightHip.C0 = Funcs.Clerp(Welds.RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(Timing.Sine/25))),.25)
+					Welds.LeftHip.C0 = Funcs.Clerp(Welds.LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(Timing.Sine/25))),.25)
+				until Timing.Sine/60-Start >= .5
+				Movement.WalkSpeed = 16*S
+				Movement.Attacking = false
+				TP = false
+			end
+		end)
+
+		function KeyUp(Key_)
+			KEYHOLD = false
+			local Key_ = string.upper(Key_)
+			if Keys[Key_] ~= nil then
+				Keys[Key_] = false
+			end
+		end
+		Mouse.KeyDown:connect(function(NewKey_)
+			KeyDown(NewKey_)
+		end)
+		Mouse.KeyUp:connect(function(NewKey_)
+			KeyUp(NewKey_)
+		end)
+	end
+
+	--//=================================\\
+	--\\=================================//
+
+	local welds = Instance.new("Weld",Camera.Part)
+	welds.Part0 = RootPart
+	welds.Part1 = Camera.Part
+	welds.C0 = CFrame.new(0,4,0)
+	
+	for _,v in pairs(Character:GetChildren()) do
+		if v:IsA("Part") then
+			v.Anchored = true
+		end
+	end
+	workspace.CurrentCamera.CameraSubject = Head
+	local Lengh = 141.217
+	if Camera.Music.TimePosition == Lengh then
+		CurrentSong = CurrentSong+1
+		if CurrentSong == 2 then
+			Lengh = 183.51
+			AudioId = 4185475912
+		elseif CurrentSong == 3 then
+			Lengh = 141.296
+			AudioId = 5703737533
+		elseif CurrentSong == 4 then
+			Lengh = 1442.21
+			AudioId = 803373182
+		elseif CurrentSong == 5 then
+			Lengh = 105.769
+			AudioId = 5817546077
+		elseif CurrentSong == 6 then
+			Lengh = 109.74
+			AudioId = 5805753966
+		elseif CurrentSong == 7 then
+			Lengh = 67.395
+			AudioId = 5707455397
+		elseif CurrentSong == 8 then
+			Lengh = 150.778
+			AudioId = 5797579940
+		elseif CurrentSong == 9 then
+			Lengh = 198.138
+			AudioId = 5797629153
+		elseif CurrentSong == 10 then
+			Lengh = 120.058
+			AudioId = 180993006
+		elseif CurrentSong == 11 then
+			Lengh = 161.933
+			AudioId = 5797685318
+		elseif CurrentSong == 12 then
+			Lengh = 161.933
+			AudioId = 5797713606
+		elseif CurrentSong == 13 then
+			Lengh = 114.39
+			AudioId = 3329947102
+		elseif CurrentSong == 14 then
+			Lengh = 137.482
+			AudioId = 919231299
+		elseif CurrentSong == 1 then
+			Lengh = 141.217
+			AudioId = 6049110238
+		end
+	end
+	if CurrentSong == 15 then
+		CurrentSong = 1
+	end
+	
+	--//=================================\\
+	--\\=================================//
+	local MainLoop = Funcs.Serv("RunService").RenderStepped:Connect(function()
+		local CameraRay = workspace:Raycast(workspace.CurrentCamera.Focus.Position,-workspace.CurrentCamera.CFrame.LookVector*(workspace.CurrentCamera.CFrame.Position-workspace.CurrentCamera.Focus.Position).Magnitude,RayProperties)
+		if CameraRay then
+			workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame*CFrame.new(0,0,-(workspace.CurrentCamera.CFrame.Position-workspace.CurrentCamera.Focus.Position).Magnitude)*CFrame.new(0,0,(workspace.CurrentCamera.Focus.Position-CameraRay.Position).Magnitude*.99)
+		end
+		if (workspace.CurrentCamera.CFrame.Position-workspace.CurrentCamera.Focus.Position).Magnitude < .6 and Funcs.Serv("UserInputService").MouseBehavior == Enum.MouseBehavior.LockCenter then
+			for i,v in pairs(Character:GetDescendants()) do
+				if v:IsA("BasePart") then
+					v.LocalTransparencyModifier = 1
+				end
+			end
+		end
+		Movement.Falling = false
+		Camera.Part.CanCollide = false
+		for _,v in next, Humanoid:GetPlayingAnimationTracks() do
+			v:Stop();
+		end
+		Camera.CFrame = workspace.CurrentCamera.CFrame
+		Humanoid.WalkSpeed = 0
+		local Root = RootPart
+		local Root = RootPart
+		local HumanoidRootPart = RootPart
+		local hitfloor,posfloor = workspace:FindPartOnRayWithIgnoreList(Ray.new(Root.CFrame.p,((CFrame.new(Root.Position,Root.Position - Vector3.new(0,1,0))).lookVector).unit * (4)), {Effects,Character,workspace[Player.Name]})
+		local Walking = (math.abs(Root.Velocity.x) > 1 or math.abs(Root.Velocity.z) > 1)
+		local CameraRay = workspace:Raycast(workspace.CurrentCamera.Focus.Position,-workspace.CurrentCamera.CFrame.LookVector*(workspace.CurrentCamera.CFrame.Position-workspace.CurrentCamera.Focus.Position).Magnitude,RayProperties)
+		local LookVector = Camera.CFrame.LookVector
+		if Funcs.Serv("UserInputService").MouseBehavior == Enum.MouseBehavior.LockCenter then
+			if not Movement.Flying then
+				RootPart.CFrame = CFrame.new(RootPart.Position,Vector3.new(RootPart.CFrame.X+LookVector.X,RootPart.CFrame.Y,RootPart.CFrame.Z+LookVector.Z))
+			else
+				RootPart.CFrame = CFrame.new(RootPart.Position,RootPart.Position+LookVector)
+			end
+		end
+		ILThrottle = (tick()-1)/(1/60)
+		local We = {C0 = CFrame.new(0,6,0),C1 = CFrame.new()}
+		Funcs.UpdateWeld(We,Camera.Part,RootPart)
+		Timing.Sine = ILSine
+		ILSine = 1+(tick()-1)*60
+		ILLastFrame = tick()
+		local Walking = (math.abs(Root.Velocity.x) > 1 or math.abs(Root.Velocity.z) > 1)
+		local Char = Character
+		local State = ((not hitfloor or hitfloor.CanCollide==false) and Root.Velocity.y < -1 and "Fall" or (not hitfloor or hitfloor.CanCollide==false) and Root.Velocity.y > 1 and "Jump" or hitfloor and Walking and "Walk" or hitfloor and "Idle")
+		if State == 'Walk' then
+			Movement.Walking = true
+		else
+			Movement.Walking = false
+		end
+		if not Movement.Attacking then
+			if Movement.Walking then
+				Welds.RootJoint.C0 = Funcs.Clerp(Welds.RootJoint.C0,Welds.Defaults.RootJoint.C0*CFrame.new(0,0,-.5*math.sin(Timing.Sine/25)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+				if Movement.NeckSnap then
+					Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,1)
+					Movement.NeckSnap = false
+				else
+					Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0,.25)
+				end
+				pcall(function()
+					if math.random(1,30) == 1 then
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(math.random(-20,20)),math.rad(math.random(-20,20)),math.rad(math.random(-20,20))),1)
+						Movement.NeckSnap = true
+					end
+				end)
+				if not Movement.Flying and not Movement.Falling then
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(-10),0,0)*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(-1, 0, -.8)*CFrame.Angles(math.rad(46.35-5.65*math.sin(ILSine/25)),0,0),.25)
+				else
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(80+5*math.cos(Timing.Sine/25)),0,math.rad(45))*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(-1, 0, -.8)*CFrame.Angles(0,math.rad(46),math.rad(-10)),.25)
+				end
+				Welds.LeftShoulder.C0 = Funcs.Clerp(Welds.LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(Timing.Sine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+				Welds.RightHip.C0 = Funcs.Clerp(Welds.RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(Timing.Sine/25))),.25)
+				Welds.LeftHip.C0 = Funcs.Clerp(Welds.LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(Timing.Sine/25))),.25)
+			else
+				Welds.RootJoint.C0 = Funcs.Clerp(Welds.RootJoint.C0,Welds.Defaults.RootJoint.C0*CFrame.new(0,0,-.5*math.sin(Timing.Sine/25)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+				if Movement.NeckSnap then
+					Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(Timing.Sine/50)),0),1)
+					Movement.NeckSnap = false
+				else
+					Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(Timing.Sine/50)),0),.25)
+				end
+				pcall(function()
+					if math.random(1,30) == 1 then
+						Welds.Neck.C0 = Funcs.Clerp(Welds.Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20+math.random(-20,20)),math.rad((10*math.sin(Timing.Sine/50))+math.random(-20,20)),math.rad(math.random(-20,20))),1)
+						Movement.NeckSnap = true
+					end
+				end)
+				if not Movement.Flying and not Movement.Falling then
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(-10),0,0)*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(-1, 0, -.8)*CFrame.Angles(math.rad(46.35-5.65*math.sin(ILSine/25)),0,0),.25)
+				else
+					Welds.RightShoulder.C0 = Funcs.Clerp(Welds.RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(80+5*math.cos(Timing.Sine/25)),0,math.rad(45))*Welds.Defaults.RightShoulder.C0,.25)
+					Welds.Sword.C0 = Funcs.Clerp(Welds.Sword.C0,CFrame.new(-1, 0, -.8)*CFrame.Angles(0,math.rad(46),math.rad(-10)),.25)
+				end
+				Welds.LeftShoulder.C0 = Funcs.Clerp(Welds.LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(Timing.Sine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+				Welds.RightHip.C0 = Funcs.Clerp(Welds.RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(10),math.rad(80),math.rad(10+10*math.cos(Timing.Sine/25))),.25)
+				Welds.LeftHip.C0 = Funcs.Clerp(Welds.LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(20),math.rad(-80),math.rad(-10-10*math.cos(Timing.Sine/25))),.25)
+			end
+		end
+		Humanoid.JumpPower = 0
+		Humanoid.PlatformStand = Movement.Flying
+		Funcs.UpdateWeld(We,Camera.Part,HumanoidRootPart)
+		Funcs.UpdateWeld(Welds.RootJoint,Torso,HumanoidRootPart)
+		Funcs.UpdateWeld(Welds.Neck,Head,Torso)
+		Funcs.UpdateWeld(Welds.RightShoulder,RightArm,Torso)
+		Funcs.UpdateWeld(Welds.LeftShoulder,LeftArm,Torso)
+		Funcs.UpdateWeld(Welds.RightHip,RightLeg,Torso)
+		Funcs.UpdateWeld(Welds.Sword,handle,RightArm)
+		Funcs.UpdateWeld(Welds.LeftHip,LeftLeg,Torso)
+		if not Movement.Flying then
+			if not TP then
+				if hitfloor~=nil then Movement.Falling=false fallingspeed=0 RootPart.CFrame=RootPart.CFrame*CFrame.new(0,posfloor.Y-RootPart.CFrame.Y+3,0)
+				else Movement.Falling=true fallingspeed=fallingspeed+.06 RootPart.CFrame=RootPart.CFrame-Vector3.new(0,fallingspeed,0)end
+			end
+			local Ray_ = workspace:Raycast(RootPart.Position-Vector3.new(0,S-Humanoid.HipHeight,0),Vector3.new(0,-9e9,0),RayProperties)
+			if Ray_ then
+				Movement.Falling = false
+				local NewCFrame = CFrame.new(0,(Ray_.Position.Y-RootPart.CFrame.Y)+3*S,0)*RootPart.CFrame
+				if (RootPart.Position-NewCFrame.Position).Magnitude > 1*S then
+					Movement.Falling = true
+				end
+				local SwordRay = workspace:Raycast(RootPart.CFrame*CFrame.new(1.5*S,-2.5*S,5.75*S).Position,Vector3.new(0,-1*S,0),RayProperties)
+				if not SwordRay then
+					Movement.Falling = true
+				end
+			else
+				Movement.Falling = true
+				if RootPart.CFrame.Y-1 < workspace.FallenPartsDestroyHeight then
+					local Base = nil
+					for i,v in pairs(workspace:GetDescendants()) do
+						if v:IsA("SpawnLocation") then
+							Base = v
+							break
+						end
+					end
+					if Base then
+						RootPart.CFrame = CFrame.new(Base.Position)*CFrame.new(0,(Base.Size.Y/2)+3*S,0)
+					else
+						RootPart.CFrame = CFrame.new(0,100,0)
+					end
+				else
+					RootPart.CFrame = CFrame.new(0,-3*ILThrottle-math.clamp(RootPart.CFrame.Y/100,0,1e4),0)*RootPart.CFrame
+				end
+			end
+			local OldCFrame = RootPart.CFrame
+			Movement.PotentialCFrame = CFrame.new(RootPart.Position,Vector3.new(RootPart.CFrame.X+LookVector.X,RootPart.CFrame.Y,RootPart.CFrame.Z+LookVector.Z))
+			if Keys.W then
+				Funcs.MoveCharacter(0,-1)
+			end
+			if Keys.A then
+				Funcs.MoveCharacter(-1,0)
+			end
+			if Keys.S then
+				Funcs.MoveCharacter(0,1)
+			end
+			if Keys.D then
+				Funcs.MoveCharacter(1,0)
+			end
+		else
+			local OldCFrame = RootPart.CFrame
+			RootPart.CFrame = CFrame.new(RootPart.CFrame.Position,RootPart.CFrame.Position+LookVector)
+			if Keys.W then
+				Funcs.MoveCharacter(0,-1)
+			end
+			if Keys.A then
+				Funcs.MoveCharacter(-1,0)
+			end
+			if Keys.S then
+				Funcs.MoveCharacter(0,1)
+			end
+			if Keys.D then
+				Funcs.MoveCharacter(1,0)
+			end
+		end
+	end)
+	if STAP then
+		MainLoop:Disconnect()
+	end
+end
