@@ -1,0 +1,4 @@
+- 👋 Hi, I’m @Jahongirlol
+- 👀 I’m interested in Programming
+- 🌱 I’m currently learning C++
+- also i sell some scripts for roblox and make some scripts too
