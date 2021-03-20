@@ -1,0 +1,3151 @@
+Bypass = "death"
+CountSCIFIMOVIELOL = 1
+function SCIFIMOVIELOL(Part0,Part1,Position,Angle)
+	local AlignPos = Instance.new('AlignPosition', Part1); AlignPos.Name = "AliP_"..CountSCIFIMOVIELOL
+	AlignPos.ApplyAtCenterOfMass = true;
+	AlignPos.MaxForce = 67752;
+	AlignPos.MaxVelocity = math.huge/9e110;
+	AlignPos.ReactionForceEnabled = false;
+	AlignPos.Responsiveness = 200;
+	AlignPos.RigidityEnabled = false;
+	local AlignOri = Instance.new('AlignOrientation', Part1); AlignOri.Name = "AliO_"..CountSCIFIMOVIELOL
+	AlignOri.MaxAngularVelocity = math.huge/9e110;
+	AlignOri.MaxTorque = 67752;
+	AlignOri.PrimaryAxisOnly = false;
+	AlignOri.ReactionTorqueEnabled = false;
+	AlignOri.Responsiveness = 200;
+	AlignOri.RigidityEnabled = false;
+	local AttachmentA=Instance.new('Attachment',Part1); AttachmentA.Name = "AthP_"..CountSCIFIMOVIELOL
+	local AttachmentB=Instance.new('Attachment',Part0); AttachmentB.Name = "AthP_"..CountSCIFIMOVIELOL
+	local AttachmentC=Instance.new('Attachment',Part1); AttachmentC.Name = "AthO_"..CountSCIFIMOVIELOL
+	local AttachmentD=Instance.new('Attachment',Part0); AttachmentD.Name = "AthO_"..CountSCIFIMOVIELOL
+	AttachmentC.Orientation = Angle
+	AttachmentA.Position = Position
+	AlignPos.Attachment1 = AttachmentA;
+	AlignPos.Attachment0 = AttachmentB;
+	AlignOri.Attachment1 = AttachmentC;
+	AlignOri.Attachment0 = AttachmentD;
+	CountSCIFIMOVIELOL = CountSCIFIMOVIELOL + 1
+end
+
+coroutine.wrap(function()
+	local player = game.Players.LocalPlayer
+	local char = player.Character or player.CharacterAdded:wait()
+	if sethiddenproperty then
+		while true do
+			game:GetService("RunService").RenderStepped:Wait()
+			settings().Physics.AllowSleep = false
+			local TBL = game:GetService("Players"):GetChildren() 
+			for _ = 1,#TBL do local Players = TBL[_]
+				if Players ~= game:GetService("Players").LocalPlayer then
+					Players.MaximumSimulationRadius = 0
+					sethiddenproperty(Players,"SimulationRadius",0) 
+				end 
+			end
+			game:GetService("Players").LocalPlayer.MaximumSimulationRadius = math.pow(math.huge,math.huge)
+			sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.pow(math.huge,math.huge)*math.huge)
+			if HumanDied then break end
+		end
+	else
+		while true do
+			game:GetService("RunService").RenderStepped:Wait()
+			settings().Physics.AllowSleep = false
+			local TBL = game:GetService("Players"):GetChildren() 
+			for _ = 1,#TBL do local Players = TBL[_]
+				if Players ~= game:GetService("Players").LocalPlayer then
+					Players.MaximumSimulationRadius = 0
+				end 
+			end
+			game:GetService("Players").LocalPlayer.MaximumSimulationRadius = math.pow(math.huge,math.huge)
+			if HumanDied then break end
+		end
+	end
+end)()
+
+if game:GetService("Players").LocalPlayer.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
+	if Bypass == "limbs" then --------------------------------------------------------------------------------------------------------------------
+		game:GetService("Players").LocalPlayer["Character"].Archivable = true 
+		local CloneChar = game:GetService("Players").LocalPlayer["Character"]:Clone()
+		CloneChar.Parent = workspace 
+		CloneChar.HumanoidRootPart.CFrame = game:GetService("Players").LocalPlayer["Character"].HumanoidRootPart.CFrame * CFrame.new(0,2,0)
+		wait() 
+		CloneChar.Humanoid.BreakJointsOnDeath = false
+		workspace.Camera.CameraSubject = CloneChar.Humanoid
+		CloneChar.Name = "non" 
+		CloneChar.Humanoid.DisplayDistanceType = "None"
+		if CloneChar.Head:FindFirstChild("face") then CloneChar.Head:FindFirstChild("face"):Destroy() end
+		if workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face") then workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face").Parent = CloneChar.Head end
+
+		local DeadChar = workspace[game:GetService("Players").LocalPlayer.Name]
+		DeadChar.HumanoidRootPart:Destroy()
+
+		local LVecPart = Instance.new("Part", workspace) LVecPart.CanCollide = false LVecPart.Transparency = 1
+		local CONVEC
+		local function VECTORUNIT()
+			if HumanDied then CONVEC:Disconnect(); return end
+			local lookVec = workspace.Camera.CFrame.lookVector
+			local Root = CloneChar["HumanoidRootPart"]
+			LVecPart.Position = Root.Position
+			LVecPart.CFrame = CFrame.new(LVecPart.Position, Vector3.new(lookVec.X * 9999, lookVec.Y, lookVec.Z * 9999))
+		end
+		CONVEC = game:GetService("RunService").Heartbeat:Connect(VECTORUNIT)
+
+		local CONDOWN
+		local WDown, ADown, SDown, DDown, SpaceDown = false, false, false, false, false
+		local function KEYDOWN(_,Processed) 
+			if HumanDied then CONDOWN:Disconnect(); return end
+			if Processed ~= true then
+				local Key = _.KeyCode
+				if Key == Enum.KeyCode.W then
+					WDown = true end
+				if Key == Enum.KeyCode.A then
+					ADown = true end
+				if Key == Enum.KeyCode.S then
+					SDown = true end
+				if Key == Enum.KeyCode.D then
+					DDown = true end
+				if Key == Enum.KeyCode.Space then
+					SpaceDown = true end end end
+		CONDOWN = game:GetService("UserInputService").InputBegan:Connect(KEYDOWN)
+
+		local CONUP
+		local function KEYUP(_)
+			if HumanDied then CONUP:Disconnect(); return end
+			local Key = _.KeyCode
+			if Key == Enum.KeyCode.W then
+				WDown = false end
+			if Key == Enum.KeyCode.A then
+				ADown = false end
+			if Key == Enum.KeyCode.S then
+				SDown = false end
+			if Key == Enum.KeyCode.D then
+				DDown = false end
+			if Key == Enum.KeyCode.Space then
+				SpaceDown = false end end
+		CONUP = game:GetService("UserInputService").InputEnded:Connect(KEYUP)
+
+		local function MoveClone(X,Y,Z)
+			LVecPart.CFrame = LVecPart.CFrame * CFrame.new(-X,Y,-Z)
+			workspace["non"].Humanoid.WalkToPoint = LVecPart.Position
+		end
+
+		coroutine.wrap(function() 
+			while true do game:GetService("RunService").RenderStepped:Wait()
+				if HumanDied then break end
+				if WDown then MoveClone(0,0,1e4) end
+				if ADown then MoveClone(1e4,0,0) end
+				if SDown then MoveClone(0,0,-1e4) end
+				if DDown then MoveClone(-1e4,0,0) end
+				if SpaceDown then CloneChar["Humanoid"].Jump = true end
+				if WDown ~= true and ADown ~= true and SDown ~= true and DDown ~= true then
+					workspace["non"].Humanoid.WalkToPoint = workspace["non"].HumanoidRootPart.Position end
+			end 
+		end)()
+
+		local con
+		function UnCollide()
+			if HumanDied then con:Disconnect(); return end
+			for _,Parts in next, DeadChar:GetDescendants() do
+				if Parts:IsA("BasePart") then
+					Parts.CanCollide = false
+				end 
+			end 
+		end
+		con = game:GetService("RunService").Stepped:Connect(UnCollide)
+
+		local resetBindable = Instance.new("BindableEvent")
+		resetBindable.Event:connect(function()
+			game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+			resetBindable:Destroy()
+			pcall(function()
+				CloneChar.Humanoid.Health = 0
+				DeadChar.Humanoid.Health = 0
+			end)
+		end)
+		game:GetService("StarterGui"):SetCore("ResetButtonCallback", resetBindable)
+
+		coroutine.wrap(function()
+			while true do
+				game:GetService("RunService").RenderStepped:wait()
+				if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 or not DeadChar or not DeadChar:FindFirstChild("Head") or not DeadChar:FindFirstChild("Humanoid") or DeadChar:FindFirstChild("Humanoid").Health <= 0 then 
+					HumanDied = true
+					pcall(function()
+						game.Players.LocalPlayer.Character = CloneChar
+						CloneChar:Destroy()
+						game.Players.LocalPlayer.Character = DeadChar
+						if resetBindable then
+							game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+							resetBindable:Destroy()
+						end
+						DeadChar.Humanoid.Health = 0
+					end)
+					break
+				end		
+			end
+		end)()
+
+		SCIFIMOVIELOL(DeadChar["Head"],CloneChar["Head"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Torso"],CloneChar["Torso"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Left Arm"],CloneChar["Left Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Right Arm"],CloneChar["Right Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Left Leg"],CloneChar["Left Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Right Leg"],CloneChar["Right Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+
+		coroutine.wrap(function()
+			while true do
+				game:GetService("RunService").RenderStepped:wait()
+				if HumanDied then break end
+				DeadChar["Torso"].CFrame = CloneChar["Torso"].CFrame
+			end
+		end)()
+		if not DeadChar.Head:FindFirstChild("AliO_") or not DeadChar.Head:FindFirstChild("AliP_") then
+			SCIFIMOVIELOL(DeadChar["Head"],CloneChar["Head"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		end
+		if not DeadChar.Torso:FindFirstChild("AliO_") or not DeadChar.Torso:FindFirstChild("AliP_") then
+			SCIFIMOVIELOL(DeadChar["Torso"],CloneChar["Torso"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		end
+		if not DeadChar["Right Arm"]:FindFirstChild("AliO_") or not DeadChar["Right Arm"]:FindFirstChild("AliP_") then
+			SCIFIMOVIELOL(DeadChar["Right Arm"],CloneChar["Right Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		end
+		if not DeadChar["Left Arm"]:FindFirstChild("AliO_") or not DeadChar["Left Arm"]:FindFirstChild("AliP_") then
+			SCIFIMOVIELOL(DeadChar["Left Arm"],CloneChar["Left Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		end
+		if not DeadChar["Left Leg"]:FindFirstChild("AliO_") or not DeadChar["Left Leg"]:FindFirstChild("AliP_") then
+			SCIFIMOVIELOL(DeadChar["Left Leg"],CloneChar["Left Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		end
+		if not DeadChar["Right Leg"]:FindFirstChild("AliO_") or not DeadChar["Right Leg"]:FindFirstChild("AliP_") then
+			SCIFIMOVIELOL(DeadChar["Right Leg"],CloneChar["Right Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		end
+		for _,v in next, DeadChar:GetChildren() do
+			if v:IsA("Accessory") then
+				SCIFIMOVIELOL(v.Handle,CloneChar[v.Name].Handle,Vector3.new(0,0,0),Vector3.new(0,0,0))
+			end
+		end
+
+		for _,BodyParts in next, CloneChar:GetDescendants() do
+			if BodyParts:IsA("BasePart") or BodyParts:IsA("Part") then
+				BodyParts.Transparency = 1 end end
+
+		DeadChar.Torso["Left Shoulder"]:Destroy()
+		DeadChar.Torso["Right Shoulder"]:Destroy()
+		DeadChar.Torso["Left Hip"]:Destroy()
+		DeadChar.Torso["Right Hip"]:Destroy()
+	elseif Bypass == "death" then --------------------------------------------------------------------------------------------------------------------
+		game:GetService("Players").LocalPlayer["Character"].Archivable = true 
+		local CloneChar = game:GetService("Players").LocalPlayer["Character"]:Clone()
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.WalkSpeed = 0 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.JumpPower = 0 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.AutoRotate = false
+		local FalseChar = Instance.new("Model", workspace); FalseChar.Name = ""
+		Instance.new("Part",FalseChar).Name = "Head" 
+		Instance.new("Part",FalseChar).Name = "Torso" 
+		Instance.new("Humanoid",FalseChar).Name = "Humanoid"
+		game:GetService("Players").LocalPlayer["Character"] = FalseChar
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.Name = "FalseHumanoid"
+		local Clone = game:GetService("Players").LocalPlayer["Character"]:FindFirstChild("FalseHumanoid"):Clone()
+		Clone.Parent = game:GetService("Players").LocalPlayer["Character"]
+		Clone.Name = "Humanoid"
+		game:GetService("Players").LocalPlayer["Character"]:FindFirstChild("FalseHumanoid"):Destroy() 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.Health = 0 
+		game:GetService("Players").LocalPlayer["Character"] = workspace[game:GetService("Players").LocalPlayer.Name] 
+		wait(5.65) 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.Health = 0
+		CloneChar.Parent = workspace 
+		CloneChar.HumanoidRootPart.CFrame = game:GetService("Players").LocalPlayer["Character"].HumanoidRootPart.CFrame * CFrame.new(0,2,0)
+		wait() 
+		CloneChar.Humanoid.BreakJointsOnDeath = false
+		workspace.Camera.CameraSubject = CloneChar.Humanoid 
+		CloneChar.Name = "non" 
+		CloneChar.Humanoid.DisplayDistanceType = "None"
+		if CloneChar.Head:FindFirstChild("face") then CloneChar.Head:FindFirstChild("face"):Destroy() end
+		if workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face") then workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face").Parent = CloneChar.Head end
+
+		FalseChar:Destroy()
+
+		local DeadChar = workspace[game:GetService("Players").LocalPlayer.Name]
+
+		local LVecPart = Instance.new("Part", workspace) LVecPart.CanCollide = false LVecPart.Transparency = 1
+		local CONVEC
+		local function VECTORUNIT()
+			if HumanDied then CONVEC:Disconnect(); return end
+			local lookVec = workspace.Camera.CFrame.lookVector
+			local Root = CloneChar["HumanoidRootPart"]
+			LVecPart.Position = Root.Position
+			LVecPart.CFrame = CFrame.new(LVecPart.Position, Vector3.new(lookVec.X * 9999, lookVec.Y, lookVec.Z * 9999))
+		end
+		CONVEC = game:GetService("RunService").Heartbeat:Connect(VECTORUNIT)
+
+		local CONDOWN
+		local WDown, ADown, SDown, DDown, SpaceDown = false, false, false, false, false
+		local function KEYDOWN(_,Processed) 
+			if HumanDied then CONDOWN:Disconnect(); return end
+			if Processed ~= true then
+				local Key = _.KeyCode
+				if Key == Enum.KeyCode.W then
+					WDown = true end
+				if Key == Enum.KeyCode.A then
+					ADown = true end
+				if Key == Enum.KeyCode.S then
+					SDown = true end
+				if Key == Enum.KeyCode.D then
+					DDown = true end
+				if Key == Enum.KeyCode.Space then
+					SpaceDown = true end end end
+		CONDOWN = game:GetService("UserInputService").InputBegan:Connect(KEYDOWN)
+
+		local CONUP
+		local function KEYUP(_)
+			if HumanDied then CONUP:Disconnect(); return end
+			local Key = _.KeyCode
+			if Key == Enum.KeyCode.W then
+				WDown = false end
+			if Key == Enum.KeyCode.A then
+				ADown = false end
+			if Key == Enum.KeyCode.S then
+				SDown = false end
+			if Key == Enum.KeyCode.D then
+				DDown = false end
+			if Key == Enum.KeyCode.Space then
+				SpaceDown = false end end
+		CONUP = game:GetService("UserInputService").InputEnded:Connect(KEYUP)
+
+		local function MoveClone(X,Y,Z)
+			LVecPart.CFrame = LVecPart.CFrame * CFrame.new(-X,Y,-Z)
+			workspace["non"].Humanoid.WalkToPoint = LVecPart.Position
+		end
+
+		coroutine.wrap(function() 
+			while true do game:GetService("RunService").RenderStepped:Wait()
+				if HumanDied then break end
+				if WDown then MoveClone(0,0,1e4) end
+				if ADown then MoveClone(1e4,0,0) end
+				if SDown then MoveClone(0,0,-1e4) end
+				if DDown then MoveClone(-1e4,0,0) end
+				if SpaceDown then CloneChar["Humanoid"].Jump = true end
+				if WDown ~= true and ADown ~= true and SDown ~= true and DDown ~= true then
+					workspace["non"].Humanoid.WalkToPoint = workspace["non"].HumanoidRootPart.Position end
+			end 
+		end)()
+
+		local con
+		function UnCollide()
+			if HumanDied then con:Disconnect(); return end
+			for _,Parts in next, DeadChar:GetDescendants() do
+				if Parts:IsA("BasePart") then
+					Parts.CanCollide = false
+				end 
+			end 
+		end
+		con = game:GetService("RunService").Stepped:Connect(UnCollide)
+
+		local resetBindable = Instance.new("BindableEvent")
+		resetBindable.Event:connect(function()
+			game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+			resetBindable:Destroy()
+			CloneChar.Humanoid.Health = 0
+		end)
+		game:GetService("StarterGui"):SetCore("ResetButtonCallback", resetBindable)
+
+		coroutine.wrap(function()
+			while true do
+				game:GetService("RunService").RenderStepped:wait()
+				if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 then 
+					HumanDied = true
+					pcall(function()
+						game.Players.LocalPlayer.Character = CloneChar
+						CloneChar:Destroy()
+						game.Players.LocalPlayer.Character = DeadChar
+						if resetBindable then
+							game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+							resetBindable:Destroy()
+						end
+						DeadChar.Humanoid.Health = 0
+					end)
+					break
+				end		
+			end
+		end)()
+
+		SCIFIMOVIELOL(DeadChar["Head"],CloneChar["Head"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Torso"],CloneChar["Torso"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Left Arm"],CloneChar["Left Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Right Arm"],CloneChar["Right Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Left Leg"],CloneChar["Left Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["Right Leg"],CloneChar["Right Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["HumanoidRootPart"],CloneChar["HumanoidRootPart"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+
+		for _,v in next, DeadChar:GetChildren() do
+			if v:IsA("Accessory") then
+				SCIFIMOVIELOL(v.Handle,CloneChar[v.Name].Handle,Vector3.new(0,0,0),Vector3.new(0,0,0))
+			end
+		end
+
+		for _,BodyParts in next, CloneChar:GetDescendants() do
+			if BodyParts:IsA("BasePart") or BodyParts:IsA("Part") then
+				BodyParts.Transparency = 1 end end
+	elseif Bypass == "hats" then
+		game:GetService("Players").LocalPlayer["Character"].Archivable = true 
+		local DeadChar = game.Players.LocalPlayer.Character
+		DeadChar.Name = "non"
+		local HatPosition = Vector3.new(0,0,0)
+		local HatName = "MediHood"
+		local HatsLimb = {
+			Rarm = DeadChar:FindFirstChild("Hat1"),
+			Larm = DeadChar:FindFirstChild("Pink Hair"),
+			Rleg = DeadChar:FindFirstChild("Robloxclassicred"),
+			Lleg = DeadChar:FindFirstChild("Kate Hair"),
+			Torso1 = DeadChar:FindFirstChild("Pal Hair"),
+			Torso2 = DeadChar:FindFirstChild("LavanderHair")
+		}
+		HatName = DeadChar:FindFirstChild(HatName)
+
+		coroutine.wrap(function()
+			while true do
+				game:GetService("RunService").RenderStepped:wait()
+				if not DeadChar or not DeadChar:FindFirstChild("Head") or not DeadChar:FindFirstChild("Humanoid") or DeadChar:FindFirstChild("Humanoid").Health <= 0 then 
+					HumanDied = true
+					pcall(function()
+						if resetBindable then
+							game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+							resetBindable:Destroy()
+						end
+						DeadChar.Humanoid.Health = 0
+					end)
+					break
+				end		
+			end
+		end)()
+
+		local con
+		function UnCollide()
+			if HumanDied then con:Disconnect(); return end
+			for _,Parts in next, DeadChar:GetDescendants() do
+				if Parts:IsA("BasePart") then
+					Parts.CanCollide = false
+				end 
+			end 
+		end
+		con = game:GetService("RunService").Stepped:Connect(UnCollide)
+
+		SCIFIMOVIELOL(HatName.Handle,DeadChar["Head"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(HatsLimb.Torso1.Handle,DeadChar["Torso"],Vector3.new(0.5,0,0),Vector3.new(90,0,0))
+		SCIFIMOVIELOL(HatsLimb.Torso2.Handle,DeadChar["Torso"],Vector3.new(-0.5,0,0),Vector3.new(90,0,0))
+		SCIFIMOVIELOL(HatsLimb.Larm.Handle,DeadChar["Left Arm"],Vector3.new(0,0,0),Vector3.new(90,0,0))
+		SCIFIMOVIELOL(HatsLimb.Rarm.Handle,DeadChar["Right Arm"],Vector3.new(0,0,0),Vector3.new(90,0,0))
+		SCIFIMOVIELOL(HatsLimb.Lleg.Handle,DeadChar["Left Leg"],Vector3.new(0,0,0),Vector3.new(90,0,0))
+		SCIFIMOVIELOL(HatsLimb.Rleg.Handle,DeadChar["Right Leg"],Vector3.new(0,0,0),Vector3.new(90,0,0))
+
+		for i,v in pairs(HatsLimb) do
+			v.Handle:FindFirstChild("AccessoryWeld"):Destroy()
+			if v.Handle:FindFirstChild("Mesh") then v.Handle:FindFirstChild("Mesh"):Destroy() end
+			if v.Handle:FindFirstChild("SpecialMesh") then v.Handle:FindFirstChild("SpecialMesh"):Destroy() end
+		end
+		HatName.Handle:FindFirstChild("AccessoryWeld"):Destroy()
+	end
+else
+	if Bypass == "limbs" then --------------------------------------------------------------------------------------------------------------------
+		game:GetService("Players").LocalPlayer["Character"].Archivable = true 
+		local CloneChar = game:GetObjects("rbxassetid://5227463276")[1]
+		CloneChar.Parent = workspace 
+		CloneChar.HumanoidRootPart.CFrame = game:GetService("Players").LocalPlayer["Character"].HumanoidRootPart.CFrame * CFrame.new(0,0.5,0.1)
+		CloneChar.Humanoid.BreakJointsOnDeath = false
+		workspace.Camera.CameraSubject = CloneChar.Humanoid 
+		CloneChar.Name = "non" 
+		CloneChar.Humanoid.DisplayDistanceType = "None"
+		if CloneChar.Head:FindFirstChild("face") then CloneChar.Head:FindFirstChild("face"):Destroy() end
+		if workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face") then workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face").Parent = CloneChar.Head end
+
+		local DeadChar = workspace[game:GetService("Players").LocalPlayer.Name]
+		DeadChar.HumanoidRootPart:Destroy()
+
+		local LVecPart = Instance.new("Part", workspace) LVecPart.CanCollide = false LVecPart.Transparency = 1
+		local CONVEC
+		local function VECTORUNIT()
+			if HumanDied then CONVEC:Disconnect(); return end
+			local lookVec = workspace.Camera.CFrame.lookVector
+			local Root = CloneChar["HumanoidRootPart"]
+			LVecPart.Position = Root.Position
+			LVecPart.CFrame = CFrame.new(LVecPart.Position, Vector3.new(lookVec.X * 9999, lookVec.Y, lookVec.Z * 9999))
+		end
+		CONVEC = game:GetService("RunService").Heartbeat:Connect(VECTORUNIT)
+
+		local CONDOWN
+		local WDown, ADown, SDown, DDown, SpaceDown = false, false, false, false, false
+		local function KEYDOWN(_,Processed) 
+			if HumanDied then CONDOWN:Disconnect(); return end
+			if Processed ~= true then
+				local Key = _.KeyCode
+				if Key == Enum.KeyCode.W then
+					WDown = true end
+				if Key == Enum.KeyCode.A then
+					ADown = true end
+				if Key == Enum.KeyCode.S then
+					SDown = true end
+				if Key == Enum.KeyCode.D then
+					DDown = true end
+				if Key == Enum.KeyCode.Space then
+					SpaceDown = true end end end
+		CONDOWN = game:GetService("UserInputService").InputBegan:Connect(KEYDOWN)
+
+		local CONUP
+		local function KEYUP(_)
+			if HumanDied then CONUP:Disconnect(); return end
+			local Key = _.KeyCode
+			if Key == Enum.KeyCode.W then
+				WDown = false end
+			if Key == Enum.KeyCode.A then
+				ADown = false end
+			if Key == Enum.KeyCode.S then
+				SDown = false end
+			if Key == Enum.KeyCode.D then
+				DDown = false end
+			if Key == Enum.KeyCode.Space then
+				SpaceDown = false end end
+		CONUP = game:GetService("UserInputService").InputEnded:Connect(KEYUP)
+
+		local function MoveClone(X,Y,Z)
+			LVecPart.CFrame = LVecPart.CFrame * CFrame.new(-X,Y,-Z)
+			workspace["non"].Humanoid.WalkToPoint = LVecPart.Position
+		end
+
+		coroutine.wrap(function() 
+			while true do game:GetService("RunService").RenderStepped:Wait()
+				if HumanDied then break end
+				if WDown then MoveClone(0,0,1e4) end
+				if ADown then MoveClone(1e4,0,0) end
+				if SDown then MoveClone(0,0,-1e4) end
+				if DDown then MoveClone(-1e4,0,0) end
+				if SpaceDown then CloneChar["Humanoid"].Jump = true end
+				if WDown ~= true and ADown ~= true and SDown ~= true and DDown ~= true then
+					workspace["non"].Humanoid.WalkToPoint = workspace["non"].HumanoidRootPart.Position end
+			end 
+		end)()
+
+		local con
+		function UnCollide()
+			if HumanDied then con:Disconnect(); return end
+			for _,Parts in next, DeadChar:GetDescendants() do
+				if Parts:IsA("BasePart") then
+					Parts.CanCollide = false
+				end 
+			end 
+		end
+		con = game:GetService("RunService").Stepped:Connect(UnCollide)
+
+		local resetBindable = Instance.new("BindableEvent")
+		resetBindable.Event:connect(function()
+			game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+			resetBindable:Destroy()
+			CloneChar.Humanoid.Health = 0
+		end)
+		game:GetService("StarterGui"):SetCore("ResetButtonCallback", resetBindable)
+
+		coroutine.wrap(function()
+			while true do
+				game:GetService("RunService").RenderStepped:wait()
+				if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 or not DeadChar or not DeadChar:FindFirstChild("Head") or not DeadChar:FindFirstChild("Humanoid") or DeadChar:FindFirstChild("Humanoid").Health <= 0 then 
+					HumanDied = true
+					pcall(function()
+						game.Players.LocalPlayer.Character = CloneChar
+						CloneChar:Destroy()
+						game.Players.LocalPlayer.Character = DeadChar
+						if resetBindable then
+							game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+							resetBindable:Destroy()
+						end
+						DeadChar.Humanoid.Health = 0
+					end)
+					break
+				end		
+			end
+		end)()
+
+		for _,v in next, DeadChar:GetChildren() do
+			if v:IsA("Accessory") then
+				v:Clone().Parent = CloneChar
+			end
+		end
+
+		for _,v in next, DeadChar:GetDescendants() do
+			if v:IsA("Motor6D") and v.Name ~= "Neck" then
+				v:Destroy()
+			end
+		end
+
+		SCIFIMOVIELOL(DeadChar["Head"],CloneChar["Head"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["UpperTorso"],CloneChar["Torso"],Vector3.new(0,0.2,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LowerTorso"],CloneChar["Torso"],Vector3.new(0,-0.78,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftUpperArm"],CloneChar["Left Arm"],Vector3.new(0,0.375,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftLowerArm"],CloneChar["Left Arm"],Vector3.new(0,-0.215,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftHand"],CloneChar["Left Arm"],Vector3.new(0,-0.825,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightUpperArm"],CloneChar["Right Arm"],Vector3.new(0,0.375,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightLowerArm"],CloneChar["Right Arm"],Vector3.new(0,-0.215,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightHand"],CloneChar["Right Arm"],Vector3.new(0,-0.825,0),Vector3.new(0,0,0))
+
+		SCIFIMOVIELOL(DeadChar["LeftUpperLeg"],CloneChar["Left Leg"],Vector3.new(0,0.575,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftLowerLeg"],CloneChar["Left Leg"],Vector3.new(0,-0.137,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftFoot"],CloneChar["Left Leg"],Vector3.new(0,-0.787,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightUpperLeg"],CloneChar["Right Leg"],Vector3.new(0,0.575,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightLowerLeg"],CloneChar["Right Leg"],Vector3.new(0,-0.137,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightFoot"],CloneChar["Right Leg"],Vector3.new(0,-0.787,0),Vector3.new(0,0,0))
+
+		coroutine.wrap(function()
+			while true do
+				game:GetService("RunService").RenderStepped:wait()
+				if HumanDied then break end
+				DeadChar["UpperTorso"].CFrame = CloneChar["Torso"].CFrame * CFrame.new(0,0.2,0)
+			end
+		end)()
+
+		for _,v in next, DeadChar:GetChildren() do
+			if v:IsA("Accessory") then
+				SCIFIMOVIELOL(v.Handle,CloneChar[v.Name].Handle,Vector3.new(0,0,0),Vector3.new(0,0,0))
+			end
+		end
+
+		for _,BodyParts in next, CloneChar:GetDescendants() do
+			if BodyParts:IsA("BasePart") or BodyParts:IsA("Part") then
+				BodyParts.Transparency = 1 end end
+
+	elseif Bypass == "death" then --------------------------------------------------------------------------------------------------------------------
+		game:GetService("Players").LocalPlayer["Character"].Archivable = true 
+		local CloneChar = game:GetObjects("rbxassetid://5227463276")[1]
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.WalkSpeed = 0 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.JumpPower = 0 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.AutoRotate = false
+		local FalseChar = Instance.new("Model", workspace); FalseChar.Name = ""
+		Instance.new("Part",FalseChar).Name = "Head" 
+		Instance.new("Part",FalseChar).Name = "UpperTorso"
+		Instance.new("Humanoid",FalseChar).Name = "Humanoid"
+		game:GetService("Players").LocalPlayer["Character"] = FalseChar
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.Name = "FalseHumanoid"
+		local Clone = game:GetService("Players").LocalPlayer["Character"]:FindFirstChild("FalseHumanoid"):Clone()
+		Clone.Parent = game:GetService("Players").LocalPlayer["Character"]
+		Clone.Name = "Humanoid"
+		game:GetService("Players").LocalPlayer["Character"]:FindFirstChild("FalseHumanoid"):Destroy() 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.Health = 0 
+		game:GetService("Players").LocalPlayer["Character"] = workspace[game:GetService("Players").LocalPlayer.Name] 
+		wait(5.65) 
+		game:GetService("Players").LocalPlayer["Character"].Humanoid.Health = 0
+		CloneChar.Parent = workspace 
+		CloneChar.HumanoidRootPart.CFrame = game:GetService("Players").LocalPlayer["Character"].HumanoidRootPart.CFrame * CFrame.new(0,0.5,0.1)
+		wait() 
+		CloneChar.Humanoid.BreakJointsOnDeath = false
+		workspace.Camera.CameraSubject = CloneChar.Humanoid 
+		CloneChar.Name = "non" 
+		CloneChar.Humanoid.DisplayDistanceType = "None"
+		if CloneChar.Head:FindFirstChild("face") then CloneChar.Head:FindFirstChild("face"):Destroy() end
+		if workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face") then workspace[game:GetService("Players").LocalPlayer.Name].Head:FindFirstChild("face").Parent = CloneChar.Head end
+
+		FalseChar:Destroy()
+
+		local DeadChar = workspace[game:GetService("Players").LocalPlayer.Name]
+
+		local LVecPart = Instance.new("Part", workspace) LVecPart.CanCollide = false LVecPart.Transparency = 1
+		local CONVEC
+		local function VECTORUNIT()
+			if HumanDied then CONVEC:Disconnect(); return end
+			local lookVec = workspace.Camera.CFrame.lookVector
+			local Root = CloneChar["HumanoidRootPart"]
+			LVecPart.Position = Root.Position
+			LVecPart.CFrame = CFrame.new(LVecPart.Position, Vector3.new(lookVec.X * 9999, lookVec.Y, lookVec.Z * 9999))
+		end
+		CONVEC = game:GetService("RunService").Heartbeat:Connect(VECTORUNIT)
+
+		local CONDOWN
+		local WDown, ADown, SDown, DDown, SpaceDown = false, false, false, false, false
+		local function KEYDOWN(_,Processed) 
+			if HumanDied then CONDOWN:Disconnect(); return end
+			if Processed ~= true then
+				local Key = _.KeyCode
+				if Key == Enum.KeyCode.W then
+					WDown = true end
+				if Key == Enum.KeyCode.A then
+					ADown = true end
+				if Key == Enum.KeyCode.S then
+					SDown = true end
+				if Key == Enum.KeyCode.D then
+					DDown = true end
+				if Key == Enum.KeyCode.Space then
+					SpaceDown = true end end end
+		CONDOWN = game:GetService("UserInputService").InputBegan:Connect(KEYDOWN)
+
+		local CONUP
+		local function KEYUP(_)
+			if HumanDied then CONUP:Disconnect(); return end
+			local Key = _.KeyCode
+			if Key == Enum.KeyCode.W then
+				WDown = false end
+			if Key == Enum.KeyCode.A then
+				ADown = false end
+			if Key == Enum.KeyCode.S then
+				SDown = false end
+			if Key == Enum.KeyCode.D then
+				DDown = false end
+			if Key == Enum.KeyCode.Space then
+				SpaceDown = false end end
+		CONUP = game:GetService("UserInputService").InputEnded:Connect(KEYUP)
+
+		local function MoveClone(X,Y,Z)
+			LVecPart.CFrame = LVecPart.CFrame * CFrame.new(-X,Y,-Z)
+			workspace["non"].Humanoid.WalkToPoint = LVecPart.Position
+		end
+
+		coroutine.wrap(function() 
+			while true do game:GetService("RunService").RenderStepped:Wait()
+				if HumanDied then break end
+				if WDown then MoveClone(0,0,1e4) end
+				if ADown then MoveClone(1e4,0,0) end
+				if SDown then MoveClone(0,0,-1e4) end
+				if DDown then MoveClone(-1e4,0,0) end
+				if SpaceDown then CloneChar["Humanoid"].Jump = true end
+				if WDown ~= true and ADown ~= true and SDown ~= true and DDown ~= true then
+					workspace["non"].Humanoid.WalkToPoint = workspace["non"].HumanoidRootPart.Position end
+			end 
+		end)()
+
+		local con
+		function UnCollide()
+			if HumanDied then con:Disconnect(); return end
+			for _,Parts in next, DeadChar:GetDescendants() do
+				if Parts:IsA("BasePart") then
+					Parts.CanCollide = false
+				end 
+			end 
+		end
+		con = game:GetService("RunService").Stepped:Connect(UnCollide)
+
+		local resetBindable = Instance.new("BindableEvent")
+		resetBindable.Event:connect(function()
+			game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+			resetBindable:Destroy()
+			CloneChar.Humanoid.Health = 0
+		end)
+		game:GetService("StarterGui"):SetCore("ResetButtonCallback", resetBindable)
+
+		coroutine.wrap(function()
+			while true do
+				game:GetService("RunService").RenderStepped:wait()
+				if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 then 
+					HumanDied = true
+					pcall(function()
+						game.Players.LocalPlayer.Character = CloneChar
+						CloneChar:Destroy()
+						game.Players.LocalPlayer.Character = DeadChar
+						if resetBindable then
+							game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+							resetBindable:Destroy()
+						end
+						DeadChar.Humanoid.Health = 0
+					end)
+					break
+				end		
+			end
+		end)()
+
+		for _,v in next, DeadChar:GetChildren() do
+			if v:IsA("Accessory") then
+				v:Clone().Parent = CloneChar
+			end
+		end
+
+		SCIFIMOVIELOL(DeadChar["Head"],CloneChar["Head"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["UpperTorso"],CloneChar["Torso"],Vector3.new(0,0.2,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LowerTorso"],CloneChar["Torso"],Vector3.new(0,-0.78,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftUpperArm"],CloneChar["Left Arm"],Vector3.new(0,0.375,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftLowerArm"],CloneChar["Left Arm"],Vector3.new(0,-0.215,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftHand"],CloneChar["Left Arm"],Vector3.new(0,-0.825,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightUpperArm"],CloneChar["Right Arm"],Vector3.new(0,0.375,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightLowerArm"],CloneChar["Right Arm"],Vector3.new(0,-0.215,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightHand"],CloneChar["Right Arm"],Vector3.new(0,-0.825,0),Vector3.new(0,0,0))
+
+		SCIFIMOVIELOL(DeadChar["LeftUpperLeg"],CloneChar["Left Leg"],Vector3.new(0,0.575,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftLowerLeg"],CloneChar["Left Leg"],Vector3.new(0,-0.137,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["LeftFoot"],CloneChar["Left Leg"],Vector3.new(0,-0.787,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightUpperLeg"],CloneChar["Right Leg"],Vector3.new(0,0.575,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightLowerLeg"],CloneChar["Right Leg"],Vector3.new(0,-0.137,0),Vector3.new(0,0,0))
+		SCIFIMOVIELOL(DeadChar["RightFoot"],CloneChar["Right Leg"],Vector3.new(0,-0.787,0),Vector3.new(0,0,0))
+
+		SCIFIMOVIELOL(DeadChar["HumanoidRootPart"],CloneChar["HumanoidRootPart"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+
+		for _,v in next, DeadChar:GetChildren() do
+			if v:IsA("Accessory") then
+				SCIFIMOVIELOL(v.Handle,CloneChar[v.Name].Handle,Vector3.new(0,0,0),Vector3.new(0,0,0))
+			end
+		end
+
+		for _,BodyParts in next, CloneChar:GetDescendants() do
+			if BodyParts:IsA("BasePart") or BodyParts:IsA("Part") then
+				BodyParts.Transparency = 1 end end
+		if DeadChar.Head:FindFirstChild("Neck") then
+			game.Players.LocalPlayer.Character:BreakJoints()
+		end
+	end
+end
+
+Player = game:GetService("Players").LocalPlayer
+lplr = game:GetService("Players").LocalPlayer
+Character = workspace.non
+local OOHHRG = workspace.non:GetDescendants()
+OOHHRG.Transparency = 1
+OOHHRG = nil
+Mouse = Player:GetMouse()
+PlayerGui = Player.PlayerGui
+Backpack = Player.Backpack
+Humanoid = Character.Humanoid
+RootPart = Character["HumanoidRootPart"]
+Torso = Character["Torso"]
+Head = Character["Head"]
+RightArm = Character["Right Arm"]
+LeftArm = Character["Left Arm"]
+RightLeg = Character["Right Leg"]
+LeftLeg = Character["Left Leg"]
+RootJoint = RootPart["RootJoint"]
+Neck = Torso["Neck"]
+RightShoulder = Torso["Right Shoulder"]
+LeftShoulder = Torso["Left Shoulder"]
+RightHip = Torso["Right Hip"]
+LeftHip = Torso["Left Hip"]
+
+IT = Instance.new
+it = Instance.new
+CF = CFrame.new
+VT = Vector3.new
+RAD = math.rad
+C3 = Color3.new
+UD2 = UDim2.new
+BRICKC = BrickColor.new
+ANGLES = CFrame.Angles
+EULER = CFrame.fromEulerAnglesXYZ
+COS = math.cos
+ACOS = math.acos
+SIN = math.sin
+ASIN = math.asin
+ABS = math.abs
+MRANDOM = math.random
+FLOOR = math.floor
+vt = Vector3.new
+cf = CFrame.new
+
+
+--//=================================\\
+--|| 	      USEFUL VALUES
+--\\=================================//
+local SONG1 = 1140442110
+local SONG2 = 1140442110
+local BanishMode = 1
+local KeepPlayersOutfit = false
+local SIZE = 1
+local Player_Size = 1
+local Jump = 50
+local Animation_Speed = 3
+local lastbeat = 0
+local lastloud = 0
+local AntiBullet = true
+local PlaybackSound = 0
+local Speed = 45
+local ROOTC0 = CF(0, 0, 0) * ANGLES(RAD(-90), RAD(0), RAD(180))
+local NECKC0 = CF(0, 1, 0) * ANGLES(RAD(-90), RAD(0), RAD(180))
+local RIGHTSHOULDERC0 = CF(-0.5, 0, 0) * ANGLES(RAD(0), RAD(90), RAD(0))
+local LEFTSHOULDERC0 = CF(0.5, 0, 0) * ANGLES(RAD(0), RAD(-90), RAD(0))
+local faceShadingFolder = IT("Model", Character)
+faceShadingFolder.Name = "Face Shading Folder"
+local Weapon = IT("Model")
+Weapon.Name = "Finding Lost"
+local Karma = IT("Model")
+Weapon.Name = "Finding Lost"
+local KarmaWeapon = IT("Model")
+Weapon.Name = "Finding Lost"
+local KarmaWeapon2 = IT("Model")
+Weapon.Name = "Finding Lost"
+local HornFolder = IT("Model", Character)
+HornFolder.Name = "Horns"
+local BannedSkids = {}
+local TOBANISH = {}
+local TAIL = {}
+local Hue = 0
+local qui = Enum.EasingStyle.Quint
+local io = Enum.EasingDirection.InOut
+local char = workspace.non
+local t = char:FindFirstChild("Torso")
+local ls = t:FindFirstChild("Left Shoulder")
+local rh = t:FindFirstChild("Right Hip")
+local lh = t:FindFirstChild("Left Hip")
+local hum = char:FindFirstChildOfClass("Humanoid")
+local tweens = game:GetService("TweenService")
+local rs = t:FindFirstChild("Right Shoulder")
+local rut = char.HumanoidRootPart
+local rutj = rut.RootJoint
+local t = char:FindFirstChild("Torso")
+local nec = t.Neck
+local MAINRUINCOLOR = BrickColor.Black()
+local DAMAGEMULTIPLIER = 1
+local ANIM = "Idle"
+local ATTACK = false
+local targetted = nil
+local EQUIPPED = false
+local HOLD = false
+local furmode = false
+local sitting = false
+local COMBO = 1
+local Rooted = false
+local SINE = 0
+local rad = math.rad
+local KEYHOLD = false
+local CHANGE = 2 / Animation_Speed
+local WALKINGANIM = false
+local VALUE1 = false
+local VALUE2 = false
+local falling = false
+local fallingspeed = 0
+local MainPosition = Character:FindFirstChildOfClass("Part").CFrame
+local RunService = game:GetService("RunService")
+local ROBLOXIDLEANIMATION = IT("Animation")
+ROBLOXIDLEANIMATION.Name = "Roblox Idle Animation"
+ROBLOXIDLEANIMATION.AnimationId = "http://www.roblox.com/asset/?id=180435571"
+local Effects = IT("Folder", Character)
+Effects.Name = "Effects"
+pcall(function()
+	Character.Animate.Parent = nil
+end)
+local UNANCHOR = true
+
+function Rainbowify(name)
+	coroutine.wrap(function()
+		while RunService.Stepped:Wait() do
+			for a = 1,360,1 do wait(.0000000000000000000000001)
+				name.Color = Color3.fromHSV(a/360,1,1)
+			end
+		end
+	end)()
+end
+
+function RainbowifyText(name)
+	coroutine.wrap(function()
+		while RunService.Stepped:Wait() do
+			for a = 1,360,1 do wait(.0000000000000000000000001)
+				name.TextColor3 = Color3.fromHSV(a/360,1,1) 			
+				name.TextStrokeColor3 = Color3.fromHSV(a/360,1,1)
+			end
+		end
+	end)()
+end
+
+local FONTS = {
+	Enum.Font.Antique,
+	Enum.Font.Arcade,
+	Enum.Font.Arial,
+	Enum.Font.ArialBold,
+	Enum.Font.Bodoni,
+	Enum.Font.Cartoon,
+	Enum.Font.Code,
+	Enum.Font.Fantasy,
+	Enum.Font.Garamond,
+	Enum.Font.Highway,
+	Enum.Font.Legacy,
+	Enum.Font.SciFi,
+	Enum.Font.SourceSans,
+	Enum.Font.SourceSansBold,
+	Enum.Font.SourceSansItalic,
+	Enum.Font.SourceSansLight,
+	Enum.Font.SourceSansSemibold
+}
+
+local naeeym2 = Instance.new("BillboardGui",Character)
+naeeym2.AlwaysOnTop = true
+naeeym2.Size = UDim2.new(7,35,3,15)
+naeeym2.StudsOffset = Vector3.new(0,2,0)
+naeeym2.MaxDistance = 10000
+naeeym2.Adornee = Head
+naeeym2.Name = "Name2"
+local tecks2 = Instance.new("TextLabel",naeeym2)
+tecks2.BackgroundTransparency = 1
+tecks2.TextScaled = true
+tecks2.BorderSizePixel = 0
+tecks2.Text = "Rainbow King"
+tecks2.Font = "Arcade"
+tecks2.TextSize = 35
+tecks2.TextStrokeTransparency = 0
+tecks2.Size = UDim2.new(1,0,0.5,0)
+tecks2.Parent = naeeym2
+tecks2.TextColor3 = Color3.fromRGB()
+coroutine.resume(coroutine.create(function()
+	while true do
+		Swait()
+		tecks2.Font = FONTS[MRANDOM(1, #FONTS)]
+		tecks2.Position = UDim2.new(math.random(-.4,.4),math.random(-5,5),.05,math.random(-5,5))
+	end
+end))
+spawn(function() RainbowifyText(tecks2) end)
+
+--//=================================\\
+--\\=================================//
+
+--//=================================\\
+--|| SAZERENOS' ARTIFICIAL HEARTBEAT
+--\\=================================//
+--//=================================\\
+--\\=================================//
+RightLeg.CanCollide = true
+LeftLeg.CanCollide = true
+--//=================================\\
+--|| 	      SOME FUNCTIONS
+--\\=================================//
+NewInstance = function(instance,parent,properties)
+	local inst = Instance.new(instance,parent)
+	if(properties)then
+		for i,v in next, properties do
+			pcall(function() inst[i] = v end)
+		end
+	end
+	return inst;
+end
+
+local tlerp = function(part,tablee,leinght,easingstyle,easingdirec)
+	pcall(function()
+		local info = TweenInfo.new(
+			leinght,
+			easingstyle,
+			easingdirec,
+			0,
+			false,
+			0
+		)
+		local lerp = tweens:Create(part,info,tablee)
+		lerp:Play()
+	end)
+end
+
+function Raycast(POSITION, DIRECTION, RANGE, IGNOREDECENDANTS)
+	return workspace:FindPartOnRay(Ray.new(POSITION, DIRECTION.unit * RANGE), IGNOREDECENDANTS)
+end
+
+function PositiveAngle(NUMBER)
+	if NUMBER >= 0 then
+		NUMBER = 0
+	end
+	return NUMBER
+end
+
+function NegativeAngle(NUMBER)
+	if NUMBER <= 0 then
+		NUMBER = 0
+	end
+	return NUMBER
+end
+
+function Swait(NUMBER)
+	if NUMBER == 0 or NUMBER == nil then
+		game:service("RunService").Stepped:wait()
+	else
+		for i = 1, NUMBER do
+			game:service("RunService").Stepped:wait()
+		end
+	end
+end
+
+function CreateMesh(MESH, PARENT, MESHTYPE, MESHID, TEXTUREID, SCALE, OFFSET)
+	local NEWMESH = IT(MESH)
+	if MESH == "SpecialMesh" then
+		NEWMESH.MeshType = MESHTYPE
+		if MESHID ~= "nil" and MESHID ~= "" then
+			NEWMESH.MeshId = "http://www.roblox.com/asset/?id="..MESHID
+		end
+		if TEXTUREID ~= "nil" and TEXTUREID ~= "" then
+			NEWMESH.TextureId = "http://www.roblox.com/asset/?id="..TEXTUREID
+		end
+	end
+	NEWMESH.Offset = OFFSET or VT(0, 0, 0)
+	NEWMESH.Scale = SCALE
+	NEWMESH.Parent = PARENT
+	return NEWMESH
+end
+
+function hasarrived(whom)
+	for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+		coroutine.resume(coroutine.create(function()
+			if v.PlayerGui:FindFirstChild("ARRIVAL")~= nil then
+				v.PlayerGui:FindFirstChild("ARRIVAL"):destroy()
+			end
+			local droppingFrame = false
+			local scrg = Instance.new("ScreenGui",v.PlayerGui)
+			scrg.Name = "ARRIVAL"
+			local mainFrame = Instance.new("Frame", scrg)
+			mainFrame.Name = "MainFrame"
+			mainFrame.BackgroundTransparency = 0
+			mainFrame.BorderSizePixel = 5
+			mainFrame.Size = UDim2.new(1, 0, -0.013, 100)
+			mainFrame.Position = UDim2.new(0, 0, 0.365, 0)
+			local TextFrame = Instance.new("TextLabel",mainFrame)
+			TextFrame.Name = "TextFrame"
+			TextFrame.Font = "Arcade"
+			TextFrame.Text = ""
+			TextFrame.TextScaled = true
+			TextFrame.TextSize = 14
+			TextFrame.TextStrokeTransparency = 0
+			TextFrame.BackgroundTransparency = 1
+			TextFrame.Size = UDim2.new(1, 0, 0, 92)
+			TextFrame.Position = UDim2.new(0, 0, 0, 0)
+			local fvalen = 0.55
+			local fval = -0.49
+			coroutine.resume(coroutine.create(function()
+				while true do
+					Swait()
+					mainFrame.BackgroundColor3 = C3(0,0,0)
+					mainFrame.BorderColor3 = C3(1, 1, 1)
+					if(not droppingFrame)then
+						mainFrame.Rotation = 0 - 2 * COS(SINE / 24)
+					end
+					TextFrame.TextColor3 = C3(0,0,0)
+					TextFrame.Font = FONTS[MRANDOM(1, #FONTS)]
+					TextFrame.TextStrokeColor3 = C3(1, 1, 1)
+					TextFrame.TextStrokeTransparency = 0
+				end
+			end))
+			for i = 1,string.len(whom),1 do
+				TextFrame.Text = string.sub(whom,1,i)
+				wait(0.2)
+			end
+			wait(2)
+			droppingFrame = true
+			mainFrame.Rotation = 0
+			local vinc2 = 1
+			for i = 0, 99 do
+				Swait()
+				vinc2 = vinc2 + 0.25
+				mainFrame.Position = mainFrame.Position + UDim2.new(0,0,0.0005*vinc2,0)
+			end
+			scrg:Destroy()
+		end))
+	end
+end
+
+function CreatePart(FORMFACTOR, PARENT, MATERIAL, REFLECTANCE, TRANSPARENCY, BRICKCOLOR, NAME, SIZE, ANCHOR)
+	local NEWPART = IT("Part")
+	NEWPART.formFactor = FORMFACTOR
+	NEWPART.Reflectance = REFLECTANCE
+	NEWPART.Transparency = TRANSPARENCY
+	NEWPART.CanCollide = false
+	NEWPART.Locked = true
+	NEWPART.Anchored = true
+	if ANCHOR == false then
+		NEWPART.Anchored = false
+	end
+	NEWPART.BrickColor = BRICKC(tostring(BRICKCOLOR))
+	NEWPART.Name = NAME
+	NEWPART.Size = SIZE
+	NEWPART.Position = Torso.Position
+	NEWPART.Material = MATERIAL
+	NEWPART:BreakJoints()
+	NEWPART.Parent = PARENT
+	return NEWPART
+end
+
+local function weldBetween(a, b)
+	local weldd = Instance.new("ManualWeld")
+	weldd.Part0 = a
+	weldd.Part1 = b
+	weldd.C0 = CFrame.new()
+	weldd.C1 = b.CFrame:inverse() * a.CFrame
+	weldd.Parent = a
+	return weldd
+end
+
+
+function QuaternionFromCFrame(cf)
+	local mx, my, mz, m00, m01, m02, m10, m11, m12, m20, m21, m22 = cf:components()
+	local trace = m00 + m11 + m22
+	if trace > 0 then 
+		local s = math.sqrt(1 + trace)
+		local recip = 0.5 / s
+		return (m21 - m12) * recip, (m02 - m20) * recip, (m10 - m01) * recip, s * 0.5
+	else
+		local i = 0
+		if m11 > m00 then
+			i = 1
+		end
+		if m22 > (i == 0 and m00 or m11) then
+			i = 2
+		end
+		if i == 0 then
+			local s = math.sqrt(m00 - m11 - m22 + 1)
+			local recip = 0.5 / s
+			return 0.5 * s, (m10 + m01) * recip, (m20 + m02) * recip, (m21 - m12) * recip
+		elseif i == 1 then
+			local s = math.sqrt(m11 - m22 - m00 + 1)
+			local recip = 0.5 / s
+			return (m01 + m10) * recip, 0.5 * s, (m21 + m12) * recip, (m02 - m20) * recip
+		elseif i == 2 then
+			local s = math.sqrt(m22 - m00 - m11 + 1)
+			local recip = 0.5 / s return (m02 + m20) * recip, (m12 + m21) * recip, 0.5 * s, (m10 - m01) * recip
+		end
+	end
+end
+
+function turnto(position)
+	RootPart.CFrame=CFrame.new(RootPart.CFrame.p,VT(position.X,RootPart.Position.Y,position.Z)) * CFrame.new(0, 0, 0)
+end
+
+function CreateWave(SIZE,WAIT,CFRAME,DOESROT,ROT,COLOR,GROW)
+	local wave = CreatePart(3, Effects, "Neon", 0, 0.5, COLOR, "Effect", VT(0,0,0))
+	local mesh = IT("SpecialMesh",wave)
+	mesh.MeshType = "FileMesh"
+	mesh.MeshId = "http://www.roblox.com/asset/?id=20329976"
+	mesh.Scale = SIZE
+	mesh.Offset = VT(0,0,-SIZE.X/8)
+	wave.CFrame = CFRAME
+	coroutine.resume(coroutine.create(function(PART)
+		for i = 1, WAIT do
+			Swait()
+			mesh.Scale = mesh.Scale + GROW
+			mesh.Offset = VT(0,0,-(mesh.Scale.X/8))
+			wave.Color = C3(0,0,0)
+			if DOESROT == true then
+				wave.CFrame = wave.CFrame * CFrame.fromEulerAnglesXYZ(0,ROT,0)
+			end
+			wave.Transparency = wave.Transparency + (0.5/WAIT)
+			if wave.Transparency > 0.99 then
+				wave:remove()
+			end
+		end
+	end))
+end
+
+function CreateSwirl(SIZE,WAIT,CFRAME,DOESROT,ROT,COLOR,GROW)
+	local wave = CreatePart(3, Effects, "Neon", 0, 0.5, COLOR, "Effect", VT(0,0,0))
+	local mesh = IT("SpecialMesh",wave)
+	mesh.MeshType = "FileMesh"
+	mesh.MeshId = "http://www.roblox.com/asset/?id=1051557"
+	mesh.Scale = SIZE
+	wave.CFrame = CFRAME
+	coroutine.resume(coroutine.create(function(PART)
+		for i = 1, WAIT do
+			Swait()
+			mesh.Scale = mesh.Scale + GROW
+			mesh.Offset = VT(0,0,-(mesh.Scale.X/8))
+			wave.Color = C3(0,0,0)
+			if DOESROT == true then
+				wave.CFrame = wave.CFrame * CFrame.fromEulerAnglesXYZ(0,ROT,0)
+			end
+			wave.Transparency = wave.Transparency + (0.5/WAIT)
+			if wave.Transparency > 0.99 then
+				wave:remove()
+			end
+		end
+	end))
+end
+
+function MagicSphere(SIZE,WAIT,CFRAME,COLOR,GROW)
+	local wave = CreatePart(3, Effects, "Neon", 0, 0, COLOR, "Effect", VT(1,1,1), true)
+	local mesh = IT("SpecialMesh",wave)
+	mesh.MeshType = "Sphere"
+	mesh.Scale = SIZE
+	mesh.Offset = VT(0,0,0)
+	wave.CFrame = CFRAME
+	coroutine.resume(coroutine.create(function(PART)
+		for i = 1, WAIT do
+			Swait()
+			mesh.Scale = mesh.Scale + GROW
+			wave.Color = C3(0,0,0)
+			wave.Transparency = wave.Transparency + (1/WAIT)
+			if wave.Transparency > 0.99 then
+				wave:remove()
+			end
+		end
+	end))
+end
+
+function SpliceSlice(KIND, SIZE, WAIT, CFRAME, COLOR, GROW)
+	local wave = CreatePart(3, Effects, "Neon", 0, 0.5, BRICKC(COLOR), "Effect", VT(1, 1, 1), true)
+	local mesh
+	if KIND == "Base" then
+		mesh = CreateMesh("SpecialMesh", wave, "FileMesh", "448386996", "", VT(0, SIZE / 10, SIZE / 10), VT(0, 0, 0))
+	elseif KIND == "Thin" then
+		mesh = CreateMesh("SpecialMesh", wave, "FileMesh", "662586858", "", VT(SIZE / 10, 0, SIZE / 10), VT(0, 0, 0))
+	elseif KIND == "Round" then
+		mesh = CreateMesh("SpecialMesh", wave, "FileMesh", "662585058", "", VT(SIZE / 10, 0, SIZE / 10), VT(0, 0, 0))
+	end
+	wave.CFrame = CFRAME
+	coroutine.resume(coroutine.create(function(PART)
+		for i = 1, WAIT do
+			Swait()
+			mesh.Scale = mesh.Scale + GROW / 10
+			wave.Color = C3(0,0,0)
+			wave.Transparency = wave.Transparency + 0.5 / WAIT
+			if wave.Transparency > 0.99 then
+				wave:remove()
+			end
+		end
+	end))
+end
+
+function AddChildrenToTable(FROM, PARENT, DIST, TABLE)
+	for _, c in pairs(PARENT:GetChildren()) do
+		if c.ClassName == "Model" then
+			if c ~= Character and c:FindFirstChildOfClass("Humanoid") and (c:FindFirstChild("Torso") or c:FindFirstChild("UpperTorso")) then
+				local HUMANOID = c:FindFirstChildOfClass("Humanoid")
+				local TORSO = c:FindFirstChild("Torso") or c:FindFirstChild("UpperTorso")
+				if DIST > (TORSO.Position - FROM).Magnitude then
+					table.insert(TABLE, c)
+				end
+				AddChildrenToTable(FROM, c, DIST, TABLE)
+			elseif c.ClassName == "Folder" then
+				AddChildrenToTable(FROM, c, DIST, TABLE)
+			end
+		end
+	end
+end
+
+function QuaternionToCFrame(px, py, pz, x, y, z, w)
+	local xs, ys, zs = x + x, y + y, z + z
+	local wx, wy, wz = w * xs, w * ys, w * zs
+	local xx = x * xs
+	local xy = x * ys
+	local xz = x * zs
+	local yy = y * ys
+	local yz = y * zs
+	local zz = z * zs
+	return CFrame.new(px, py, pz, 1 - (yy + zz), xy - wz, xz + wy, xy + wz, 1 - (xx + zz), yz - wx, xz - wy, yz + wx, 1 - (xx + yy))
+end
+
+function Slice(SIZE,WAIT,CFRAME,COLOR,GROW)
+	local wave = CreatePart(3, Effects, "Neon", 0, 0.5, COLOR, "Effect", VT(1,1,1), true)
+	local mesh = CreateMesh("SpecialMesh", wave, "FileMesh", "448386996", "", VT(0,SIZE/10,SIZE/10), VT(0,0,0))
+	wave.CFrame = CFRAME
+	coroutine.resume(coroutine.create(function(PART)
+		for i = 1, WAIT do
+			Swait()
+			mesh.Scale = mesh.Scale * GROW
+			wave.Color = C3(0,0,0)
+			wave.Transparency = wave.Transparency + (0.5/WAIT)
+			if wave.Transparency > 0.99 then
+				wave:remove()
+			end
+		end
+	end))
+end
+
+function CreateWave2(SIZE,WAIT,CFRAME,DOESROT,ROT,COLOR,GROW)
+	local wave = CreatePart(3, Effects, "Neon", 0, 0.5, COLOR, "Effect", VT(0,0,0))
+	local mesh = IT("SpecialMesh",wave)
+	mesh.MeshType = "FileMesh"
+	mesh.MeshId = "http://www.roblox.com/asset/?id=20329976"
+	mesh.Scale = SIZE
+	wave.CFrame = CFRAME
+	coroutine.resume(coroutine.create(function(PART)
+		for i = 1, WAIT do
+			Swait()
+			mesh.Scale = mesh.Scale + GROW
+			wave.Color = C3(0,0,0)
+			if DOESROT == true then
+				wave.CFrame = wave.CFrame * CFrame.fromEulerAnglesXYZ(0,ROT,0)
+			end
+			wave.Transparency = wave.Transparency + (0.5/WAIT)
+			if wave.Transparency > 0.99 then
+				wave:remove()
+			end
+		end
+	end))
+end
+
+function QuaternionSlerp(a, b, t)
+	local cosTheta = a[1] * b[1] + a[2] * b[2] + a[3] * b[3] + a[4] * b[4]
+	local startInterp, finishInterp;
+	if cosTheta >= 0.0001 then
+		if (1 - cosTheta) > 0.0001 then
+			local theta = ACOS(cosTheta)
+			local invSinTheta = 1 / SIN(theta)
+			startInterp = SIN((1 - t) * theta) * invSinTheta
+			finishInterp = SIN(t * theta) * invSinTheta
+		else
+			startInterp = 1 - t
+			finishInterp = t
+		end
+	else
+		if (1 + cosTheta) > 0.0001 then
+			local theta = ACOS(-cosTheta)
+			local invSinTheta = 1 / SIN(theta)
+			startInterp = SIN((t - 1) * theta) * invSinTheta
+			finishInterp = SIN(t * theta) * invSinTheta
+		else
+			startInterp = t - 1
+			finishInterp = t
+		end
+	end
+	return a[1] * startInterp + b[1] * finishInterp, a[2] * startInterp + b[2] * finishInterp, a[3] * startInterp + b[3] * finishInterp, a[4] * startInterp + b[4] * finishInterp
+end
+
+function Clerp(a, b, t)
+	local qa = {QuaternionFromCFrame(a)}
+	local qb = {QuaternionFromCFrame(b)}
+	local ax, ay, az = a.x, a.y, a.z
+	local bx, by, bz = b.x, b.y, b.z
+	local _t = 1 - t
+	return QuaternionToCFrame(_t * ax + t * bx, _t * ay + t * by, _t * az + t * bz, QuaternionSlerp(qa, qb, t))
+end
+
+function CreateFrame(PARENT, TRANSPARENCY, BORDERSIZEPIXEL, POSITION, SIZE, COLOR, BORDERCOLOR, NAME)
+	local frame = IT("Frame")
+	frame.BackgroundTransparency = TRANSPARENCY
+	frame.BorderSizePixel = BORDERSIZEPIXEL
+	frame.Position = POSITION
+	frame.Size = SIZE
+	frame.BackgroundColor3 = COLOR
+	frame.BorderColor3 = BORDERCOLOR
+	frame.Name = NAME
+	frame.Parent = PARENT
+	return frame
+end
+
+function CreateLabel(PARENT, TEXT, TEXTCOLOR, TEXTFONTSIZE, TEXTFONT, TRANSPARENCY, BORDERSIZEPIXEL, STROKETRANSPARENCY, NAME)
+	local label = IT("TextLabel")
+	label.BackgroundTransparency = 1
+	label.Size = UD2(1, 0, 1, 0)
+	label.Position = UD2(0, 0, 0, 0)
+	label.TextColor3 = TEXTCOLOR
+	label.TextStrokeTransparency = STROKETRANSPARENCY
+	label.TextTransparency = TRANSPARENCY
+	label.FontSize = TEXTFONTSIZE
+	label.Font = TEXTFONT
+	label.BorderSizePixel = BORDERSIZEPIXEL
+	label.TextScaled = false
+	label.Text = TEXT
+	label.Name = NAME
+	label.Parent = PARENT
+	return label
+end
+
+function NoOutlines(PART)
+	PART.TopSurface, PART.BottomSurface, PART.LeftSurface, PART.RightSurface, PART.FrontSurface, PART.BackSurface = 10, 10, 10, 10, 10, 10
+end
+
+function CreateWeldOrSnapOrMotor(TYPE, PARENT, PART0, PART1, C0, C1)
+	local NEWWELD = IT(TYPE)
+	NEWWELD.Part0 = PART0
+	NEWWELD.Part1 = PART1
+	NEWWELD.C0 = C0
+	NEWWELD.C1 = C1
+	NEWWELD.Parent = PARENT
+	return NEWWELD
+end
+
+local S = IT("Sound")
+function CreateSound(ID, PARENT, VOLUME, PITCH, DOESLOOP)
+	local NEWSOUND = nil
+	coroutine.resume(coroutine.create(function()
+		NEWSOUND = S:Clone()
+		NEWSOUND.Parent = PARENT
+		NEWSOUND.Volume = VOLUME
+		NEWSOUND.Pitch = PITCH
+		NEWSOUND.SoundId = "http://www.roblox.com/asset/?id="..ID
+		NEWSOUND:play()
+		if DOESLOOP == true then
+			NEWSOUND.Looped = true
+		else
+			repeat wait(1) until NEWSOUND.Playing == false
+			NEWSOUND:remove()
+		end
+	end))
+	return NEWSOUND
+end
+
+function CFrameFromTopBack(at, top, back)
+	local right = top:Cross(back)
+	return CF(at.x, at.y, at.z, right.x, top.x, back.x, right.y, top.y, back.y, right.z, top.z, back.z)
+end
+
+--WACKYEFFECT({EffectType = "", Size = VT(1,1,1), Size2 = VT(0,0,0), Transparency = 0, Transparency2 = 1, CFrame = CF(), MoveToPos = nil, RotationX = 0, RotationY = 0, RotationZ = 0, Material = "Neon", Color = C3(1,1,1), SoundID = nil, SoundPitch = nil, SoundVolume = nil})
+function WACKYEFFECT(Table)
+	local TYPE = (Table.EffectType or "Sphere")
+	local SIZE = (Table.Size or VT(1,1,1))
+	local ENDSIZE = (Table.Size2 or VT(0,0,0))
+	local TRANSPARENCY = (Table.Transparency or 0)
+	local ENDTRANSPARENCY = (Table.Transparency2 or 1)
+	local CFRAME = (Table.CFrame or Torso.CFrame)
+	local MOVEDIRECTION = (Table.MoveToPos or nil)
+	local ROTATION1 = (Table.RotationX or 0)
+	local ROTATION2 = (Table.RotationY or 0)
+	local ROTATION3 = (Table.RotationZ or 0)
+	local MATERIAL = (Table.Material or "Neon")
+	local COLOR = (Table.Color or C3(1,1,1))
+	local TIME = (Table.Time or 45)
+	local SOUNDID = (Table.SoundID or nil)
+	local SOUNDPITCH = (Table.SoundPitch or nil)
+	local SOUNDVOLUME = (Table.SoundVolume or nil)
+	coroutine.resume(coroutine.create(function()
+		local PLAYSSOUND = false
+		local SOUND = nil
+		local EFFECT = CreatePart(3, Effects, MATERIAL, 0, TRANSPARENCY, BRICKC("Pearl"), "Effect", VT(1,1,1), true)
+		if SOUNDID ~= nil and SOUNDPITCH ~= nil and SOUNDVOLUME ~= nil then
+			PLAYSSOUND = true
+			SOUND = CreateSound(SOUNDID, EFFECT, SOUNDVOLUME, SOUNDPITCH, false)
+		end
+		EFFECT.Color = COLOR
+		local MSH = nil
+		if TYPE == "Sphere" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "Sphere", "", "", SIZE, VT(0,0,0))
+		elseif TYPE == "Block" or TYPE == "Box" then
+			MSH = IT("BlockMesh",EFFECT)
+			MSH.Scale = SIZE
+		elseif TYPE == "Wave" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "20329976", "", SIZE, VT(0,0,-SIZE.X/8))
+		elseif TYPE == "Ring" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "559831844", "", VT(SIZE.X,SIZE.X,0.1), VT(0,0,0))
+		elseif TYPE == "Slash" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "662586858", "", VT(SIZE.X/10,0,SIZE.X/10), VT(0,0,0))
+		elseif TYPE == "Round Slash" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "662585058", "", VT(SIZE.X/10,0,SIZE.X/10), VT(0,0,0))
+		elseif TYPE == "Swirl" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "1051557", "", SIZE, VT(0,0,0))
+		elseif TYPE == "Skull" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "4770583", "", SIZE, VT(0,0,0))
+		elseif TYPE == "Crystal" then
+			MSH = CreateMesh("SpecialMesh", EFFECT, "FileMesh", "9756362", "", SIZE, VT(0,0,0))
+		end
+		if MSH ~= nil then
+			local MOVESPEED = nil
+			if MOVEDIRECTION ~= nil then
+				MOVESPEED = (CFRAME.p - MOVEDIRECTION).Magnitude/TIME
+			end
+			local GROWTH = SIZE - ENDSIZE
+			local TRANS = TRANSPARENCY - ENDTRANSPARENCY
+			if TYPE == "Block" then
+				EFFECT.CFrame = CFRAME*ANGLES(RAD(MRANDOM(0,360)),RAD(MRANDOM(0,360)),RAD(MRANDOM(0,360)))
+			else
+				EFFECT.CFrame = CFRAME
+			end
+			for LOOP = 1, TIME+1 do
+				Swait()
+				MSH.Scale = MSH.Scale - GROWTH/TIME
+				if TYPE == "Wave" then
+					MSH.Offset = VT(0,0,-MSH.Scale.X/8)
+				end
+				EFFECT.Transparency = EFFECT.Transparency - TRANS/TIME
+				if TYPE == "Block" then
+					EFFECT.CFrame = CFRAME*ANGLES(RAD(MRANDOM(0,360)),RAD(MRANDOM(0,360)),RAD(MRANDOM(0,360)))
+				else
+					EFFECT.CFrame = EFFECT.CFrame*ANGLES(RAD(ROTATION1),RAD(ROTATION2),RAD(ROTATION3))
+				end
+				if MOVEDIRECTION ~= nil then
+					local ORI = EFFECT.Orientation
+					EFFECT.CFrame = CF(EFFECT.Position,MOVEDIRECTION)*CF(0,0,-MOVESPEED)
+					EFFECT.Orientation = ORI
+				end
+			end
+			if PLAYSSOUND == false then
+				EFFECT:remove()
+			else
+				repeat Swait() until EFFECT:FindFirstChildOfClass("Sound") == nil
+				EFFECT:remove()
+			end
+		else
+			if PLAYSSOUND == false then
+				EFFECT:remove()
+			else
+				repeat Swait() until EFFECT:FindFirstChildOfClass("Sound") == nil
+				EFFECT:remove()
+			end
+		end
+	end))
+end
+
+Debris = game:GetService("Debris")
+New = function(Object, Parent, Name, Data)
+	local Object = Instance.new(Object)
+	for Index, Value in pairs(Data or {}) do
+		Object[Index] = Value
+	end
+	Object.Parent = Parent
+	Object.Name = Name
+	return Object
+end
+
+NewInstance = function(instance,parent,properties)
+	local inst = Instance.new(instance,parent)
+	if(properties)then
+		for i,v in next, properties do
+			pcall(function() inst[i] = v end)
+		end
+	end
+	return inst;
+end
+
+local function Create(Type)
+	local NewInstance = Instance.new(Type)
+	return function(Properties)
+		for i,v in pairs(Properties) do
+			NewInstance[i] = v
+		end
+		return NewInstance
+	end
+end
+
+
+print("LOADED (V 2.0)")
+--//=================================\\
+--||		 what whata fac			 ||
+--\\=================================//
+
+local sick = IT("Sound", Torso)
+sick.SoundId = "rbxassetid://"..SONG1
+sick.TimePosition = 0
+sick.Looped = true
+sick.Pitch = 1
+sick.Volume = 10
+sick:Play()
+
+--//=================================\\
+--||         WEAPON CREATION
+--\\=================================//
+
+function Weld(part0,part1,c0,c1)
+	local weld = IT("Weld")
+	weld.Parent = part0
+	weld.Part0 = part0
+	weld.Part1 = part1
+	weld.C0 = c0 or CF()
+	weld.C1 = c1 or CF()
+	return weld
+end
+
+function MakeForm(PART,TYPE)
+	if TYPE == "Cyl" then
+		local MSH = IT("CylinderMesh",PART)
+	elseif TYPE == "Ball" then
+		local MSH = IT("SpecialMesh",PART)
+		MSH.MeshType = "Sphere"
+	elseif TYPE == "Wedge" then
+		local MSH = IT("SpecialMesh",PART)
+		MSH.MeshType = "Wedge"
+	end
+end
+
+New = function(Object, Parent, Name, Data)
+	local Object = Instance.new(Object)
+	for Index, Value in pairs(Data or {}) do
+		Object[Index] = Value
+	end
+	Object.Parent = Parent
+	Object.Name = Name
+	return Object
+end
+
+
+function weld(parent,part0,part1,c0,c1)
+	local weld=Instance.new("Weld")
+	weld.Parent=parent
+	weld.Part0=part0
+	weld.Part1=part1
+	weld.C0=c0
+	weld.C1=c1
+	return weld
+end
+
+if Character.Sniper.Handle:FindFirstChild("AccessoryWeld") then
+	Character.Sniper.Handle["AccessoryWeld"]:Remove()
+end
+
+local mlok = Character.Sniper
+
+handle=mlok.Handle
+handleweld=weld(handle,Character["Torso"],handle,CFrame.new(0, 0, 0),CFrame.new(-1, 0, -.8)* CFrame.Angles(math.rad(0),math.rad(0),math.rad(-46)))
+handleweld.Name = "muc"
+
+if mlok.Handle["muc"] then
+	mlok.Handle["muc"]:Remove()
+end
+
+local handle=mlok.Handle
+handleweld=weld(mlok.Handle,Character["Right Arm"],handle,CFrame.new(0, 0, 0),CFrame.new(-2.2, -.81, 0)* CFrame.Angles(math.rad(90),math.rad(4),math.rad(95)))
+handleweld.Name = "woah"
+local Hole = handle
+
+--//=================================\\
+--||	ATTACK FUNCTIONS AND STUFF
+--\\=================================//
+
+abss = Instance.new("BillboardGui",Character)
+abss.Size = UDim2.new(10,0,10,0)
+abss.Enabled = false
+imgl = Instance.new("ImageLabel",abss)
+imgl.Position = UDim2.new(0,0,0,0)
+imgl.Size = UDim2.new(1,0,1,0)
+imgl.Image = "rbxassetid://342199418"
+imgl.BackgroundTransparency = 1
+imgl.ImageColor3 = Color3.new(.9,0,0)
+img2 = Instance.new("ImageLabel",abss)
+img2.Position = UDim2.new(0,0,0,0)
+img2.Size = UDim2.new(1,0,1,0)
+img2.Image = "rbxassetid://342199418"
+img2.BackgroundTransparency = 1
+img2.ImageColor3 = Color3.new(.9,0,0)
+
+function CreatePartC(FORMFACTOR, PARENT, MATERIAL, REFLECTANCE, TRANSPARENCY, COLOR3, NAME, SIZE, ANCHOR)
+	local NEWPART = IT("Part")
+	NEWPART.formFactor = FORMFACTOR
+	NEWPART.Reflectance = REFLECTANCE
+	NEWPART.Transparency = TRANSPARENCY
+	NEWPART.CanCollide = false
+	NEWPART.Locked = true
+	NEWPART.Anchored = true
+	if ANCHOR == false then
+		NEWPART.Anchored = false
+	end
+	NEWPART.Color = COLOR3
+	NEWPART.Name = NAME
+	NEWPART.Size = SIZE
+	NEWPART.Position = Torso.Position
+	NEWPART.Material = MATERIAL
+	NEWPART:BreakJoints()
+	NEWPART.Parent = PARENT
+	return NEWPART
+end
+
+
+function CastProperRay(StartPos, EndPos, Distance, Ignore)
+	local DIRECTION = CF(StartPos,EndPos).lookVector
+	return Raycast(StartPos, DIRECTION, Distance, Ignore)
+end
+
+function SpawnTrail(FROM,TO,BIG)
+	local TRAIL = CreatePart(3, Effects, "Neon", 0, 0.5, "Really red", "Trail", VT(0,0,0))
+	spawn(function() Rainbowify(TRAIL) end)
+	MakeForm(TRAIL,"Cyl")
+	local DIST = (FROM - TO).Magnitude
+	if BIG == true then
+		TRAIL.Size = VT(0.5,DIST,0.5)
+	else
+		TRAIL.Size = VT(0.25,DIST,0.25)
+	end
+	TRAIL.CFrame = CF(FROM, TO) * CF(0, 0, -DIST/2) * ANGLES(RAD(90),RAD(0),RAD(0))
+	coroutine.resume(coroutine.create(function()
+		for i = 1, 5 do
+			Swait()
+			TRAIL.Transparency = TRAIL.Transparency + 0.01
+		end
+		wait(4.2)
+		TRAIL:remove()
+	end))
+end
+
+function BanishBullet()
+	ATTACK = true
+	Rooted = false
+	for i=0, 0.01, 0.1 / Animation_Speed do
+		Swait()
+		turnto(Mouse.Hit.p)
+		RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(90)), 0.5 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(-90)), 0.5 / Animation_Speed)
+		RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(90), RAD(0), RAD(90)) * RIGHTSHOULDERC0, 0.5 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.6, 0) * ANGLES(RAD(-45), RAD(0), RAD(45)) * LEFTSHOULDERC0, 0.5 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+	end
+	repeat
+		for i=0, 0.01, 0.1 / Animation_Speed do
+			Swait()
+			turnto(Mouse.Hit.p)
+			RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(90)), 0.5 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(-90)), 0.5 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(90), RAD(0), RAD(90)) * RIGHTSHOULDERC0, 0.5 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.6, 0) * ANGLES(RAD(-45), RAD(0), RAD(45)) * LEFTSHOULDERC0, 0.5 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+		end
+		local HIT,POS = CastProperRay(Hole.Position, Mouse.Hit.p, 1000, Character)
+		SpawnTrail(Hole.Position,POS)
+		CreateSound(904440937, Character, 10, 1, false)
+		for i=0, 0.01, 0.1 / Animation_Speed do
+			Swait()
+			RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(90)), 0.5 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(-90)), 0.25 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(90), RAD(15), RAD(90)) * RIGHTSHOULDERC0, 0.5 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.6, 0) * ANGLES(RAD(-45), RAD(0), RAD(45)) * LEFTSHOULDERC0, 0.5 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+		end
+	until KEYHOLD == false
+	ATTACK = false
+	Rooted = false
+end
+
+function BanBullet()
+	ATTACK = true
+	Rooted = false
+	for i=0, 0.01, 0.1 / Animation_Speed do
+		Swait()
+		turnto(Mouse.Hit.p)
+		RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(90)), 0.5 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(-90)), 0.5 / Animation_Speed)
+		RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(90), RAD(0), RAD(90)) * RIGHTSHOULDERC0, 0.5 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.6, 0) * ANGLES(RAD(-45), RAD(0), RAD(45)) * LEFTSHOULDERC0, 0.5 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+	end
+	repeat
+		for i=0, 0.01, 0.1 / Animation_Speed do
+			Swait()
+			turnto(Mouse.Hit.p)
+			RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(90)), 0.5 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(-90)), 0.5 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(90), RAD(0), RAD(90)) * RIGHTSHOULDERC0, 0.5 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.6, 0) * ANGLES(RAD(-45), RAD(0), RAD(45)) * LEFTSHOULDERC0, 0.5 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+		end
+		local HIT,POS = CastProperRay(Hole.Position, Mouse.Hit.p, 1000, Character)
+		SpawnTrail(Hole.Position,POS)
+		CreateSound(904440937, Character, 10, 1, false)
+		for i=0, 0.01, 0.1 / Animation_Speed do
+			Swait()
+			RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(90)), 0.5 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(-90)), 0.25 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(90), RAD(15), RAD(90)) * RIGHTSHOULDERC0, 0.5 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.6, 0) * ANGLES(RAD(-45), RAD(0), RAD(45)) * LEFTSHOULDERC0, 0.5 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+		end
+	until KEYHOLD == false
+	ATTACK = false
+	Rooted = false
+end
+
+function Lightning(Part0, Part1, Times, Offset, Color, Timer, sSize, eSize, Trans, Boomer, sBoomer, slow, stime)
+	local magz = (Part0 - Part1).magnitude
+	local curpos = Part0
+	local trz = {
+		-Offset,
+		Offset
+	}
+	for i = 1, Times do
+		local li = Instance.new("Part", Effects)
+		li.Name = "Lightning"
+		li.TopSurface = 0
+		li.Material = "Neon"
+		li.BottomSurface = 0
+		li.Anchored = true
+		li.Locked = true
+		li.Transparency = 0
+		li.Color = Color3.fromRGB(0,0,0)
+		li.BrickColor = Color
+		li.formFactor = "Custom"
+		li.CanCollide = false
+		li.Size = Vector3.new(0.1, 0.1, magz / Times)
+		local Offzet = Vector3.new(trz[math.random(1, 2)], trz[math.random(1, 2)], trz[math.random(1, 2)])
+		local trolpos = CFrame.new(curpos, Part1) * CFrame.new(0, 0, magz / Times).p + Offzet
+		if Times == i then
+			local magz2 = (curpos - Part1).magnitude
+			li.Size = Vector3.new(0.1, 0.1, magz2)
+			li.CFrame = CFrame.new(curpos, Part1) * CFrame.new(0, 0, -magz2 / 2)
+		else
+			li.CFrame = CFrame.new(curpos, trolpos) * CFrame.new(0, 0, magz / Times / 2)
+		end
+		curpos = li.CFrame * CFrame.new(0, 0, magz / Times / 2).p
+		li:Destroy()
+		WACKYEFFECT({Time = Timer, EffectType = "Box", Size = Vector3.new(sSize,sSize,li.Size.Z), Size2 = Vector3.new(eSize,eSize,li.Size.Z), Transparency = Trans, Transparency2 = 1, CFrame = li.CFrame, MoveToPos = nil, RotationX = nil, RotationY = nil, RotationZ = nil, Material = "Neon", Color = li.Color, SoundID = nil, SoundPitch = nil, SoundVolume = nil, UseBoomerangMath = Boomer, Boomerang = 0, SizeBoomerang = sBoomer})
+		if slow == true then
+			Swait(stime)
+		end
+	end
+end
+
+function Warp()
+	Lightning(RightArm.Position,Mouse.Hit.p,15,3.5,BrickColor.new("Really black"),math.random(15,35),1,3,0,true,55) Lightning(RightArm.Position,Mouse.Hit.p,15,3.5,BrickColor.new("Really red"),math.random(15,35),1,3,0,true,55)
+	ATTACK = true
+	Rooted = true
+	RootPart.CFrame = CFrame.new(Mouse.Hit.p+VT(0,3,0),Vector3.new(Mouse.Hit.p.X,Mouse.Hit.p.Y,Mouse.Hit.p.Z))
+	wait()
+	if MRANDOM(1,8) == 1 then
+		ATTACK = true
+		Rooted = true
+		for i=0, 4, 0.1 / Animation_Speed do
+			wait()
+			RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0 + 0.05 * COS(SINE / 12)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(0), RAD(190), RAD(-145)) * RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(-12)) * LEFTSHOULDERC0, 0.15 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1, -1 - 0.05 * COS(SINE / 12), -0.01) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1 - 0.05 * COS(SINE / 12), -0.01) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+		end
+		CreateSound("414517163", RightArm, 10, MRANDOM(7, 12) / 10)
+		for i=0, 0.5, 0.1 / Animation_Speed do
+			wait()
+			RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0 + 0.05 * COS(SINE / 12)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(0), RAD(190), RAD(-175)) * RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(-12)) * LEFTSHOULDERC0, 0.15 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1, -1 - 0.05 * COS(SINE / 12), -0.01) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1 - 0.05 * COS(SINE / 12), -0.01) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+		end
+		ATTACK = false
+		Rooted = false
+	end
+end
+
+function CreateParta(parent,transparency,reflectance,material,brickcolor)
+	local p = Instance.new("Part")
+	p.TopSurface = 0
+	p.BottomSurface = 0
+	p.Parent = parent
+	p.Size = Vector3.new(0.1,0.1,0.1)
+	p.Transparency = transparency
+	p.Reflectance = reflectance
+	p.CanCollide = false
+	p.Locked = true
+	p.BrickColor = brickcolor
+	p.Material = material
+	return p
+end
+
+function FireArc(Part, ToLocation, AmountOfTime, Height, DoesCourontine)
+	if DoesCourontine == false then
+		local Direction = CF(Part.Position, ToLocation)
+		local Distance = (Part.Position - ToLocation).magnitude
+		for i = 1, AmountOfTime do
+			Swait()
+			Part.CFrame = Direction * CF(0, AmountOfTime / 200 + (AmountOfTime / Height - i * 2 / Height), -Distance / AmountOfTime)
+			Direction = Part.CFrame
+		end
+		Part:remove()
+	elseif DoesCourontine == true then
+		coroutine.resume(coroutine.create(function()
+			local Direction = CF(Part.Position, ToLocation)
+			local Distance = (Part.Position - ToLocation).magnitude
+			for i = 1, AmountOfTime do
+				Swait()
+				Part.CFrame = Direction * CF(0, AmountOfTime / 200 + (AmountOfTime / Height - i * 2 / Height), -Distance / AmountOfTime)
+				Direction = Part.CFrame
+			end
+			Part:remove()
+		end))
+	end
+end
+
+local RUNNING = false
+function Sprint()
+	Speed = 30
+	RUNNING = true
+end
+
+HUGE = math.huge
+local stopeverything = false
+local FLYING = false
+local alreadyfixing  = false
+local ISFLYING = false
+iyflyspeed = 1
+function sFLY()
+	if not ISFLYING then
+		FLYING = false
+	else
+		local CONTROL = {F = 0,B = 0,L = 0,R = 0,Q = 0,E = 0}
+		local lCONTROL = {F = 0,B = 0,L = 0,R = 0,Q = 0,E = 0}
+		local SPEED = 0			
+		local function FLY()
+			FLYING = true
+			BG = Instance.new('BodyGyro',RootPart)
+			BV = Instance.new('BodyVelocity',RootPart)
+			BG.MaxTorque = Vector3.new(HUGE,HUGE,HUGE)
+			BG.P = 1e4
+			BG.CFrame = RootPart.CFrame
+			BV.Velocity = Vector3.new(0,0,0)
+			BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+			coroutine.resume(coroutine.create(function()
+				repeat
+					game:GetService("RunService").RenderStepped:Wait()
+					if not alreadyfixing then
+						if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0 then
+							SPEED = 50
+						elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0) and SPEED ~= 0 then
+							SPEED = 0
+						end
+						if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 or (CONTROL.Q + CONTROL.E) ~= 0 then
+							BV.Velocity = ((workspace.CurrentCamera.CoordinateFrame.LookVector * (CONTROL.F + CONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R,(CONTROL.F + CONTROL.B + CONTROL.Q + CONTROL.E) * 0.2,0).p) - workspace.CurrentCamera.CoordinateFrame.Position)) * SPEED
+							lCONTROL = {F = CONTROL.F,B = CONTROL.B,L = CONTROL.L,R = CONTROL.R}
+						elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and (CONTROL.Q + CONTROL.E) == 0 and SPEED ~= 0 then
+							BV.Velocity = ((workspace.CurrentCamera.CoordinateFrame.LookVector * (lCONTROL.F + lCONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R,(lCONTROL.F + lCONTROL.B + CONTROL.Q + CONTROL.E) * 0.2,0).p) - workspace.CurrentCamera.CoordinateFrame.Position)) * SPEED
+						else
+							BV.Velocity = Vector3.new(0,0,0)
+						end
+					end
+				until not FLYING
+				CONTROL = {F = 0,B = 0,L = 0,R = 0,Q = 0,E = 0}
+				lCONTROL = {F = 0,B = 0,L = 0,R = 0,Q = 0,E = 0}
+				SPEED = 0
+				if not alreadyfixing then
+					for i,v in pairs(RootPart:GetChildren()) do
+						if v:IsA("BodyMover") then
+							v:Destroy()
+						end
+					end
+					RootPart.CFrame = CFrame.new(RootPart.Position)
+				end
+			end))
+		end
+		local IYMouse = Player:GetMouse()
+		IYMouse.KeyDown:connect(function(KEY)
+			KEYHOLD = true
+			if KEY:lower() == 'w' then
+				CONTROL.F = iyflyspeed
+				repeat
+					BG.CFrame = workspace.CurrentCamera.CoordinateFrame
+					Swait()
+				until KEYHOLD == false
+			elseif KEY:lower() == 's' then
+				CONTROL.B = - iyflyspeed
+				repeat
+					BG.CFrame = workspace.CurrentCamera.CoordinateFrame
+					Swait()
+				until KEYHOLD == false
+			elseif KEY:lower() == 'a' then
+				CONTROL.L = - iyflyspeed
+				repeat
+					BG.CFrame = workspace.CurrentCamera.CoordinateFrame
+					Swait()
+				until KEYHOLD == false
+			elseif KEY:lower() == 'd' then 
+				CONTROL.R = iyflyspeed
+				repeat
+					BG.CFrame = workspace.CurrentCamera.CoordinateFrame
+					Swait()
+				until KEYHOLD == false
+			elseif KEY:lower() == 'e' then
+				CONTROL.Q = iyflyspeed*2
+				repeat
+					BG.CFrame = workspace.CurrentCamera.CoordinateFrame
+					Swait()
+				until KEYHOLD == false
+			elseif KEY:lower() == 'q' then
+				CONTROL.E = -iyflyspeed*2
+				repeat
+					BG.CFrame = workspace.CurrentCamera.CoordinateFrame
+					Swait()
+				until KEYHOLD == false
+			end
+		end)
+		IYMouse.KeyUp:connect(function(KEY)
+			KEYHOLD = false
+			if KEY:lower() == 'w' then
+				CONTROL.F = 0
+			elseif KEY:lower() == 's' then
+				CONTROL.B = 0
+			elseif KEY:lower() == 'a' then
+				CONTROL.L = 0
+			elseif KEY:lower() == 'd' then
+				CONTROL.R = 0
+			elseif KEY:lower() == 'e' then
+				CONTROL.Q = 0
+			elseif KEY:lower() == 'q' then
+				CONTROL.E = 0
+			end
+		end)
+		FLY()
+	end
+end
+
+--//=================================\\
+--||	  ASSIGN THINGS TO KEYS
+--\\=================================//
+
+function KeyDown(Key)
+	KEYHOLD = true
+	if Key == "e" and ATTACK == false then
+		BanishBullet()
+	end
+	if Key == "f" then
+		ISFLYING = not ISFLYING
+		sFLY()
+	end
+	if BanishMode == 0999 or BanishMode == 9999 then
+		if Key == "w" and ATTACK == false then
+			repeat
+				Swait()
+				MoveCharacter(0,-1)
+			until KEYHOLD == false
+		end
+		if Key == "a" then
+			repeat
+				Swait()
+				MoveCharacter(-1,0)
+			until KEYHOLD == false
+		end
+		if Key == "s" and ATTACK == false then
+			repeat
+				Swait()
+				MoveCharacter(0,1)
+			until KEYHOLD == false
+		end
+		if Key == "d" then
+			repeat
+				Swait()
+				MoveCharacter(1,0)
+			until KEYHOLD == false
+		end
+	end
+	if Key == "r" and ATTACK == false then
+		BanBullet()
+	end
+	if Key == "y" and ATTACK == false then
+		SONG1 = 3164389653
+		sick.TimePosition = 0
+		Speed = 16
+		BanishMode = 666
+		Jump = 50
+		tecks2.Text = "C H A O S"
+	end
+	if Key == "v" then
+		Sprint()
+	end
+	if BanishMode == 0999 or BanishMode == 9999 then
+		if Key == " " then
+			if falling == false then
+				falling=true MainPosition=MainPosition*CFrame.new(0,2,0)fallingspeed=fallingspeed-1
+			end
+		end
+	end
+	if Key == "\\" then
+		SONG1 = 919231299
+		Speed = 15
+		BanishMode = 9346
+		tecks2.Text = "Lost Soul"
+	end
+	if Key == "=" and BanishMode == 9346 then
+		BanishMode = 0999
+		Speed = 50
+		tecks2.Text = "Immortality Lord"
+		SONG1 = 6049110238
+		sick.TimePosition = 0
+	end
+	if Key == "-" and BanishMode == 0999 then
+		BanishMode = 9999
+		Speed = 35
+		tecks2.Text = "Immortality Cannon"
+		SONG1 = 3247404955
+		sick.TimePosition = 0
+	end
+	if Key == "]" and BanishMode == 9999 then
+		BanishMode = 8088
+		tecks2.Text = "..?.."
+		SONG1 = 4185475912
+		sick.TimePosition = 0
+	end
+	if Key == "[" and BanishMode == 8088 then
+		BanishMode = 8888
+		tecks2.Text = "moment 4 AH-HYUG"
+		SONG1 = 5170646860
+		sick.TimePosition = 0
+	end
+	if Key == ";" and BanishMode == 8888 then
+		BanishMode = 0909
+		tecks2.Text = "Echo"
+		SONG1 = 573736432
+		sick.TimePosition = 0
+	end
+	if Key == "j" and ATTACK == false then
+		SONG1 = 3522311451
+		sick.TimePosition = 0
+		Speed = 40
+		BanishMode = 1
+		Jump = 50
+		tecks2.Text = "Rainbow King"
+	end
+	if Key == "p" and ATTACK == false then
+		SONG1 = 1076825525
+		sick.TimePosition = 0
+		Speed = 12
+		Jump = 40
+
+		BanishMode = 324
+		tecks2.Text = "Visulizer meme"
+	end
+	if Key == "u" and ATTACK == false then
+		SONG1 = 1252518733
+		sick.TimePosition = 0
+		Speed = 45
+
+		BanishMode = 3
+		Jump = 50
+		tecks2.Text = "Demonvirus"
+	end
+	if Key == "m" and ATTACK == false and BanishMode == 3 then
+		SONG1 = 803373182
+		BanishMode = 1444
+
+		Speed = 0
+		Jump = 0
+		sick.TimePosition = 0
+		tecks2.Text = "????????"
+		Speed = 30
+
+		BanishMode = 900
+		Jump = 100
+		tecks2.Text = "Nayer"
+	end
+	if Key == "h" and ATTACK == false then 
+		SONG1 = 4565857495
+		sick.TimePosition = 0
+		Speed = 27
+
+		BanishMode = 2
+		Jump = 50
+		tecks2.Text = "BYE BYE"
+	end
+
+	if Key == "m" and ATTACK == false and BanishMode == 2 then
+		SONG1 = 644312180
+		BanishMode = 1444
+		Speed = 0
+		Jump = 0
+
+		tecks2.Text = "THE PURPLE"
+		SONG1 = 579860060
+		sick.TimePosition = 0
+		Speed = 30
+		Jump = 150
+
+		BanishMode = 1555
+	end
+
+	if Key == "m" and ATTACK == false and BanishMode == 666 then
+		SONG1 = 1846379515
+		Speed = 0
+		Jump = 0
+		BanishMode = 1444
+
+		sick.TimePosition = 36.9
+
+		BanishMode = 555
+		Speed = 45
+		Jump = 100
+		tecks2.Text = "THE K A R M A"
+	end
+
+	if Key == "1" and ATTACK == false then
+		SONG1 = 4635529033
+		Speed = 0
+		Jump = 0
+		SONG1 = 0
+		SONG1 = 4635529033
+		BanishMode = 777
+
+		Speed = 25
+		Jump = 75
+		tecks2.Text = "M I N E C R A F T"
+	end
+	if Key == "2" and ATTACK == false then
+		SONG1 = 512529104
+		sick.TimePosition = 0
+		Speed = 20
+		BanishMode = 123
+		Jump = 50
+		tecks2.Text = "Mizared Ink"
+	end
+	if Key == "3" and ATTACK == false then
+		SONG1 = 543303041
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 222
+		Jump = 50
+		tecks2.Text = "Tackery"
+	end
+	if Key == "l" and ATTACK == false then
+		SONG1 = 803936798
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 232
+		Jump = 50
+		tecks2.Text = "DEMONIC LORD"
+	end
+	if Key == "k" and ATTACK == false then
+		SONG1 = 424026286
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 233
+		Jump = 50
+		tecks2.Text = "Chara?"
+	end
+	if Key == "4" and ATTACK == false then
+		SONG1 = 580288014
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 211
+		Jump = 50
+		tecks2.Text = "榜样罗布"
+	end
+	if Key == "5" and ATTACK == false then
+		SONG1 = 2962282638
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 215
+		Jump = 50
+		tecks2.Text = "Castler"
+	end
+	if Key == "g" and ATTACK == false then
+		SONG1 = 3018974408
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 335
+		Jump = 50
+		tecks2.Text = "In The END"
+	end	
+	if Key == "6" and ATTACK == false then
+		SONG1 = 1138145518
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 210
+		Jump = 50
+		tecks2.Text = "INSANITY"
+	end
+	if Key == "7" and ATTACK == false then
+		SONG1 = 598987226
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 111
+		Jump = 50
+		tecks2.Text = "Aderdyz"
+	end
+	if Key == "8" and ATTACK == false then
+		SONG1 = 1117664978
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 133
+		Jump = 50
+		tecks2.Text = "Striking The Demon"
+	end
+	if Key == "9" and ATTACK == false then
+		SONG1 = 989524429
+		Speed = 0
+		Jump = 0
+		BanishMode = 1
+
+		sick.TimePosition = 36.9
+		wait(5)
+
+		BanishMode = 116
+		Speed = 45
+		Jump = 100
+		tecks2.Text = "Slient"
+	end
+	if Key == "0" and ATTACK == false then
+		SONG1 = 2371543268
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 128
+		Jump = 50
+		tecks2.Text = "Rainbow Killer"
+	end
+
+	if Key == "b" and ATTACK == false and BanishMode == 128 then
+		SONG1 = 1287900759
+		sick.TimePosition = 0
+		Speed = 20
+
+		BanishMode = 821
+		Jump = 50
+		tecks2.Text = "Rainbow Abeus"
+	end
+	if Key == "q" and ATTACK == false then
+		Warp()
+	end
+end
+
+function KeyUp(Key)
+	KEYHOLD = false
+end
+Mouse.KeyDown:connect(function(NEWKEY)
+	KeyDown(NEWKEY)
+end)
+Mouse.KeyUp:connect(function(NEWKEY)
+	KeyUp(NEWKEY)
+	if NEWKEY == "v" then
+		Speed = 15
+		RUNNING = false
+	end
+end)
+
+--//=================================\\
+--\\=================================//
+
+function unanchor()
+	for _, c in pairs(Character:GetChildren()) do
+		if c:IsA("BasePart") and c ~= RootPart then
+			c.Anchored = false
+		end
+	end
+	if UNANCHOR == true then
+		RootPart.Anchored = false
+	else
+		RootPart.Anchored = true
+	end
+end
+
+--//=================================\\
+--||	WRAP THE WHOLE SCRIPT UP
+--\\=================================//
+for T = 1, #TAIL do
+	if TAIL[T] ~= nil then
+		TAIL[T].C1 = Clerp(TAIL[T].C1, CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(3.5 * SIN(SINE / 12))), 1 / Animation_Speed)
+	end
+end
+--//=================================\\
+--||          Compatibility
+--\\=================================//
+
+local sine = SINE
+local Sine = SINE
+local angles = ANGLES
+local RH = RightHip
+local LH = LeftHip
+local LW = LeftShoulder
+local RW = RightShoulder
+local head = Head
+local RootCF = ROOTC0
+local necko = NECKC0
+local NK = Neck
+local RJ = RootJoint
+local LS = LeftShoulder
+local RS = RightShoulder
+local clerp = Clerp
+local LSC0 = LS.C0
+local RSC0 = RS.C0
+local NKC0 = NK.C0
+local LHC0 = LH.C0
+local RHC0 = RH.C0
+local RJC0 = RJ.C0
+local CFA = CFrame.Angles
+local CFN = CFrame.new
+--//=================================\\
+--\\=================================//
+
+function Clerp2(a, b, t)
+	local qa = {QuaternionFromCFrame(a)}
+	local qb = {QuaternionFromCFrame(b)}
+	local ax, ay, az = a.x, a.y, a.z
+	local bx, by, bz = b.x, b.y, b.z
+	local _t = 1 - t
+	return QuaternionToCFrame(_t * ax + t * bx, _t * ay + t * by, _t * az + t * bz, QuaternionSlerp(qa, qb, t))
+end
+
+function ClerpLOST(a, b, t)
+	local qa = {
+		QuaternionFromCFrame(a)
+	}
+	local qb = {
+		QuaternionFromCFrame(b)
+	}
+	local ax, ay, az = a.x, a.y, a.z
+	local bx, by, bz = b.x, b.y, b.z
+	local _t = 1 - t
+	return QuaternionToCFrame(_t * ax + t * bx, _t * ay + t * by, _t * az + t * bz, QuaternionSlerp(qa, qb, t))
+end
+
+local ActualVelocity = Vector3.new(0,0,0)
+local clerp = Clerp
+local ILSine = 0
+local ILLastFrame = os.date()
+local ILThrottle = 1
+local S = 1
+local ILNecksnap = false
+local Welds = {
+	Defaults = {
+		Neck = {
+			C0 = CFrame.new(0, 1 * S, 0) * CFrame.Angles(math.rad(-90), 0, math.rad(180))
+		},
+		RootJoint = {
+			C0 = CFrame.new()*CFrame.Angles(math.rad(-90),0,math.rad(180))
+		},
+		RightShoulder = {
+			C0 = CFrame.new(-.5 * S, 0, 0) * CFrame.Angles(0, math.rad(90), 0)
+		},
+		LeftShoulder = {
+			C0 = CFrame.new(.5 * S, 0, 0) * CFrame.Angles(0, math.rad(-90), 0)
+		}
+	},
+	Neck = {
+		C0 = CFrame.new(0, 1 * S, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0),
+		C1 = CFrame.new(0, -.5 * S, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+	},
+	RootJoint = {
+		C0 = CFrame.new(0,0,0),
+		C1 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+	},
+	RightShoulder = {
+		C0 = CFrame.new(1 * S, .5 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0),
+		C1 = CFrame.new(-.5 * S, .5 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+	},
+	LeftShoulder = {
+		C0 = CFrame.new(-1 * S, .5 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0),
+		C1 = CFrame.new(.5 * S, .5 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+	},
+	RightHip = {
+		C0 = CFrame.new(1 * S, -1 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0),
+		C1 = CFrame.new(.5 * S, 1 * S, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+	},
+	LeftHip = {
+		C0 = CFrame.new(-1 * S, -1 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0),
+		C1 = CFrame.new(-.5 * S, 1 * S, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+	},
+}
+
+coroutine.wrap(function()
+	while true do
+		Swait()
+		for _,v in next, Humanoid:GetPlayingAnimationTracks() do
+			v:Stop();
+		end
+		SINE = SINE + CHANGE
+		local Hum = Humanoid
+		local Root = RootPart
+		local hitfloor,posfloor = workspace:FindPartOnRayWithIgnoreList(Ray.new(Root.CFrame.p,((CFrame.new(Root.Position,Root.Position - Vector3.new(0,1,0))).lookVector).unit * (4)), {Effects,Character,workspace[Player.Name]})
+		local Walking = (math.abs(Root.Velocity.x) > 1 or math.abs(Root.Velocity.z) > 1)
+		local State = (Hum.Sit and 'Sit' or (not hitfloor or hitfloor.CanCollide==false) and Root.Velocity.y < -1 and "Fall" or (not hitfloor or hitfloor.CanCollide==false) and Root.Velocity.y > 1 and "Jump" or hitfloor and Walking and "Walk" or hitfloor and "Idle")
+		local TORSOVELOCITY = (ActualVelocity * VT(1, 0, 1)).magnitude
+		local TORSOVERTICALVELOCITY = ActualVelocity.y
+		if lplr == Player then
+			TORSOVELOCITY = (RootPart.Velocity * VT(1, 0, 1)).magnitude
+			TORSOVERTICALVELOCITY = RootPart.Velocity.y
+		end
+		ILThrottle = (tick()-1)/(1/60)
+		ILSine = 1+(tick()-1)*60
+		ILLastFrame = tick()
+		local HITFLOOR,HITPOS = Raycast(RootPart.Position, (CF(RootPart.Position, RootPart.Position + VT(0, -1, 0))).lookVector, 4, Character)
+		local WALKSPEEDVALUE = 6 / (Humanoid.WalkSpeed / 16)
+		if ANIM == "Walk" and TORSOVELOCITY > 1 then
+			if BanishMode == 1 or BanishMode == 9999 or BanishMode == 8088 or BanishMode == 8888 or BanishMode == 0909 or BanishMode == 0999 or BanishMode == 9346 then
+
+			else
+				RootJoint.C1 = Clerp(RootJoint.C1, ROOTC0 * CF(0, 0, -0.15 * COS(SINE / (WALKSPEEDVALUE / 2))) * ANGLES(RAD(0), RAD(0) - RootPart.RotVelocity.Y / 75, RAD(0)), 2 * (Humanoid.WalkSpeed / 16) / Animation_Speed)
+				Neck.C1 = Clerp(Neck.C1, CF(0, -0.5, 0) * ANGLES(RAD(-90), RAD(0), RAD(180)) * ANGLES(RAD(2.5 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0) - Head.RotVelocity.Y / 30), 0.2 * (Humanoid.WalkSpeed / 16) / Animation_Speed)
+				RightHip.C1 = Clerp(RightHip.C1, CF(0.5, 0.875 - 0.125 * SIN(SINE / WALKSPEEDVALUE) - 0.15 * COS(SINE / WALKSPEEDVALUE*2), -0.125 * COS(SINE / WALKSPEEDVALUE) +0.2+ 0.2 * COS(SINE / WALKSPEEDVALUE)) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0) - RightLeg.RotVelocity.Y / 75, RAD(0), RAD(76 * COS(SINE / WALKSPEEDVALUE))), 0.2 * (Humanoid.WalkSpeed / 16) / Animation_Speed)
+				LeftHip.C1 = Clerp(LeftHip.C1, CF(-0.5, 0.875 + 0.125 * SIN(SINE / WALKSPEEDVALUE) - 0.15 * COS(SINE / WALKSPEEDVALUE*2), 0.125 * COS(SINE / WALKSPEEDVALUE) +0.2+ -0.2 * COS(SINE / WALKSPEEDVALUE)) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0) + LeftLeg.RotVelocity.Y / 75, RAD(0), RAD(76 * COS(SINE / WALKSPEEDVALUE))), 0.2 * (Humanoid.WalkSpeed / 16) / Animation_Speed)
+			end
+		elseif (ANIM ~= "Walk") or (TORSOVELOCITY < 1) then
+			if BanishMode == 1 then
+
+			else
+				RootJoint.C1 = Clerp(RootJoint.C1, ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+				Neck.C1 = Clerp(Neck.C1, CF(0, -0.5, 0) * ANGLES(RAD(-90), RAD(0), RAD(180)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+				RightHip.C1 = Clerp(RightHip.C1, CF(0.5, 1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+				LeftHip.C1 = Clerp(LeftHip.C1, CF(-0.5, 1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+			end	
+		end
+		if ANIM == "Walk" and TORSOVELOCITY > 1 and BanishMode == 1 then
+		elseif (ANIM ~= "Walk") or (TORSOVELOCITY < 1) and BanishMode == 1 then
+			RootJoint.C1 = Clerp2(RootJoint.C1, ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+			Neck.C1 = Clerp2(Neck.C1, CF(0, -0.5, 0) * ANGLES(RAD(-90), RAD(0), RAD(180)) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+			RightHip.C1 = Clerp2(RightHip.C1, CF(0.5, 1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+			LeftHip.C1 = Clerp2(LeftHip.C1, CF(-0.5, 1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+		end
+		if (State == 'Jump' and ATTACK == false and BanishMode == 1) then
+			ANIM = "Jump"
+			if ATTACK == false then
+				RootJoint.C0 = Clerp2(RootJoint.C0,ROOTC0 * CF(0+math.random(-10,10)/100 , 0+math.random(-10,10)/100 , 0+math.random(-10,10)/100) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+				Neck.C0 = Clerp2(Neck.C0, NECKC0 * CF(0+math.random(-10,10)/100, 0+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(-20), RAD(0), RAD(0)), 3 / Animation_Speed)
+				RightShoulder.C0 = Clerp2(RightShoulder.C0, CF(1.5+math.random(-10,10)/100, 0.5+math.random(-10,10)/100, -0.2+math.random(-10,10)/100) * ANGLES(RAD(70), RAD(0), RAD(-70))* RIGHTSHOULDERC0, 3 / Animation_Speed)
+				LeftShoulder.C0 = Clerp2(LeftShoulder.C0, CF(-1.5+math.random(-10,10)/100, 0.5+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(75), RAD(0), RAD(30)) * LEFTSHOULDERC0, 3 / Animation_Speed)
+				RightHip.C0 = Clerp2(RightHip.C0, CF(1+math.random(-10,10)/100, -1+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(-20), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(90), RAD(0)), 3 / Animation_Speed)
+				LeftHip.C0 = Clerp2(LeftHip.C0, CF(-1+math.random(-10,10)/100, -1+math.random(-10,10)/100 , 0+math.random(-10,10)/100) * ANGLES(RAD(-20), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(-90), RAD(0)), 3 / Animation_Speed)
+			end
+		elseif (State == 'Fall'and ATTACK == false and BanishMode == 1) then
+			ANIM = "Fall"
+			if ATTACK == false then
+				RootJoint.C0 = Clerp2(RootJoint.C0,ROOTC0 * CF(0+math.random(-10,10)/100 , 0+math.random(-10,10)/100 , 0+math.random(-10,10)/100) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+				Neck.C0 = Clerp2(Neck.C0, NECKC0 * CF(0+math.random(-10,10)/100, 0+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(40), RAD(0), RAD(0)), 3 / Animation_Speed)
+				RightShoulder.C0 = Clerp2(RightShoulder.C0, CF(1.5+math.random(-10,10)/100, 0.5+math.random(-10,10)/100, -0.2+math.random(-10,10)/100) * ANGLES(RAD(70), RAD(0), RAD(-70))* RIGHTSHOULDERC0, 3 / Animation_Speed)
+				LeftShoulder.C0 = Clerp2(LeftShoulder.C0, CF(-1.5+math.random(-10,10)/100, 0.5+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(75), RAD(0), RAD(30)) * LEFTSHOULDERC0, 3 / Animation_Speed)
+				RightHip.C0 = Clerp2(RightHip.C0, CF(1+math.random(-10,10)/100, -1+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(40), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(90), RAD(0)), 3 / Animation_Speed)
+				LeftHip.C0 = Clerp2(LeftHip.C0, CF(-1+math.random(-10,10)/100, -1+math.random(-10,10)/100 , 0+math.random(-10,10)/100) * ANGLES(RAD(40), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(-90), RAD(0)), 3 / Animation_Speed)
+			end
+			if (State == 'Jump' and ATTACK == false) then
+				ANIM = "Jump"
+				if ATTACK == false then
+					RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+					Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0 * Player_Size, 0 + ((1) - 1)) * ANGLES(RAD(-20), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+					RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(-40), RAD(0), RAD(20)) * RIGHTSHOULDERC0, 0.2 / Animation_Speed)
+					LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-40), RAD(0), RAD(-20)) * LEFTSHOULDERC0, 0.2 / Animation_Speed)
+					RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, -0.3) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-5), RAD(0), RAD(-20)), 0.2 / Animation_Speed)
+					LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, -0.3) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-5), RAD(0), RAD(20)), 0.2 / Animation_Speed)
+				end
+			elseif (State == 'Fall' and ATTACK == false) then
+				ANIM = "Fall"
+				if ATTACK == false then
+					RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0, 0, 0 ) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+					Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0 , 0 + ((1) - 1)) * ANGLES(RAD(20), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+					RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(60)) * RIGHTSHOULDERC0, 0.2 / Animation_Speed)
+					LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(-60)) * LEFTSHOULDERC0, 0.2 / Animation_Speed)
+					RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(20)), 0.2 / Animation_Speed)
+					LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(10)), 0.2 / Animation_Speed)
+				end
+			end
+		elseif (State == 'Idle' and ATTACK == false) then
+			ANIM = "Idle"
+			if ATTACK == false and BanishMode == 1 then
+				Humanoid.WalkSpeed = 100
+				RootJoint.C0 = Clerp2(RootJoint.C0,ROOTC0 * CF(0+math.random(-10,10)/100 , 0+math.random(-10,10)/100 , 0+math.random(-10,10)/100) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+				Neck.C0 = Clerp2(Neck.C0, NECKC0 * CF(0+math.random(-10,10)/100, 0+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(0), RAD(0), RAD(0)), 3 / Animation_Speed)
+				RightShoulder.C0 = Clerp2(RightShoulder.C0, CF(1.5+math.random(-10,10)/100, 0.5+math.random(-10,10)/100, -0.2+math.random(-10,10)/100) * ANGLES(RAD(70), RAD(0), RAD(-70))* RIGHTSHOULDERC0, 3 / Animation_Speed)
+				LeftShoulder.C0 = Clerp2(LeftShoulder.C0, CF(-1.5+math.random(-10,10)/100, 0.5+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(75), RAD(0), RAD(30)) * LEFTSHOULDERC0, 3 / Animation_Speed)
+				RightHip.C0 = Clerp2(RightHip.C0, CF(1+math.random(-10,10)/100, -1+math.random(-10,10)/100, 0+math.random(-10,10)/100) * ANGLES(RAD(0), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(90), RAD(0)), 3 / Animation_Speed)
+				LeftHip.C0 = Clerp2(LeftHip.C0, CF(-1+math.random(-10,10)/100, -1+math.random(-10,10)/100 , 0+math.random(-10,10)/100) * ANGLES(RAD(0), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(-90), RAD(0)), 3 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 3 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0 - 0.04 * SIN(SINE / 24)*SIZE, 0 + 0.04 * SIN(SINE / 12)*SIZE, 0 + 0.05*SIZE * COS(SINE / 12)) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(0 - 2.5 * SIN(SINE / 24)), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1*SIZE) - 1)) * ANGLES(RAD(0 - 55 * SIN(SINE / 0.5)), RAD(0 - 22 * SIN(SINE / 1)), RAD(-15)), 1 / Animation_Speed)
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 3) * ANGLES(RAD(MRANDOM(-25,25)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0.1) * ANGLES(RAD(90), RAD(MRANDOM(-25,25)), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0.1) * ANGLES(RAD(90), RAD(MRANDOM(-25,25)), RAD(0)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, 0, -1) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -0.6, -0.3) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 2 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0*SIZE, 0*SIZE, 0*SIZE) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0*SIZE, 0*SIZE, 0*SIZE + ((1*SIZE) - 1)) * ANGLES(RAD(20 + MRANDOM(-24,24)), RAD(0 + MRANDOM(-24,24)), RAD(0 + MRANDOM(-24,24))), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5*SIZE, 0.5*SIZE, 0*SIZE) * ANGLES(RAD(180 + MRANDOM(-24,24)), RAD(0 + MRANDOM(-24,24)), RAD(-25 + MRANDOM(-24,24))) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5*SIZE, 0.5*SIZE, 0*SIZE) * ANGLES(RAD(180 + MRANDOM(-24,24)), RAD(0 + MRANDOM(-24,24)), RAD(25 + MRANDOM(-24,24))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -1*SIZE, -0.01*SIZE) * ANGLES(RAD(0), RAD(85 + MRANDOM(-24,24)), RAD(0)) * ANGLES(RAD(-3), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -1*SIZE, -0.01*SIZE) * ANGLES(RAD(0), RAD(-85 + MRANDOM(-24,24)), RAD(0)) * ANGLES(RAD(-3), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 666 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 1 + 0.5 * COS(SINE / 12)) * ANGLES(RAD(-25 - 3 * SIN(SINE / 12)), RAD(0), RAD(-25)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.1*SIZE) - 1)) * ANGLES(RAD(23 - 3 * SIN(SINE / 12)), RAD(0), RAD(30)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(0.75*SIZE, 0.5*SIZE, -1*SIZE) * ANGLES(RAD(70), RAD(0), RAD(-70)) * ANGLES(RAD(20), RAD(25), RAD(-15)) * RIGHTSHOULDERC0, 0.4 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1*SIZE, 0.2*SIZE, -0.5*SIZE) * ANGLES(RAD(25), RAD(0), RAD(85)) * LEFTSHOULDERC0, 0.4 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -0.5*SIZE - 0.05*SIZE * COS(SINE / 12), -0.5*SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -0.8*SIZE - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 777 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.25*SIZE) - 1)) * ANGLES(RAD(0), RAD(0), RAD(0 - 360.45 * COS(SINE / 2))), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5*SIZE, 0.5*SIZE, 0.02*SIZE) * ANGLES(RAD(0), RAD(0), RAD(90)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5*SIZE, 0.5*SIZE, 0.02*SIZE) * ANGLES(RAD(0), RAD(0), RAD(-90)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -1*SIZE, -0.01*SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-2), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -1*SIZE, -0.01*SIZE) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-2), RAD(0), RAD(0)), 1 / Animation_Speed)					
+			elseif ATTACK == false and BanishMode == 555 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0*SIZE + 0.05 * COS(SINE / 12)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.25*SIZE) - 1)) * ANGLES(RAD(5 + MRANDOM(-6,6)), RAD(0 + MRANDOM(-6,6)), RAD(0 - 10 * COS(SINE / 13) + MRANDOM(-6,6))), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.4*SIZE, 0.5*SIZE, 0*SIZE) * ANGLES(RAD(180 + MRANDOM(-6,6)), RAD(0 + MRANDOM(-6,6)), RAD(-35 + MRANDOM(-6,6))) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.45*SIZE, 0.5*SIZE, 0*SIZE) * ANGLES(RAD(5 + MRANDOM(-6,6)), RAD(0 + MRANDOM(-6,6)), RAD(-15 + MRANDOM(-6,6))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -1*SIZE - 0.05 * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0), RAD(80), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -1*SIZE - 0.05 * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0), RAD(-80), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)									
+			elseif ATTACK == false and BanishMode == 1444 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0 , 0 , -0.7) * ANGLES(RAD(MRANDOM(-15,15)), RAD(MRANDOM(-15,15)), RAD(MRANDOM(-15,15))), 0.35 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(30+MRANDOM(-15,15)), RAD(0+MRANDOM(-15,15)), RAD(0+MRANDOM(-15,15))), 0.35 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(160+MRANDOM(-15,15)), RAD(0+MRANDOM(-15,15)), RAD(-30+MRANDOM(-15,15)))* RIGHTSHOULDERC0, 0.35 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(160+MRANDOM(-15,15)), RAD(0+MRANDOM(-15,15)), RAD(30+MRANDOM(-15,15))) * LEFTSHOULDERC0, 0.35 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -0.5, -0.5) * ANGLES(RAD(0), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(90), RAD(0)), 0.35 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1 , 0) * ANGLES(RAD(-60), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(-90), RAD(0)), 0.35 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 1555 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 1 + 0.5 * COS(SINE / 12)) * ANGLES(RAD(-25 - 3 * SIN(SINE / 12)), RAD(0), RAD(-25)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.1*SIZE) - 1)) * ANGLES(RAD(23 - 3 * SIN(SINE / 12)), RAD(0), RAD(30)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(-45), RAD(0), RAD(-45)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(-40), RAD(0), RAD(45)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -0.5*SIZE - 0.05*SIZE * COS(SINE / 12), -0.5*SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -0.8*SIZE - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 900 then
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(15 - 2.5 * SIN(SINE / 15)), RAD(0), RAD(20)), 3 / Animation_Speed)
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0- 0.1 * COS(SINE / 30), 0 + 0.1 * COS(SINE / 15)) * ANGLES(RAD(0+ 5 * COS(SINE / 30)), RAD(0), RAD(-20)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(145), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(3), RAD(0)) * RIGHTSHOULDERC0, 0.25 / Animation_Speed)
+				LeftShoulder.C0= Clerp(LeftShoulder.C0,cf(-0.75,0.5,-0.25)*ANGLES(math.rad(140),math.rad(0),math.rad(20 - 2.5 * math.cos(SINE / 28))),.1)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -1 - 0.1 * COS(SINE / 15), -0.01) * ANGLES(RAD(0), RAD(80), RAD(0)) * ANGLES(RAD(-4+2.5 * COS(SINE / 30)), RAD(0), RAD(0+ 5 * COS(SINE / 30))), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1 - 0.1 * COS(SINE / 15), -0.01) * ANGLES(RAD(0), RAD(-80), RAD(0)) * ANGLES(RAD(-4-2.5 * COS(SINE / 30)), RAD(0), RAD(0- 5 * COS(SINE / 30))), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 324 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0.05*SIZE * COS(SINE / 12), 0*SIZE, 0*SIZE + 0.05 * SIN(SINE / 12)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.25*SIZE) - 1)) * ANGLES(RAD(10 - 2.5 * SIN(SINE / 12)), RAD(0), RAD(-25)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(-45), RAD(0), RAD(-45)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(-40), RAD(0), RAD(45)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE + 0.05 * COS(SINE / 12), -1*SIZE - 0.05 * SIN(SINE / 12), -0.01) * ANGLES(RAD(0), RAD(85), RAD(0)) * ANGLES(RAD(-1), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE + 0.05 * COS(SINE / 12), -1*SIZE - 0.05 * SIN(SINE / 12), -0.01) * ANGLES(RAD(0), RAD(-85), RAD(0)) * ANGLES(RAD(-1), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 123 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0 - 0.04 * SIN(SINE / 24)*SIZE, 0 + 0.04 * SIN(SINE / 12)*SIZE, 0 + 0.05*SIZE * COS(SINE / 12)) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(0 - 2.5 * SIN(SINE / 24)), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.1*SIZE) - 1)) * ANGLES(RAD(5 - 4 * SIN(SINE / 12)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.35*SIZE, 0.65*SIZE, 0*SIZE) * ANGLES(RAD(90), RAD(0), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.25*SIZE, 0.5*SIZE, 0.5*SIZE) * ANGLES(RAD(-35), RAD(25 - 2.5 * SIN(SINE / 12)), RAD(55 - 2.5 * SIN(SINE / 12))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -1*SIZE + 0.06 * SIN(SINE / 24) - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(75), RAD(0)) * ANGLES(RAD(-2 - 2.5 * SIN(SINE / 24)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -1*SIZE - 0.06 * SIN(SINE / 24) - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(-75), RAD(0)) * ANGLES(RAD(-2 + 2.5 * SIN(SINE / 24)), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 222 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0 - 0.04 * SIN(SINE / 24)*SIZE, 0 + 0.04 * SIN(SINE / 12)*SIZE, 0 + 0.05*SIZE * COS(SINE / 12)) * ANGLES(RAD(-2 - 2.5 * SIN(SINE / 12)), RAD(0 - 2.5 * SIN(SINE / 24)), RAD(-17.58)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.2*SIZE) - 1)) * ANGLES(RAD(25 - 4 * SIN(SINE / 12)), RAD(0), RAD(15 - 3)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(0.9*SIZE, 0.5*SIZE + 0.05*SIZE * SIN(SINE / 12), -0.5) * ANGLES(RAD(100), RAD(0), RAD(-70)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(9.71), RAD(3.14 - -2.5 * SIN(SINE / 12)), RAD(0.2 - -2.5 * SIN(SINE / 12))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -1*SIZE + 0.06 * SIN(SINE / 24) - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(75), RAD(0)) * ANGLES(RAD(-2 - 2.5 * SIN(SINE / 24)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -1*SIZE - 0.06 * SIN(SINE / 24) - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(-75), RAD(0)) * ANGLES(RAD(-2 + 2.5 * SIN(SINE / 24)), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 232 then
+				Neck.C0=Clerp(Neck.C0,necko*angles(math.rad(30*SIZE + math.random(-10,10)),math.rad(math.random(-10,10)),math.rad(math.random(-10,10))),1)
+				RH.C0=Clerp(RH.C0,cf(1*SIZE,-0.05*SIZE,-0.75*SIZE)*angles(math.rad(0),math.rad(90),math.rad(30))*angles(math.rad(0),math.rad(0),math.rad(30)),.1)
+				LH.C0=Clerp(LH.C0,cf(-1*SIZE,-0.5*SIZE,-0.25*SIZE)*angles(math.rad(30),math.rad(-99),math.rad(-30))*angles(math.rad(-21),math.rad(0),math.rad(-30)),.1)
+				RootJoint.C0=Clerp(RootJoint.C0,RootCF*cf(0,0*SIZE,-1.9 + 0.1 *SIZE* math.cos(sine / 28))*angles(math.rad(20 - 1 * math.cos(sine / 34)),math.rad(0),math.rad(0)),.1)
+				Neck.C0=Clerp(Neck.C0,necko*angles(math.rad(55),math.rad(0),math.rad(0)),.1)
+				RW.C0=Clerp(RW.C0,cf(0.75*SIZE,0.5*SIZE,-0.25*SIZE)*angles(math.rad(140),math.rad(0),math.rad(-20 + 2.5 * math.cos(sine / 28))),.1)
+				LW.C0=Clerp(LW.C0,cf(-0.75*SIZE,0.5*SIZE,-0.25*SIZE)*angles(math.rad(140),math.rad(0),math.rad(20 - 2.5 * math.cos(sine / 28))),.1)
+			elseif ATTACK == false and BanishMode == 233 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 2 + 1 * COS(SINE / 18)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed) 
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5 + 0.05 * SIN(SINE / 12), 0) * ANGLES(RAD(160 + 4 * COS(SINE / 62)), RAD(0), RAD(15 - 3 * COS(SINE / 12))) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5 + 0.05 * SIN(SINE / 12), 0) * ANGLES(RAD(0), RAD(0), RAD(-15 + 3 * COS(SINE / 12))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(-17 + 9.4 * COS(SINE / 26)), RAD(80), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -.5, -0.5) * ANGLES(RAD(-22 + 10.8 * COS(SINE / 32)), RAD(-80), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 211 then
+				WACKYEFFECT({EffectType = "Sphere", Size = VT(3,3,3)/3, Size2 = VT(1,1,1)/3, Transparency = 0.5, Transparency2 = 1, CFrame = LeftArm.CFrame*CF(0,-1.3,0), MoveToPos = nil, RotationX = 0, RotationY = 0, RotationZ = 0, Material = "SmoothPlastic", Color = Color3.fromRGB(0, 0, 0), SoundID = nil, SoundPitch = nil, SoundVolume = nil})
+				RightHip.C0 = Clerp(RightHip.C0,CF(1,-0.5 - 0.05 * COS(SINE / 22),-0.5)*ANGLES(RAD(0),RAD(90),RAD(0))*ANGLES(RAD(-3),RAD(0 - 1 * COS(SINE / 56)),RAD(0 - 2 * COS(SINE / 32))), 0.2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0,CF(-1,-1 - 0.05 * COS(SINE / 22),0)*ANGLES(RAD(0),RAD(-90),RAD(0))*ANGLES(RAD(-3),RAD(0 - 1 * COS(SINE / 56)),RAD(0 + 2 * COS(SINE / 32))), 0.2 / Animation_Speed)
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 2 + 0.25 * COS(SINE / 12)) * ANGLES(RAD(4 + 2.5 * SIN(SINE / 12)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(30), RAD(0), RAD(0 + 25 * COS(SINE / 20))), 0.15 / Animation_Speed)
+
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(.95, 0.5, 0.3) * ANGLES(RAD(-20), RAD(0), RAD(-35)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 , 0.5 , 0 ) * ANGLES(RAD(0 +180*SIN(sick.PlaybackLoudness/300)), RAD(0), RAD(0 )) * LEFTSHOULDERC0, 0.2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 215 then
+				WACKYEFFECT({Time = 15, EffectType = "Sphere", Size = VT(6,6,6), Size2 = VT(0.2,6,0.2), Transparency = 0.3, Transparency2 = 1, CFrame = CF(HITPOS)*ANGLES(RAD(0),RAD(MRANDOM(0,360)),RAD(0))*CF(0,0,MRANDOM(3,7)) * ANGLES(RAD(MRANDOM(-15,15)), RAD(0), RAD(MRANDOM(-15,15))), MoveToPos = nil, RotationX = 0, RotationY = MRANDOM(-1,1)*5, RotationZ = 0, Material = "Neon", Color = Color3.fromRGB(0+178*sick.PlaybackLoudness/100,0,0), SoundID = nil, SoundPitch = nil, SoundVolume = nil})
+				WACKYEFFECT({Time = 15, EffectType = "Sphere", Size = VT(4,4,4), Size2 = VT(0,5,0), Transparency = 0, Transparency2 = 1, CFrame = RootPart.CFrame*CF(MRANDOM(-15,15),-2.5,MRANDOM(-15,15)), MoveToPos = nil, RotationX = 0, RotationY = 0, RotationZ = 0, Material = "Neon", Color = Color3.fromRGB(0+178*sick.PlaybackLoudness/100,0,0), SoundID = nil, SoundPitch = nil, SoundVolume = nil})
+				WACKYEFFECT({Time = 30, EffectType = "Crystal", Size = VT(5,5,5), Size2 = VT(1,1,1), Transparency = 0, Transparency2 = 1, CFrame = RootPart.CFrame*CF(MRANDOM(-15,15),MRANDOM(-2.5,13.1),MRANDOM(-15,15)), MoveToPos = nil, RotationX = 0, RotationY = 0, RotationZ = 0, Material = "Neon", Color = Color3.fromRGB(0+178*sick.PlaybackLoudness/100,0,0), SoundID = nil, SoundPitch = nil, SoundVolume = nil})
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0 - 0.3 * COS(SINE / 2)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5), RAD(0), RAD(-45)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1, 0.5, 0.5) * ANGLES(RAD(-20), RAD(-.6), RAD(-43)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1, 0.5, 0.5) * ANGLES(RAD(-20), RAD(-.6), RAD(43)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -1 + 0.3 * COS(SINE / 2),-0.01) * ANGLES(RAD(0), RAD(85), RAD(0)) * ANGLES(RAD(-6), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1 + 0.3 * COS(SINE / 2),-0.01) * ANGLES(RAD(0), RAD(-85), RAD(0)) * ANGLES(RAD(-6), RAD(0), RAD(0)), 0.5 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 335 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 0+.15*SIN(sine/32)) * ANGLES(RAD(0-5*SIN(sine/24)), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(10+5*SIN(sine/24))) * RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(-10-5*SIN(sine/24))) * LEFTSHOULDERC0, 0.15 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -1-.15*SIN(sine/32), 0) * ANGLES(RAD(0-5*SIN(sine/24)), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1-.15*SIN(sine/32), 0) * ANGLES(RAD(0-5*SIN(sine/24)), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)	
+			elseif ATTACK == false and BanishMode == 210 then
+				RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0, 0, -1 + 0.1 * COS(SINE / 24)) * ANGLES(RAD(45), RAD(0), RAD(0)), 0.2 / Animation_Speed*3)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(25 + MRANDOM(-5,5) - 4 * COS(SINE / 12)), RAD(MRANDOM(-5,5)), RAD(15)), 1 / Animation_Speed)
+				if MRANDOM(1,7) == 1 then
+					Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(0 + MRANDOM(-25,25) - 4 * COS(SINE / 12)), RAD(MRANDOM(-25,25)), RAD(0)), 1.5 / Animation_Speed)
+				end					
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.35, 0) * ANGLES(RAD(90), RAD(25), RAD(45)) * RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * Player_Size, 0.5 * Player_Size, -0.1 * Player_Size) * ANGLES(RAD(95), RAD(25), RAD(45)) * LEFTSHOULDERC0, 0.15 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -0.3 - 0.1 * COS(SINE / 24), -1 - 0.1 * COS(SINE / 24)) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-20)), 0.2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1.2, 0.2 - 0.1 * COS(SINE / 24), -0.4 - 0.1 * COS(SINE / 24)) * ANGLES(RAD(45), RAD(-70), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(10)), 0.2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 111 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0 - 0.04 * SIN(SINE / 24)*SIZE, 0 + 0.04 * SIN(SINE / 12)*SIZE, 0 + 0.05*SIZE * COS(SINE / 12)) * ANGLES(RAD(-2 - 2.5 * SIN(SINE / 12)), RAD(0 - 2.5 * SIN(SINE / 24)), RAD(-17.58)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.2*SIZE) - 1)) * ANGLES(RAD(25 - 4 * SIN(SINE / 12)), RAD(0), RAD(15 - 3)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(0.9*SIZE, 0.5*SIZE + 0.05*SIZE * SIN(SINE / 12), -0.5) * ANGLES(RAD(100), RAD(0), RAD(-70)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(9.71), RAD(3.14 - -2.5 * SIN(SINE / 12)), RAD(0.2 - -2.5 * SIN(SINE / 12))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -1*SIZE + 0.06 * SIN(SINE / 24) - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(75), RAD(0)) * ANGLES(RAD(-2 - 2.5 * SIN(SINE / 24)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -1*SIZE - 0.06 * SIN(SINE / 24) - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0 - 2.5 * SIN(SINE / 12)), RAD(-75), RAD(0)) * ANGLES(RAD(-2 + 2.5 * SIN(SINE / 24)), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 133 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0 - 0.05 * COS(SINE / 20) + 0.05 * SIN(SINE / 20), 0, 0+sick.PlaybackLoudness/1800) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5 + MRANDOM(-6,6)), RAD(0 + MRANDOM(-6,6)), RAD(0 - 10 * COS(SINE / 20) + MRANDOM(-6,6))), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.55, 0) * ANGLES(RAD(180 - 5 * COS(SINE / 15)), RAD(0 - 5*SIN(sick.PlaybackLoudness/500)), RAD(-5 + sick.PlaybackLoudness/545)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.45, 0.5, 0) * ANGLES(RAD(5 + MRANDOM(-6,6)), RAD(0 + MRANDOM(-6,6)), RAD(-15 + MRANDOM(-6,6))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 - 0.05 * COS(SINE / 20) + 0.05 * SIN(SINE / 20), -1-sick.PlaybackLoudness/1800, -0.01) * ANGLES(RAD(0), RAD(80), RAD(0)) * ANGLES(RAD(-6), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 - 0.05 * COS(SINE / 20) + 0.05 * SIN(SINE / 20), -1-sick.PlaybackLoudness/1800, -0.03) * ANGLES(RAD(0), RAD(-80), RAD(0)) * ANGLES(RAD(-6), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 116 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 4 + 1 * SIN(SINE / 26)) * ANGLES(RAD(-5 - 2.5*SIN(SINE/48/2)), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(15 - 2.5 * SIN(SINE / 12)), RAD(0 + 2.5 *COS(SINE / 12)), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(-20 - 13*SIN(SINE/12)), RAD(0), RAD(12 - 4.10 * SIN(SINE / 12))) * RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-20 - 13*SIN(SINE/12)), RAD(0), RAD(-12 + 4.10 * SIN(SINE / 12))) * LEFTSHOULDERC0, 0.15 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -.5 - 0.02 * SIN(SINE / 12), -0.5) * ANGLES(RAD(-10 - 2.5 * SIN(SINE / 21)), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1 - 0.02 * SIN(SINE / 12), -0.01) * ANGLES(RAD(-20 - 2.5 * SIN(SINE / 16)), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)	
+			elseif ATTACK == false and BanishMode == 128 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0 , 0 , 00 + 0.2 * COS(SINE / 12)) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD(30), RAD(0), RAD(0 + 25 * COS(SINE / 20))), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5+ 0.35 * SIN(SINE / 12), 0) * ANGLES(RAD(180), RAD(-15), RAD(0))* RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5 + 0.35 * SIN(SINE / 12), 0) * ANGLES(RAD(0), RAD(0), RAD(-10 + 15 * COS(SINE / 12))) * ANGLES(RAD(0), RAD(15), RAD(0)) * LEFTSHOULDERC0, 0.15 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -1- 0.2 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(75), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1- 0.2 * COS(SINE / 12) , 0) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)	
+			elseif ATTACK == false and BanishMode == 821 then
+				Torso.Neck.C0=Clerp(Torso.Neck.C0,NECKC0*ANGLES(0,math.rad(-25),0)*ANGLES(math.rad(0 - 25 * math.cos(SINE / 0.1164)),math.rad(0 - 30 * math.cos(SINE / 0.25)),math.rad(0 - 30 * math.cos(SINE / 0.465))),.1)
+				RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0, -0.35 - 0.05 * COS(SINE / 12), -0.65 + 0.05 * COS(SINE / 12)) * ANGLES(RAD(45 + 2 * COS(SINE / 12)), RAD(10), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(120), RAD(35), RAD(0)) * RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(90), RAD(0), RAD(0)) * LEFTSHOULDERC0, 0.5 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -0.25 - 0.05 * SIN(SINE / 12), -0.85) * ANGLES(RAD(45), RAD(80), RAD(0)) * ANGLES(RAD(-3), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -0.9 - 0.05 * SIN(SINE / 12), -0.5) * ANGLES(RAD(-20), RAD(-80), RAD(0)) * ANGLES(RAD(-3), RAD(0), RAD(0)), 1 / Animation_Speed)
+			end
+		elseif TORSOVELOCITY > 1 and HITFLOOR ~= nil and Rooted == false then
+			ANIM = "Walk"
+			if ATTACK == false and BanishMode == 1 then
+				local Testwalk1 = Humanoid.MoveDirection*Torso.CFrame.LookVector
+				local Testwalk2 = Humanoid.MoveDirection*Torso.CFrame.RightVector
+				local LOOKVEC = Testwalk1.X+Testwalk1.Z
+				local RIGHTVEC = Testwalk2.X+Testwalk2.Z
+				local RIGHTHIPSECOND = CF(LOOKVEC/10 * COS(SINE / 4),0,0)*ANGLES(SIN(RIGHTVEC/5) * COS(SINE / 4),0,SIN(-LOOKVEC/2) * COS(SINE /6))
+				local LEFTHIPSECOND = CF(-LOOKVEC/10 * COS(SINE / 4),0,0)*ANGLES(SIN(RIGHTVEC/5) * COS(SINE / 4),0,SIN(-LOOKVEC/2) * COS(SINE /6))
+				local RIGHTARMSECOND = CF(LOOKVEC/10 * COS(SINE / 4),0,0)*ANGLES(SIN(RIGHTVEC/5) * COS(SINE / 4),0,SIN(-LOOKVEC/2) * COS(SINE /6))
+				local LEFTARMSECOND = CF(-LOOKVEC/10 * COS(SINE / 4),0,0)*ANGLES(SIN(RIGHTVEC/5) * COS(SINE / 4),0,SIN(-LOOKVEC/2) * COS(SINE /6))
+				Speed = 100
+				local value1 = 0.4
+				local value2 = 0.8
+				RootJoint.C0 = Clerp2(RootJoint.C0,ROOTC0 * CF(0, 0 , -0.185 + 0.055 * COS(SINE / value1) + -SIN(SINE / value1) / 8) * ANGLES(RAD((LOOKVEC  - LOOKVEC/5  * COS(SINE / value1))*20), RAD((-RIGHTVEC - -RIGHTVEC/5  * COS(SINE / value1))*20) , RAD(0)), 3 / Animation_Speed)
+				Neck.C0 = Clerp2(Neck.C0, NECKC0 * CF(0, 0, 0) * ANGLES(RAD((LOOKVEC  - LOOKVEC/5  * COS(SINE / value1))*-20), RAD(0), RAD((RIGHTVEC - -RIGHTVEC/5  * COS(SINE /value1))*-20)), 3 / Animation_Speed)
+				RightShoulder.C0 = Clerp2(RightShoulder.C0, CF(1.5, 0.5, -0.2) * ANGLES(RAD(70), RAD(0), RAD(-70))* RIGHTSHOULDERC0, 3 / Animation_Speed)
+				LeftShoulder.C0 = Clerp2(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(75), RAD(0), RAD(30)) * LEFTSHOULDERC0, 3 / Animation_Speed)
+				RightHip.C0 = Clerp2(RightHip.C0, CF(1, -1+ 0.5 * SIN(SINE / value2), 0)* ANGLES(RAD((-LOOKVEC  + LOOKVEC/5  * COS(SINE / value1))*130* COS(SINE / value2)),RAD(0),RAD((-RIGHTVEC + RIGHTVEC/5  * COS(SINE / value2))*80*COS(SINE/value2)))*ANGLES(RAD(0),RAD(90),RAD(0)), 3 / Animation_Speed)
+				LeftHip.C0 = Clerp2(LeftHip.C0, CF(-1, -1- 0.5 * SIN(SINE / value2), 0)* ANGLES(RAD((LOOKVEC  - LOOKVEC/5  * COS(SINE / value1))*130* COS(SINE / value2)),RAD(0),RAD((RIGHTVEC - RIGHTVEC/5  * COS(SINE / value2))*80*COS(SINE/value2)))*ANGLES(RAD(0),RAD(-90),RAD(0)), 3 / Animation_Speed)	
+			elseif ATTACK == false and BanishMode == 3 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0,0,2+0.5*COS(SINE / 12))*ANGLES(RAD(25+2.5*COS(SINE / 12)),RAD(0-RootPart.RotVelocity.y),RAD(0 - RootPart.RotVelocity.Y * 4.5 + 3 * COS(SINE / 47))), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1*SIZE) - 1)) * ANGLES(RAD(0 - 55 * SIN(SINE / 0.5)), RAD(0 - 22 * SIN(SINE / 1)), RAD(-15)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(-90-10*math.cos(SINE/7)), RAD(0), RAD(10)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-90-10*math.cos(SINE/7)), RAD(0), RAD(-10)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -1-.001*COS(SINE / 7), -0.01) * ANGLES(RAD(-10-2.5*math.cos(SINE/7)), RAD(75), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -.5-.001*math.cos(SINE/7), -0.5) * ANGLES(RAD(-25-2.5*math.cos(SINE/7)), RAD(-75), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 2 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, -0.05) * ANGLES(RAD(0), RAD(0), RAD(-15 * COS(SINE / (WALKSPEEDVALUE)))), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5 - 1 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(10 * COS(SINE / (WALKSPEEDVALUE)))), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(100 + 2 * COS(SINE / WALKSPEEDVALUE)), RAD(0), RAD(15)) * ANGLES(RAD(0), RAD(0), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(70 * SIN(SINE / WALKSPEEDVALUE)), RAD(5), RAD(-25)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 , -1, 0) * ANGLES(RAD(0), RAD(80), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-10)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-80), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(10)), 2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 666 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, 1 + 0.5 * COS(SINE / 12)) * ANGLES(RAD(35), RAD(0), RAD(0)), 0.25 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.1*SIZE) - 1)) * ANGLES(RAD(-25), RAD(0), RAD(0)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(-45), RAD(0), RAD(-45)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.25*SIZE, 0.5*SIZE, 0.3*SIZE) * ANGLES(RAD(-40), RAD(0), RAD(45)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE, -0.5*SIZE - 0.05*SIZE * COS(SINE / 12), -0.5*SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -0.8*SIZE - 0.05*SIZE * COS(SINE / 12), -0.01*SIZE) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 777 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, -0.1) * ANGLES(RAD(5), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5 - 8 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.1, -0.4) * ANGLES(RAD(150), RAD(0), RAD(0))* RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-60 * COS(SINE / WALKSPEEDVALUE)), RAD(0), RAD(-5)) * LEFTSHOULDERC0, 0.35 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 , -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-15)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(15)), 2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 555 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, -0.1) * ANGLES(RAD(5), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5 - 8 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.1, -0.4) * ANGLES(RAD(150), RAD(0), RAD(0))* RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-60 * COS(SINE / WALKSPEEDVALUE)), RAD(0), RAD(-5)) * LEFTSHOULDERC0, 0.35 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 , -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-15)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(15)), 2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 1555 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, -0.1) * ANGLES(RAD(5), RAD(0), RAD(10 * COS(SINE / WALKSPEEDVALUE))), 0.5 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 - 0.1 * COS(SINE / 3) + ((1) - 1)) * ANGLES(RAD(30 - 2.5 * SIN(SINE / 12)), RAD(7 * COS(SINE / 24)), RAD(0)), 0.5 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(0.9, 0.5 + 0.05 * SIN(SINE / 12), -0.5) * ANGLES(RAD(100), RAD(0), RAD(-70)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, -0.5 * SIN(SINE / WALKSPEEDVALUE)) * ANGLES(RAD(-60 * COS(SINE / WALKSPEEDVALUE)), RAD(0), RAD(-5)) * ANGLES(RAD(0), RAD(15), RAD(0)) * LEFTSHOULDERC0, 0.8 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 , -1, 0) * ANGLES(RAD(0), RAD(80), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-15)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-80), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(15)), 2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 900 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, -0.1) * ANGLES(RAD(5), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5 - 8 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(145), RAD(0), RAD(0)) * ANGLES(RAD(0), RAD(3), RAD(0)) * RIGHTSHOULDERC0, 0.25 / Animation_Speed)
+				LeftShoulder.C0=Clerp(LeftShoulder.C0,cf(-0.75,0.5,-0.25)*ANGLES(math.rad(140),math.rad(0),math.rad(20 - 2.5 * math.cos(SINE / 28))),.1)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 , -1 - 0.15 * COS(SINE / WALKSPEEDVALUE*2), -0.2+ 0.2 * COS(SINE / WALKSPEEDVALUE)) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-15)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1 - 0.15 * COS(SINE / WALKSPEEDVALUE*2), -0.2+ -0.2 * COS(SINE / WALKSPEEDVALUE)) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(15)), 2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 324 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0*SIZE, 0*SIZE, -0.1*SIZE) * ANGLES(RAD(5), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1.1*SIZE) - 1)) * ANGLES(RAD(15 - 1 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0)), 1/ Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.25*SIZE, 0.5*SIZE, 0.5*SIZE) * ANGLES(RAD(-35), RAD(-25 + 2.5 * SIN(SINE / WALKSPEEDVALUE)), RAD(-55 + 2.5 * SIN(SINE / WALKSPEEDVALUE))) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.25*SIZE, 0.5*SIZE, 0.5*SIZE) * ANGLES(RAD(-35), RAD(25 - 2.5 * SIN(SINE / WALKSPEEDVALUE)), RAD(55 - 2.5 * SIN(SINE / WALKSPEEDVALUE))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1*SIZE , -1*SIZE, 0*SIZE) * ANGLES(RAD(0), RAD(85), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1*SIZE, -1*SIZE, 0*SIZE) * ANGLES(RAD(0), RAD(-85), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 128 then
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, -0.1) * ANGLES(RAD(5), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5 - 8 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, -0.03) * ANGLES(RAD(180), RAD(-15), RAD(0))* RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-60 * COS(SINE / WALKSPEEDVALUE)), RAD(0), RAD(-5)) * LEFTSHOULDERC0, 0.35 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 , -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-15)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(15)), 2 / Animation_Speed)
+			elseif ATTACK == false and BanishMode == 821 then
+				Torso.Neck.C0=Clerp(Torso.Neck.C0,NECKC0*ANGLES(0,math.rad(-25),0)*ANGLES(math.rad(0 - 25 * math.cos(SINE / 0.1164)),math.rad(0 - 30 * math.cos(SINE / 0.25)),math.rad(0 - 30 * math.cos(SINE / 0.465))),.1)
+				RootJoint.C0 = Clerp(RootJoint.C0,ROOTC0 * CF(0, 0, -0.1) * ANGLES(RAD(5), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(5 - 8 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.1, -0.4) * ANGLES(RAD(150), RAD(0), RAD(5))* RIGHTSHOULDERC0, 0.35 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-60 * COS(SINE / WALKSPEEDVALUE)), RAD(0), RAD(-5)) * LEFTSHOULDERC0, 0.35 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1 , -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(-15)), 2 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(15)), 2 / Animation_Speed)
+			end
+		end
+		if BanishMode == 9346 then
+			Jump = 51
+			if (State == 'Jump' and ATTACK == false) then
+				ANIM = "Jump"
+				RootJoint.C0 = ClerpLOST(RootJoint.C0, ROOTC0 * CF(0, 0, -0.1 + 0.1 * COS(SINE / 20)) * ANGLES(RAD(10), RAD(0), RAD(0)), 0.3)
+				Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * ANGLES(RAD(-40), RAD(0), RAD(0)), 0.3)
+				RightShoulder.C0 = ClerpLOST(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(-40), RAD(0), RAD(20)) * RIGHTSHOULDERC0, 0.2 / 1.75)
+				LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0, CF(-1.5, 0.5, 0 * 1) * ANGLES(RAD(-40), RAD(0), RAD(-20)) * LEFTSHOULDERC0, 0.2 / 1.75)
+				RightHip.C0 = ClerpLOST(RightHip.C0, CF(1, -1, -0.3) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-5), RAD(0), RAD(-20)), 0.2 / 1.75)
+				LeftHip.C0 = ClerpLOST(LeftHip.C0, CF(-1, -1, -0.3) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-5), RAD(0), RAD(20)), 0.2 / 1.75)
+			elseif (State == 'Fall' and ATTACK == false) then
+				ANIM = "Fall"
+				RootJoint.C0 = ClerpLOST(RootJoint.C0, ROOTC0 * CF(0, 0, -0.1 + 0.1 * COS(SINE / 20)) * ANGLES(RAD(-5), RAD(0), RAD(0)), 0.3)
+				Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * ANGLES(RAD(40), RAD(0), RAD(0)), 0.3)
+				RightShoulder.C0 = ClerpLOST(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(60)) * RIGHTSHOULDERC0, 0.2 / 1.75)
+				LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(0), RAD(0), RAD(-60)) * LEFTSHOULDERC0, 0.2 / 1.75)
+				RightHip.C0 = ClerpLOST(RightHip.C0, CF(1, -1, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(20)), 0.2 / 1.75)
+				LeftHip.C0 = ClerpLOST(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(10)), 0.2 / 1.75)
+			elseif (State == 'Idle' and ATTACK == false) then
+				ANIM = "Idle"
+				RootJoint.C0 = ClerpLOST(RootJoint.C0,ROOTC0 * CF(0, -0.1, -0.1 + 0.05 * COS(SINE / 12)) * ANGLES(RAD(15), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				RightShoulder.C0 = ClerpLOST(RightShoulder.C0, CF(1.5, 0.5 + 0.025 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(0 - 7.5 * SIN(SINE / 12)), RAD(12 + 7.5 * SIN(SINE / 12))) * RIGHTSHOULDERC0, 0.15 / Animation_Speed)
+				LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0, CF(-1.5, 0.5 + 0.025 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(0 + 7.5 * SIN(SINE / 12)), RAD(-12 - 7.5 * SIN(SINE / 12))) * LEFTSHOULDERC0, 0.15 / Animation_Speed)
+				RightHip.C0 = ClerpLOST(RightHip.C0, CF(1, -1 - 0.05 * COS(SINE / 12), -0.01) * ANGLES(RAD(20), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				LeftHip.C0 = ClerpLOST(LeftHip.C0, CF(-1, -1 - 0.05 * COS(SINE / 12), -0.01) * ANGLES(RAD(5), RAD(-90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 0.15 / Animation_Speed)
+				Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * ANGLES(RAD(20), RAD(-10 - 2.5 * SIN(SINE / 10)), RAD(20 * COS(SINE / 10))), 1 / Animation_Speed)
+			elseif (State == 'Walk' and ATTACK == false) then
+				if RUNNING == false then
+					ANIM = "Walk"
+					RootJoint.C0 = ClerpLOST(RootJoint.C0, ROOTC0 * CF(0, 0, -0.175 + 0.025 * COS(SINE / 3.5) + -SIN(SINE / 3.5) / 7) * ANGLES(RAD(9-2.5 * COS(SINE / 3.5)), RAD(0), RAD(10 * COS(SINE / 7))), 0.15)
+					Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(20 + MRANDOM(-5,5) - 1 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(MRANDOM(-5,5)), RAD(0)), 1 / Animation_Speed)
+					RightHip.C0 = ClerpLOST(RightHip.C0, CF(1, -0.925 - 0.5 * COS(SINE / 7) / 2, 0.5 * COS(SINE / 7) / 2) * ANGLES(RAD(-15 - 35 * COS(SINE / 7)) + -SIN(SINE / 7) / 2.5, RAD(90 - 2 * COS(SINE / 7)), RAD(0)) * ANGLES(RAD(0 + 2.5 * COS(SINE / 7)), RAD(0), RAD(0)), 0.3)
+					LeftHip.C0 = ClerpLOST(LeftHip.C0, CF(-1, -0.925 + 0.5 * COS(SINE / 7) / 2, -0.5 * COS(SINE / 7) / 2) * ANGLES(RAD(-15 + 35 * COS(SINE / 7)) + SIN(SINE / 7) / 2.5, RAD(-90 - 2 * COS(SINE / 7)), RAD(0)) * ANGLES(RAD(0 - 2.5 * COS(SINE / 7)), RAD(0), RAD(0)), 0.3)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0, CF(1, 0.5 + 0.05 * SIN(SINE / 30), 0.025 * COS(SINE / 20)) * ANGLES(RAD(70) * COS(SINE / 7) , RAD(90), RAD(5)), 0.1)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0, CF(-1, 0.5 + 0.05 * SIN(SINE / 30), 0.025 * COS(SINE / 20)) * ANGLES(RAD(-70) * COS(SINE / 7) , RAD(-90),	RAD(-5)), 0.1)
+				else
+					ANIM = "Run"
+					RootJoint.C0 = ClerpLOST(RootJoint.C0, ROOTC0 * CF(0* 1, 0* 1, -0.175 + 0.025 * COS(SINE / 3.5) + -SIN(SINE / 3.5) / 7* 1) * ANGLES(RAD(26 - 4.5 * COS(SINE / 3.5)), RAD(0) - RootPart.RotVelocity.Y / 75, RAD(15 * COS(SINE / 7))), 0.15)
+					Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(20 + MRANDOM(-5,5) - 1 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(MRANDOM(-5,5)), RAD(0)), 1 / Animation_Speed)
+					RightHip.C0 = ClerpLOST(RightHip.C0, CF(1* 1, -0.925 - 0.5 * COS(SINE / 7) / 2* 1, 0.7 * COS(SINE / 7) / 2* 1) * ANGLES(RAD(-15 - 55 * COS(SINE / 7)) - RightLeg.RotVelocity.Y / 75 + -SIN(SINE / 7) / 2.5, RAD(90 - 0.1 * COS(SINE / 7)), RAD(0)) * ANGLES(RAD(0 + 0.1 * COS(SINE / 7)), RAD(0), RAD(0)), 0.3)
+					LeftHip.C0 = ClerpLOST(LeftHip.C0, CF(-1* 1, -0.925 + 0.5 * COS(SINE / 7) / 2* 1, -0.7 * COS(SINE / 7) / 2* 1) * ANGLES(RAD(-15 + 55 * COS(SINE / 7)) + LeftLeg.RotVelocity.Y / 75 + SIN(SINE / 7) / 2.5, RAD(-90 - 0.1 * COS(SINE / 7)), RAD(0)) * ANGLES(RAD(0 - 0.1 * COS(SINE / 7)), RAD(0), RAD(0)), 0.3)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0, CF(1, 0.5 + 0.05 * SIN(SINE / 30)* 1, 0.34 * COS(SINE / 7* 1)) * ANGLES(RAD(110)  * COS(SINE / 7) , RAD(90), RAD(13) - RightArm.RotVelocity.Y / 75), 0.15)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0, CF(-1, 0.5 + 0.05 * SIN(SINE / 30)* 1, -0.34 * COS(SINE / 7* 1)) * ANGLES(RAD(-110)  * COS(SINE / 7) , RAD(-90) ,	RAD(-13) + LeftArm.RotVelocity.Y / 75), 0.15)
+				end
+			end
+		elseif BanishMode == 0999 then
+			Jump = 0
+			Speed = 0
+			local Walk = false
+			if State == 'Walk' then
+				Walk = true
+			end
+			if not ATTACK then
+				if Walk then
+					RootJoint.C0 = Clerp(RootJoint.C0,CFrame.new(0,4,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,0,-.5*math.sin(ILSine/25)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+					if NeckSnap then
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0,1)
+						NeckSnap = false
+					else
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0,.25)
+					end
+					pcall(function()
+						if math.random(1,16) == 1 then
+							Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(math.random(-20,20)),math.rad(math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							NeckSnap = true
+						end
+					end)
+					if not ISFLYING and not falling then
+						RightShoulder.C0 = Clerp(RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(-10),0,0)*Welds.Defaults.RightShoulder.C0,.25)
+						handleweld.C0 = Clerp(handleweld.C0,CFrame.new(-1, 0, -.8)*CFrame.Angles(math.rad(46.35-5.65*math.sin(ILSine/25)),0,0),.25)
+					else
+						RightShoulder.C0 = Clerp(RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(80+5*math.cos(ILSine/25)),0,math.rad(45))*Welds.Defaults.RightShoulder.C0,.25)
+						handleweld.C0 = Clerp(handleweld.C0,CFrame.new(-1, 0, -.8)*CFrame.Angles(0,math.rad(46),math.rad(-10)),.25)
+					end
+					LeftShoulder.C0 = Clerp(LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(ILSine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					RightHip.C0 = Clerp(RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(ILSine/25))),.25)
+					LeftHip.C0 = Clerp(LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(ILSine/25))),.25)
+				else
+					RootJoint.C0 = Clerp(RootJoint.C0,CFrame.new(0,4,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,0,-.5*math.sin(ILSine/25)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+					if NeckSnap then
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(ILSine/50)),0),1)
+						NeckSnap = false
+					else
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(ILSine/50)),0),.25)
+					end
+					pcall(function()
+						if math.random(1,16) == 1 then
+							Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20+math.random(-20,20)),math.rad((10*math.sin(ILSine/50))+math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							NeckSnap = true
+						end
+					end)
+					if not ISFLYING and not falling then
+						RightShoulder.C0 = Clerp(RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(-10),0,0)*Welds.Defaults.RightShoulder.C0,.25)
+						handleweld.C0 = Clerp(handleweld.C0,CFrame.new(0,-1*S,0)*CFrame.Angles(math.rad(154.35-5.65*math.sin(ILSine/25)),0,0),.25)
+					else
+						RightShoulder.C0 = Clerp(RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(80+5*math.cos(ILSine/25)),0,math.rad(45))*Welds.Defaults.RightShoulder.C0,.25)
+						handleweld.C0 = Clerp(handleweld.C0,CFrame.new(0,0,-.5*S)*CFrame.Angles(0,math.rad(170),math.rad(-10)),.25)
+					end
+					LeftShoulder.C0 = Clerp(LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(ILSine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					RightHip.C0 = Clerp(RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(10),math.rad(80),math.rad(10+10*math.cos(ILSine/25))),.25)
+					LeftHip.C0 = Clerp(LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(20),math.rad(-80),math.rad(-10-10*math.cos(ILSine/25))),.25)
+				end
+			end
+		elseif BanishMode == 9999 then
+			Jump = 0
+			Speed = 0
+			if ATTACK == false then
+				if (State == 'Idle' and ATTACK == false) then
+					ANIM = "Idle"
+					RootJoint.C0 = ClerpLOST(RootJoint.C0,CFrame.new(0,2,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,0,-.5*math.sin(ILSine/25)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+					if ILNecksnap then
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(ILSine/50)),0),1)
+						ILNecksnap = false
+					else
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(ILSine/50)),0),.25)
+					end
+					pcall(function()
+						if math.random(1,60) == 1 then
+							Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20+math.random(-20,20)),math.rad((10*math.sin(ILSine/50))+math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							ILNecksnap = true
+						end
+					end)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0,CFrame.new(1.5,0.5+.25*math.sin(ILSine/9),0) * CFrame.Angles(math.rad(135+5*math.sin(ILSine/9)),math.rad(0),math.rad(25))*Welds.Defaults.RightShoulder.C0,.25)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(ILSine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					RightHip.C0 = ClerpLOST(RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(10),math.rad(80),math.rad(10+10*math.cos(ILSine/25))),.25)
+					LeftHip.C0 = ClerpLOST(LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(20),math.rad(-80),math.rad(-10-10*math.cos(ILSine/25))),.25)
+				elseif (State == 'Walk' and ATTACK == false)then
+					ANIM = "Walk"
+					RootJoint.C0 = Clerp(RootJoint.C0,CFrame.new(0,2,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,0,-.5*math.sin(ILSine/25)*S)*CFrame.Angles(math.rad(20),0,0),.25)
+					if ILNecksnap then
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(ILSine/50)),0),1)
+						ILNecksnap = false
+					else
+						Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20),math.rad(10*math.sin(ILSine/50)),0),.25)
+					end
+					pcall(function()
+						if math.random(1,60) == 1 then
+							Neck.C0 = Clerp(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(20+math.random(-20,20)),math.rad((10*math.sin(ILSine/50))+math.random(-20,20)),math.rad(math.random(-20,20))),1)
+							ILNecksnap = true
+						end
+					end)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0,CFrame.new(1.5*S,.5*S,0)*CFrame.Angles(math.rad(-10),0,0)*Welds.Defaults.RightShoulder.C0,.25)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0,CFrame.new(-1.5*S,.5*S,0)*CFrame.Angles(math.rad(20),0,math.rad(-10-10*math.cos(ILSine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+					RightHip.C0 = ClerpLOST(RightHip.C0,CFrame.new(1*S,-1*S,0)*CFrame.Angles(math.rad(-20),math.rad(80),math.rad(10+10*math.cos(ILSine/25))),.25)
+					LeftHip.C0 = ClerpLOST(LeftHip.C0,CFrame.new(-1*S,-1*S,0)*CFrame.Angles(math.rad(-10),math.rad(-80),math.rad(-10-10*math.cos(ILSine/25))),.25)
+				end
+			end
+		elseif BanishMode == 0909 then
+			Speed = 80
+			Jump = 51
+			if (State == 'Jump' and ATTACK == false) then
+				ANIM = "Jump"
+				RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0, 0, 0 ) * ANGLES(RAD(-5), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0 , 0 + ((1) - 1)) * ANGLES(RAD(-45), RAD(0), RAD(0)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(180), RAD(0), RAD(15 + 5 * COS(SINE / 12))) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(-35), RAD(0), RAD(-25 - 10 * COS(SINE / 12))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -0.4, -0.6) * ANGLES(RAD(1), RAD(90), RAD(0)) * ANGLES(RAD(-1 * SIN(SINE / 6)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -1, 0) * ANGLES(RAD(0), RAD(-85), RAD(0)) * ANGLES(RAD(-1 * SIN(SINE / 6)), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif (State == 'Fall' and ATTACK == false) then
+				ANIM = "Fall"
+				RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0, 0, 0 ) * ANGLES(RAD(15), RAD(0), RAD(0)), 1 / Animation_Speed)
+				Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0 , 0 + ((1) - 1)) * ANGLES(RAD(15), RAD(0), RAD(0)), 1 / Animation_Speed)
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5, 0.5, 0) * ANGLES(RAD(180 - 4 * COS(SINE / 6)), RAD(0), RAD(15 + 10 * COS(SINE / 12))) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5, 0.5, 0) * ANGLES(RAD(35 - 4 * COS(SINE / 6)), RAD(0), RAD(-45 - 10 * COS(SINE / 12))) * LEFTSHOULDERC0, 1 / Animation_Speed)
+				RightHip.C0 = Clerp(RightHip.C0, CF(1, -0.3, -0.7) * ANGLES(RAD(-25 + 5 * SIN(SINE / 12)), RAD(90), RAD(0)) * ANGLES(RAD(-1 * SIN(SINE / 6)), RAD(0), RAD(0)), 1 / Animation_Speed)
+				LeftHip.C0 = Clerp(LeftHip.C0, CF(-1, -0.8, -0.3) * ANGLES(RAD(-10), RAD(-80), RAD(0)) * ANGLES(RAD(-1 * SIN(SINE / 6)), RAD(0), RAD(0)), 1 / Animation_Speed)
+			elseif (State == 'Idle' and ATTACK == false) then
+				ANIM = "Idle"
+				RootJoint.C0 = ClerpLOST(RootJoint.C0,ROOTC0 * CF(0, 0, -0.03 + 0.05 * COS(SINE / 12)) * ANGLES(RAD(0), RAD(0), RAD(-35)), 1 / 5)
+				Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(25 + MRANDOM(-5,5) - 4 * COS(SINE / 12)), RAD(MRANDOM(-5,5)), RAD(15)), 1 / 5)
+				if math.random(1,5) == 1 then
+					Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(0 + MRANDOM(-25,25) - 4 * COS(SINE / 12)), RAD(MRANDOM(-25,25)), RAD(0)), 1.5 / Animation_Speed)	
+				end
+				RightShoulder.C0 = ClerpLOST(RightShoulder.C0, CF(1.5, 0.5 + 0.025 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(0 - 7.5 * SIN(SINE / 12)), RAD(12 + 7.5 * SIN(SINE / 12))) * RIGHTSHOULDERC0, 0.15 / 5)
+				LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0, CF(-1.5, 0.5 + 0.025 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(0 + 7.5 * SIN(SINE / 12)), RAD(-12 - 7.5 * SIN(SINE / 12))) * LEFTSHOULDERC0, 0.15 / 5)
+				RightHip.C0 = ClerpLOST(RightHip.C0, CF(1, -1 - 0.05 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(95), RAD(0)) * ANGLES(RAD(-15), RAD(0), RAD(0)), 1 / 5)
+				LeftHip.C0 = ClerpLOST(LeftHip.C0, CF(-1, -1 - 0.05 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(-55), RAD(0)) * ANGLES(RAD(-12), RAD(0), RAD(0)), 1 / 5)
+			elseif (State == 'Walk' and ATTACK == false) then
+				ANIM = "Walk"
+				RootJoint.C0 = ClerpLOST(RootJoint.C0, ROOTC0 * CF(0* 1, 0* 1, -0.175 + 0.025 * COS(SINE / 3.5) + -SIN(SINE / 3.5) / 7* 1) * ANGLES(RAD(26 - 4.5 * COS(SINE / 3.5)), RAD(0) - RootPart.RotVelocity.Y / 75, RAD(15 * COS(SINE / 7))), 0.15)
+				Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(25 + MRANDOM(-5,5) - 4 * COS(SINE / 12)), RAD(MRANDOM(-5,5)), RAD(15)), 1 / Animation_Speed)
+				if math.random(1,5) == 1 then
+					Neck.C0 = ClerpLOST(Neck.C0, NECKC0 * CF(0, 0, 0 + ((1) - 1)) * ANGLES(RAD(0 + MRANDOM(-25,25) - 4 * COS(SINE / 12)), RAD(MRANDOM(-25,25)), RAD(0)), 1.5 / Animation_Speed)	
+				end
+				RightHip.C0 = ClerpLOST(RightHip.C0, CF(1* 1, -0.925 - 0.5 * COS(SINE / 7) / 2* 1, 0.7 * COS(SINE / 7) / 2* 1) * ANGLES(RAD(-15 - 55 * COS(SINE / 7)) - RightLeg.RotVelocity.Y / 75 + -SIN(SINE / 7) / 2.5, RAD(90 - 0.1 * COS(SINE / 7)), RAD(0)) * ANGLES(RAD(0 + 0.1 * COS(SINE / 7)), RAD(0), RAD(0)), 0.3)
+				LeftHip.C0 = ClerpLOST(LeftHip.C0, CF(-1* 1, -0.925 + 0.5 * COS(SINE / 7) / 2* 1, -0.7 * COS(SINE / 7) / 2* 1) * ANGLES(RAD(-15 + 55 * COS(SINE / 7)) + LeftLeg.RotVelocity.Y / 75 + SIN(SINE / 7) / 2.5, RAD(-90 - 0.1 * COS(SINE / 7)), RAD(0)) * ANGLES(RAD(0 - 0.1 * COS(SINE / 7)), RAD(0), RAD(0)), 0.3)
+				RightShoulder.C0 = ClerpLOST(RightShoulder.C0, CF(1.5, 0.5 + 0.025 * COS(SINE / 12), 0) * ANGLES(RAD(0), RAD(0 - 7.5 * SIN(SINE / 12)), RAD(12 + 7.5 * SIN(SINE / 12))) * RIGHTSHOULDERC0, 0.15 / 5)
+				LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0, CF(-1, 0.5 + 0.05 * SIN(SINE / 30)* 1, -0.34 * COS(SINE / 7* 1)) * ANGLES(RAD(-110)  * COS(SINE / 7) , RAD(-90) ,	RAD(-13) + LeftArm.RotVelocity.Y / 75), 0.15)
+			end
+		elseif BanishMode == 8088 then
+			Jump = 0
+			if ATTACK == false then
+				if (State == 'Idle') then
+					ANIM = "Idle"
+					RootJoint.C0 = ClerpLOST(RootJoint.C0,CFrame.new(0,2,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,math.cos(ILSine/25),-math.sin(ILSine/25))*CFrame.Angles(math.rad(5*math.sin(ILSine/25)),0,0),.25)
+					Neck.C0 = ClerpLOST(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(5*math.cos(ILSine/25)),0,0),.25)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0,CFrame.new(1.5,.5,0)*CFrame.Angles(math.rad(160),0,math.rad(15-5*math.sin(ILSine/25)))*Welds.Defaults.RightShoulder.C0,.25)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0,CFrame.new(-1.5,.5,0)*CFrame.Angles(0,0,math.rad(-15+5*math.sin(ILSine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+				elseif (State == 'Walk') then
+					ANIM = "Walk"
+					RootJoint.C0 = ClerpLOST(RootJoint.C0,CFrame.new(0,2,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,math.cos(ILSine/25),-math.sin(ILSine/25))*CFrame.Angles(math.rad(5*math.sin(ILSine/25)),0,math.rad(70)),.25)
+					Neck.C0 = ClerpLOST(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(0,0,math.rad(-70))*CFrame.Angles(math.rad(5*math.cos(ILSine/25)),0,0),.25)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0,CFrame.new(1,.5,-.25)*CFrame.Angles(0,math.rad(-10),math.rad(-90))*Welds.Defaults.RightShoulder.C0,.25)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0,CFrame.new(-1.5,.5,0)*CFrame.Angles(0,0,math.rad(-20+5*math.sin(ILSine/25)))*Welds.Defaults.LeftShoulder.C0,.25)
+				end
+				RightHip.C0 = ClerpLOST(RightHip.C0,CFrame.new(1,-1-.1*math.sin(ILSine/25),-.01)*CFrame.Angles(0,math.rad(80),0),.25)
+				LeftHip.C0 = ClerpLOST(LeftHip.C0,CFrame.new(-1,-.5-.25*math.sin(ILSine/25),-.51)*CFrame.Angles(math.rad(-10),math.rad(-80),0),.25)
+			end
+		elseif BanishMode == 8888 then
+			Speed = 20
+			Jump = 0
+			if ATTACK == false then
+				if (State == 'Idle') then
+					ANIM = "Idle"
+					RootJoint.C0 = ClerpLOST(RootJoint.C0,CFrame.new(0,0,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,0,.05*math.cos(ILSine/12))*CFrame.Angles(math.rad(15),0,0),.25)
+					Neck.C0 = ClerpLOST(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(-15-3*math.cos(ILSine/12)),math.rad(5-5*math.sin(ILSine/12)),0),.25)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0,CFrame.new(1.5,.5+0.1*math.cos(ILSine/12),0)*CFrame.Angles(math.rad(-53.75+1.75*math.cos(ILSine/12)),0,math.rad(5))*Welds.Defaults.RightShoulder.C0,.25)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0,CFrame.new(-1.5,.5+.1*math.sin(ILSine/12),0)*CFrame.Angles(math.rad(15),0,math.rad(-5+5*math.cos(ILSine/12)))*Welds.Defaults.LeftShoulder.C0,.25)
+					RightHip.C0 = ClerpLOST(RightHip.C0,CFrame.new(1,-1-.05*math.cos(ILSine/12),-.01)*CFrame.Angles(math.rad(10),math.rad(80),math.rad(0)),.25)
+					LeftHip.C0 = ClerpLOST(LeftHip.C0,CFrame.new(-1,-1-.05*math.cos(ILSine/12),-.01)*CFrame.Angles(math.rad(20),math.rad(-80),math.rad(0)),.25)
+				elseif (State == 'Walk') then
+					ANIM = "Walk"
+					RootJoint.C0 = ClerpLOST(RootJoint.C0,CFrame.new(0,0,0)*CFrame.Angles(math.rad(-90),0,math.rad(180))*CFrame.new(0,.125*math.sin(ILSine/12),0)*CFrame.Angles(math.rad(10-5*math.cos(ILSine/12)),math.rad(-10*math.cos(ILSine/12)),math.rad(-5*math.cos(ILSine/12))),.25)
+					Neck.C0 = ClerpLOST(Neck.C0,Welds.Defaults.Neck.C0*CFrame.Angles(math.rad(10-5*math.cos(ILSine/12)),math.rad(10*math.cos(ILSine/12)),math.rad(5*math.cos(ILSine/12))),.25)
+					RightShoulder.C0 = ClerpLOST(RightShoulder.C0,CFrame.new(1.5,.5+.2*math.sin(ILSine/12),-.25)*CFrame.Angles(math.rad(165-15*math.cos(ILSine/12)),math.rad(-10+5*math.sin(ILSine/12)),math.rad(10))*Welds.Defaults.RightShoulder.C0,.25)
+					LeftShoulder.C0 = ClerpLOST(LeftShoulder.C0,CFrame.new(-1.5,.5-.15*math.cos(ILSine/12),.5*math.sin(ILSine/12))*CFrame.Angles(math.rad(-30*math.sin(ILSine/12)),math.rad(5*math.cos(ILSine/12)),0)*Welds.Defaults.LeftShoulder.C0,.25)
+					RightHip.C0 = ClerpLOST(RightHip.C0,CFrame.new(1,-.9-.2*math.cos(ILSine/12),.5*math.sin(ILSine/12))*CFrame.Angles(math.rad(-10-40*math.sin(ILSine/12)),math.rad(90+5*math.cos(ILSine/12)),math.rad(2.5*math.cos(ILSine/12))),.25)
+					LeftHip.C0 = ClerpLOST(LeftHip.C0,CFrame.new(-1,-.9+.2*math.cos(ILSine/12),-.5*math.sin(ILSine/12))*CFrame.Angles(math.rad(-10+40*math.sin(ILSine/12)),math.rad(-90+5*math.cos(ILSine/12)),math.rad(2.5*math.cos(ILSine/12))),.25)
+				end
+			end
+		end
+		if BanishMode == 0999 and not ISFLYING or BanishMode == 9999 and not ISFLYING then
+			if hitfloor~=nil then falling=false fallingspeed=0 RootPart.CFrame=RootPart.CFrame*CFrame.new(0,posfloor.Y-RootPart.CFrame.Y+3,0)
+			else falling=true fallingspeed=fallingspeed+.06 RootPart.CFrame=RootPart.CFrame-Vector3.new(0,fallingspeed,0)end
+		end
+		unanchor()
+		Humanoid.MaxHealth = math.huge
+		Humanoid.Health = math.huge
+		if Rooted == false then
+			Disable_Jump = false
+			Humanoid.WalkSpeed = Speed
+		elseif Rooted == true then
+			Disable_Jump = true
+			Humanoid.WalkSpeed = 0
+		end
+		if BanishMode == 9346 then
+			if sick.TimePosition <55 then
+				sick.TimePosition = 55
+			elseif sick.TimePosition >=82.5 then
+				sick.TimePosition = 55
+			end
+		end
+		if BanishMode == 0999 then
+			Character:GetChildren().Material = Enum.Material.Slate
+			lplr.Character:GetChildren().Material = Enum.Material.Slate
+		else
+			handleweld:Destroy()
+			handleweld=weld(handle,Character["Torso"],handle,CFrame.new(0, 0, 0),CFrame.new(-1, 0, -.8)* CFrame.Angles(math.rad(0),math.rad(0),math.rad(-46)))
+			Character:GetChildren().Material = Enum.Material.SmoothPlastic
+			lplr.Character:GetChildren().Material = Enum.Material.SmoothPlastic
+		end
+		sick.SoundId = "rbxassetid://"..SONG1
+		sick.Looped = true
+		Humanoid.JumpPower = Jump
+		Humanoid.UseJumpPower = true
+		Head.Parent = Character
+		Humanoid.PlatformStand = ISFLYING
+		Torso.Parent = Character
+		RightArm.Parent = Character
+		LeftArm.Parent = Character
+		LeftLeg.Parent = Character
+		RightLeg.Parent = Character
+		Head.Transparency = 0
+		Torso.Transparency = 0
+		RightArm.Transparency = 0
+		LeftArm.Transparency = 0
+		LeftLeg.Transparency = 0
+		RightLeg.Transparency = 0
+		Head.Locked = true
+		Torso.Locked = true
+		RightArm.Locked = true
+		LeftArm.Locked = true
+		LeftLeg.Locked = true
+		RightLeg.Locked = true
+	end
+end)()
+
+Disable_Jump = false
+--//====================================================\\--
+--||			  		 END OF SCRIPT
+--\\====================================================//--
+
+function MoveCharacter(X,Z)
+	RootPart.CFrame = RootPart.CFrame*CFrame.new(X,0,Z)
+end
