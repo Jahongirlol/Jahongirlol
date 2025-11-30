@@ -1,4 +1,1 @@
-- 👋 Hi, I’m @Jahongirlol
-- 👀 I’m interested in Programming
-- 🌱 I’m currently learning C#
-- I make scripts or convert them into fe! (not free of course)
+googoogaga, its time to sleep
